@@ -1,14 +1,26 @@
 {
-  "name": "behandling-process-controller",
+  "name": "pensjon-behandling-process-controller",
   "private": true,
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
+    "fetch-secrets": "node --loader ts-node/esm fetch-secrets.ts",
     "start": "remix-serve build",
     "typecheck": "tsc"
   },
+  "prettier": {
+    "trailingComma": "all",
+    "semi": false,
+    "singleQuote": true
+  },
   "dependencies": {
+    "@navikt/ds-css": "^5.10.1",
+    "@navikt/ds-css-internal": "^3.4.3",
+    "@navikt/ds-icons": "^3.4.3",
+    "@navikt/ds-react": "^5.10.1",
+    "@navikt/ds-react-internal": "^3.4.3",
+    "@remix-run/css-bundle": "^2.2.0",
     "@remix-run/node": "^2",
     "@remix-run/react": "^2",
     "@remix-run/serve": "^2",
@@ -16,6 +28,8 @@
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "remix-auth": "^3.6.0",
+    "remix-auth-oauth2": "^1.11.0",
     "sort-by": "^1.2.0",
     "tiny-invariant": "^1.3.1"
   },
@@ -25,6 +39,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "eslint": "^8.47.0",
+    "prettier": "3.1.0",
     "typescript": "^5.1.6"
   },
   "engines": {

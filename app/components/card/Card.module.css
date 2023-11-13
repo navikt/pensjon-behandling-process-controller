@@ -1,0 +1,168 @@
+.card {
+  font-size: var(--a-font-size-medium);
+  letter-spacing: 0.002em;
+}
+
+.cardBottomSpacing0 {
+  margin-bottom: var(--a-spacing-0);
+}
+
+.cardBottomSpacing05 {
+  margin-bottom: var(--a-spacing-05);
+}
+
+.cardBottomSpacing1 {
+  margin-bottom: var(--a-spacing-1);
+}
+
+.cardBottomSpacing2 {
+  margin-bottom: var(--a-spacing-2);
+}
+
+.cardBottomSpacing3 {
+  margin-bottom: var(--a-spacing-3);
+}
+
+.cardBottomSpacing4 {
+  margin-bottom: var(--a-spacing-4);
+}
+
+.cardBottomSpacing5 {
+  margin-bottom: var(--a-spacing-5);
+}
+
+.cardBottomSpacing6 {
+  margin-bottom: var(--a-spacing-6);
+}
+
+.cardBottomSpacing7 {
+  margin-bottom: var(--a-spacing-7);
+}
+
+.cardBottomSpacing8 {
+  margin-bottom: var(--a-spacing-8);
+}
+
+.cardBottomSpacing9 {
+  margin-bottom: var(--a-spacing-9);
+}
+
+.cardBottomSpacing10 {
+  margin-bottom: var(--a-spacing-10);
+}
+
+.cardBottomSpacing11 {
+  margin-bottom: var(--a-spacing-11);
+}
+
+.cardBottomSpacing12 {
+  margin-bottom: var(--a-spacing-12);
+}
+
+.cardBottomSpacing14 {
+  margin-bottom: var(--a-spacing-14);
+}
+
+.cardBottomSpacing16 {
+  margin-bottom: var(--a-spacing-16);
+}
+
+.cardBottomSpacing18 {
+  margin-bottom: var(--a-spacing-18);
+}
+
+.cardBottomSpacing20 {
+  margin-bottom: var(--a-spacing-20);
+}
+
+.cardBottomSpacing24 {
+  margin-bottom: var(--a-spacing-24);
+}
+
+.cardBottomSpacing32 {
+  margin-bottom: var(--a-spacing-32);
+}
+
+.cardBody {
+  padding-bottom: 1.5em;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(auto, 15em));
+  grid-gap: 1em;
+  justify-self: flex-start;
+  align-items: center;
+}
+
+.cardGrid:not(:first-child) {
+  margin-top: 12px;
+}
+
+.cardHeader {
+  background-color: var(--a-gray-100);
+  height: 48px;
+  vertical-align: middle;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.cardHeader:focus {
+  outline-color: var(--a-border-focus);
+}
+
+.cardHeaderContent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardHeaderContent .cardHeading {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+}
+
+.cardHeaderContent .cardHeading:first-child {
+  width: 100%;
+}
+
+.cardHeaderContent .cardHeading:not(:last-child) {
+  margin-right: 1px;
+}
+
+.cardChevronSvg {
+  width: 1.5em;
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.cardChevron {
+  padding: 0 0.5em 0 0.5em;
+  background: var(--a-gray-100);
+}
+
+.cardCollapsable {
+  cursor: pointer;
+}
+
+.cardHeading {
+  display: flex;
+  position: relative;
+}
+
+.cardHeadingCaret::after {
+  background-color: var(--a-gray-100);
+  position: absolute;
+  top: 40px;
+  left: 70px;
+  width: 17px;
+  height: 17px;
+  transform: rotate(45deg);
+  pointer-events: none;
+  content: ' ';
+}

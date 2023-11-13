@@ -8,15 +8,15 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -26,74 +26,6 @@ body {
   margin: 0;
   line-height: 1.5;
   color: #121212;
-}
-textarea,
-input,
-button {
-  font-size: 1rem;
-  font-family: inherit;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
-  background-color: white;
-  line-height: 1.5;
-  margin: 0;
-}
-button {
-  color: #3992ff;
-  font-weight: 500;
-}
-
-textarea:hover,
-input:hover,
-button:hover {
-  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.6), 0 1px 2px hsla(0, 0%, 0%, 0.2);
-}
-
-button:active {
-  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
-  transform: translateY(1px);
-}
-
-#contact h1 {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
-#contact h1 form {
-  display: flex;
-  align-items: center;
-  margin-top: 0.25rem;
-}
-#contact h1 form button {
-  box-shadow: none;
-  font-size: 1.5rem;
-  font-weight: 400;
-  padding: 0;
-}
-#contact h1 form button[value="true"] {
-  color: #a4a4a4;
-}
-#contact h1 form button[value="true"]:hover,
-#contact h1 form button[value="false"] {
-  color: #eeb004;
-}
-
-form[action$="destroy"] button {
-  color: #f44250;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
 
 body {
@@ -127,13 +59,6 @@ body {
   line-height: 1;
 }
 
-#sidebar h1::before {
-  content: url("data:image/svg+xml,%3Csvg width='23' height='26' viewBox='0 0 23 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg style='mix-blend-mode:multiply'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M21.4443 19.8143C21.6478 22.47 21.6478 23.715 21.6478 25.0739H15.6011C15.6011 24.7779 15.6063 24.5071 15.6116 24.2325C15.628 23.379 15.645 22.4889 15.509 20.6914C15.3291 18.0599 14.214 17.4751 12.1636 17.4751H10.347H2.65344V12.6872H12.4513C15.0413 12.6872 16.3363 11.8865 16.3363 9.76665C16.3363 7.90264 15.0413 6.77304 12.4513 6.77304H2.65344V2.08789H13.5305C19.3939 2.08789 22.3077 4.90218 22.3077 9.39773C22.3077 12.7603 20.2573 14.9532 17.4874 15.3187C19.8256 15.7938 21.1925 17.1462 21.4443 19.8143Z' fill='%23D83BD2'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M21.4443 19.8143C21.6478 22.47 21.6478 23.715 21.6478 25.0739H15.6011C15.6011 24.7779 15.6063 24.5071 15.6116 24.2325C15.628 23.379 15.645 22.4889 15.509 20.6914C15.3291 18.0599 14.214 17.4751 12.1636 17.4751H10.347H2.65344V12.6872H12.4513C15.0413 12.6872 16.3363 11.8865 16.3363 9.76665C16.3363 7.90264 15.0413 6.77304 12.4513 6.77304H2.65344V2.08789H13.5305C19.3939 2.08789 22.3077 4.90218 22.3077 9.39773C22.3077 12.7603 20.2573 14.9532 17.4874 15.3187C19.8256 15.7938 21.1925 17.1462 21.4443 19.8143Z' fill='%23D83BD2'/%3E%3Cpath d='M2.65344 25.0739V21.5046H9.04691C10.1148 21.5046 10.3467 22.3096 10.3467 22.7896V25.0739H2.65344Z' fill='%23D83BD2'/%3E%3Cpath d='M2.65344 25.0739V21.5046H9.04691C10.1148 21.5046 10.3467 22.3096 10.3467 22.7896V25.0739H2.65344Z' fill='%23D83BD2'/%3E%3C/g%3E%3Cg style='mix-blend-mode:multiply'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M18.8345 17.7264C19.0379 20.3821 19.0379 21.6271 19.0379 22.986H12.9913C12.9913 22.69 12.9965 22.4192 13.0017 22.1447C13.0181 21.2911 13.0352 20.401 12.8991 18.6035C12.7192 15.972 11.6041 15.3872 9.55369 15.3872H7.7371H0.0435791V10.5993H9.84146C12.4315 10.5993 13.7264 9.79861 13.7264 7.67876C13.7264 5.81475 12.4315 4.68515 9.84146 4.68515H0.0435791V0H10.9206C16.7841 0 19.6978 2.81429 19.6978 7.30984C19.6978 10.6724 17.6474 12.8653 14.8775 13.2308C17.2157 13.706 18.5827 15.0583 18.8345 17.7264Z' fill='%233DEFE9'/%3E%3Cpath d='M0.0435791 22.986V19.4167H6.43705C7.50497 19.4167 7.73684 20.2217 7.73684 20.7017V22.986H0.0435791Z' fill='%233DEFE9'/%3E%3C/g%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M19.8784 18.7703C20.0819 21.4261 20.0819 22.671 20.0819 24.03H14.0352C14.0352 23.734 14.0404 23.4632 14.0457 23.1886C14.062 22.3351 14.0791 21.445 13.943 19.6475C13.7632 17.0159 12.648 16.4312 10.5976 16.4312H8.78104H1.08752V11.6432H10.8854C13.4754 11.6432 14.7704 10.8426 14.7704 8.72271C14.7704 6.8587 13.4754 5.7291 10.8854 5.7291H1.08752V1.04395H11.9646C17.828 1.04395 20.7417 3.85823 20.7417 8.35379C20.7417 11.7163 18.6913 13.9093 15.9215 14.2748C18.2597 14.7499 19.6266 16.1022 19.8784 18.7703Z' fill='black' stroke='white' stroke-width='0.5'/%3E%3Cpath d='M1.08752 24.03V20.4607H7.48099C8.54891 20.4607 8.78079 21.2656 8.78079 21.7456V24.03H1.08752Z' fill='black' stroke='white' stroke-width='0.5'/%3E%3C/svg%3E");
-  margin-right: 0.5rem;
-  position: relative;
-  top: 1px;
-}
-
 #sidebar > div {
   display: flex;
   align-items: center;
@@ -147,7 +72,7 @@ body {
   position: relative;
 }
 
-#sidebar > div form input[type="search"] {
+#sidebar > div form input[type='search'] {
   box-sizing: border-box;
   width: 100%;
   padding-left: 2rem;
@@ -158,27 +83,8 @@ body {
   position: relative;
 }
 
-#sidebar > div form input[type="search"].loading {
+#sidebar > div form input[type='search'].loading {
   background-image: none;
-}
-
-#search-spinner {
-  width: 1rem;
-  height: 1rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23000' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M20 4v5h-.582m0 0a8.001 8.001 0 00-15.356 2m15.356-2H15M4 20v-5h.581m0 0a8.003 8.003 0 0015.357-2M4.581 15H9' /%3E%3C/svg%3E");
-  animation: spin 1s infinite linear;
-  position: absolute;
-  left: 0.625rem;
-  top: 0.75rem;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 #sidebar nav {
@@ -238,7 +144,6 @@ i {
 
 #sidebar nav a.pending {
   animation: progress 2s infinite ease-in-out;
-  animation-delay: 200ms;
 }
 
 @keyframes progress {
@@ -262,110 +167,6 @@ i {
 #detail.loading {
   opacity: 0.25;
   transition: opacity 200ms;
-  transition-delay: 200ms;
-}
-
-#contact {
-  max-width: 40rem;
-  display: flex;
-}
-
-#contact h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.2;
-}
-
-#contact h1 + p {
-  margin: 0;
-}
-
-#contact h1 + p + p {
-  white-space: break-spaces;
-}
-
-#contact h1:focus {
-  outline: none;
-  color: hsl(224, 98%, 58%);
-}
-
-#contact a[href*="twitter"] {
-  display: flex;
-  font-size: 1.5rem;
-  color: #3992ff;
-  text-decoration: none;
-}
-#contact a[href*="twitter"]:hover {
-  text-decoration: underline;
-}
-
-#contact img {
-  width: 12rem;
-  height: 12rem;
-  background: #c8c8c8;
-  margin-right: 2rem;
-  border-radius: 1.5rem;
-  object-fit: cover;
-}
-
-#contact h1 ~ div {
-  display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
-}
-
-#contact-form {
-  display: flex;
-  max-width: 40rem;
-  flex-direction: column;
-  gap: 1rem;
-}
-#contact-form > p:first-child {
-  margin: 0;
-  padding: 0;
-}
-#contact-form > p:first-child > :nth-child(2) {
-  margin-right: 1rem;
-}
-#contact-form > p:first-child,
-#contact-form label {
-  display: flex;
-}
-#contact-form p:first-child span,
-#contact-form label span {
-  width: 8rem;
-}
-#contact-form p:first-child input,
-#contact-form label input,
-#contact-form label textarea {
-  flex-grow: 2;
-}
-
-#contact-form-avatar {
-  margin-right: 2rem;
-}
-
-#contact-form-avatar img {
-  width: 12rem;
-  height: 12rem;
-  background: hsla(0, 0%, 0%, 0.2);
-  border-radius: 1rem;
-}
-
-#contact-form-avatar input {
-  box-sizing: border-box;
-  width: 100%;
-}
-
-#contact-form p:last-child {
-  display: flex;
-  gap: 0.5rem;
-  margin: 0 0 0 8rem;
-}
-
-#contact-form p:last-child button[type="button"] {
-  color: inherit;
 }
 
 #index-page {
