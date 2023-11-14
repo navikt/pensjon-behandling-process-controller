@@ -35,6 +35,8 @@ spec:
       value: {{ pen.application }}
     - name: PEN_URL
       value: {{ pen.url }}
+    - name: AZURE_CALLBACK_URL
+      value: {{app.ingress}}/auth/callback
   accessPolicy:
     outbound:
       external:
@@ -51,5 +53,5 @@ spec:
         extra:
           - NAVident
     sidecar:
-      enabled: true
-      autoLogin: true
+      enabled: false
+      autoLogin: false
