@@ -1,12 +1,12 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: { { app.name } }
-  namespace: { { app.namespace } }
+  name: {{ app.name }}
+  namespace: {{ app.namespace }}
   labels:
-    team: { { app.team } }
+    team: {{ app.team }}
 spec:
-  image: { { image } }
+  image: {{ image }}
   port: 3000
   liveness:
     path: '/internal/live'
@@ -30,9 +30,9 @@ spec:
       memory: 512Mi
   env:
     - name: PEN_APPLICATION
-      value: { { pen.application } }
+      value: {{ pen.application }}
     - name: PEN_URL
-      value: { { pen.url } }
+      value: {{ pen.url }}
   accessPolicy:
     outbound:
       external:
@@ -41,11 +41,11 @@ spec:
         - host: pensjon-pen-q2.dev-fss-pub.nais.io
   azure:
     application:
-      tenant: { { azure.tenant } }
+      tenant: {{ azure.tenant }}
       enabled: true
       claims:
         groups:
-          - id: { { azure.grupper.drift } }
+          - id: {{ azure.grupper.drift }}
         extra:
           - NAVident
     sidecar:
