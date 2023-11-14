@@ -4,7 +4,7 @@ export async function getBehandlinger(
   accessToken: string,
 ): Promise<BehandlingerResponse | null> {
   const response = await fetch(
-    `${process.env.PEN_URL}/springapi/psak2/behandling/feilende`,
+    `${process.env.PEN_URL}/springapi/behandling/feilende`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -25,7 +25,7 @@ export async function getBehandling(
   behandlingId: string,
 ): Promise<BehandlingDto | null> {
   const response = await fetch(
-    `${process.env.PEN_URL}/springapi/psak2/behandling/${behandlingId}`,
+    `${process.env.PEN_URL}/springapi/behandling/${behandlingId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -46,7 +46,7 @@ export async function fortsettBehandling(
   behandlingId: string,
 ): Promise<void> {
   const response = await fetch(
-    `${process.env.PEN_URL}/springapi/psak2/behandling/${behandlingId}/fortsett`,
+    `${process.env.PEN_URL}/springapi/behandling/${behandlingId}/fortsett`,
     {
       method: 'PUT',
       headers: {
