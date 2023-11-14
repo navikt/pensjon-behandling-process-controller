@@ -19,7 +19,7 @@ spec:
     initialDelay: 3
     timeout: 1
   replicas:
-    min: 1
+    min: 2
     max: 2
     cpuThresholdPercentage: 75
   resources:
@@ -28,6 +28,8 @@ spec:
     requests:
       cpu: 200m
       memory: 512Mi
+  ingresses:
+    - {{app.ingress}}
   env:
     - name: PEN_APPLICATION
       value: {{ pen.application }}
