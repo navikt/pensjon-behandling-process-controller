@@ -1,0 +1,14 @@
+app:
+  name: "pensjon-bpc-q2"
+  namespace: "pensjon-q2"
+  team: "pensjon-q2"
+  ingress: "https://pensjon-bpc-q2.intern.dev.nav.no"
+
+pen:
+  application: "pensjon-pen-q2"
+  url: "https://pensjon-pen-q2.dev-fss-pub.nais.io/pen"
+
+azure:
+  tenant: trygdeetaten.no
+  grupper:
+    drift: "45095575-4a2b-4784-8f5d-c4ccfc9192ea" # 0000-GA-PENSJON_NDU - Nav drift og utvikling

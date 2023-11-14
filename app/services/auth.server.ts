@@ -42,7 +42,6 @@ invariant(
   'Missing AZURE_APP_CLIENT_SECRET',
 )
 invariant(process.env.AZURE_CALLBACK_URL, 'Missing AZURE_CALLBACK_URL')
-invariant(process.env.AZURE_OPENID_AUTHORITY, 'Missing AZURE_OPENID_AUTHORITY')
 invariant(
   process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
   'Missing AZURE_OPENID_CONFIG_TOKEN_ENDPOINT',
@@ -55,7 +54,7 @@ invariant(
 authenticator.use(
   new OAuth2Strategy(
     {
-      authorizationURL: process.env.AZURE_OPENID_AUTHORITY,
+      authorizationURL: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT.replace("token", "authorize"),
       tokenURL: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
       clientID: process.env.AZURE_APP_CLIENT_ID,
       clientSecret: process.env.AZURE_APP_CLIENT_SECRET,

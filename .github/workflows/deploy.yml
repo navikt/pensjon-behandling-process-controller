@@ -36,3 +36,26 @@ jobs:
           tags: ${{ env.IMAGE }},${{ env.LATEST_IMAGE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [build]
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      matrix:
+        include:
+          -  name: pensjon-bpc-q2
+             cluster: dev-gcp
+             vars: .nais/vars-dev.yaml
+             deploy_apikey: NAIS_DEPLOY_PENSJON_Q2_APIKEY
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v1
+        name: "Deploy to NAIS"
+        env:
+          APIKEY: ${{ secrets[format('{0}', matrix.deploy_apikey)] }}
+          RESOURCE: .nais/nais.yaml
+          CLUSTER: "${{ matrix.cluster }}"
+          VARS: ${{matrix.vars}}
