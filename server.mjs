@@ -7,10 +7,7 @@ import * as build from './build/index.js'
 const app = express()
 app.use(express.static('public'))
 
-app.get(
-    ['/internal/live', '/internal/ready'],
-    (_, res) => res.sendStatus(200),
-);
+app.get(['/internal/live', '/internal/ready'], (_, res) => res.sendStatus(200))
 
 // and your app is "just a request handler"
 app.all('*', createRequestHandler({ build }))

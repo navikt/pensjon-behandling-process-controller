@@ -54,7 +54,10 @@ invariant(
 authenticator.use(
   new OAuth2Strategy(
     {
-      authorizationURL: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT.replace("token", "authorize"),
+      authorizationURL: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT.replace(
+        'token',
+        'authorize',
+      ),
       tokenURL: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
       clientID: process.env.AZURE_APP_CLIENT_ID,
       clientSecret: process.env.AZURE_APP_CLIENT_SECRET,
