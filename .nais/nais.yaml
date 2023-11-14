@@ -52,6 +52,9 @@ spec:
           - id: {{ azure.grupper.drift }}
         extra:
           - NAVident
+      replyURLs:
+        - "http://localhost:3000/auth/callback"
+        - "{{app.ingress}}/auth/callback"
     sidecar:
       enabled: false
       autoLogin: false
