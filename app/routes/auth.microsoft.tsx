@@ -5,7 +5,6 @@ import { authenticator } from '~/services/auth.server'
 export const loader = () => redirect('/login')
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  console.log('auth/microsoft action')
   return authenticator.authenticate('azuread', request)
 }
 

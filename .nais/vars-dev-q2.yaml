@@ -7,6 +7,7 @@ app:
 pen:
   application: 'pensjon-pen-q2'
   url: 'https://pensjon-pen-q2.dev-fss-pub.nais.io/pen'
+  scope: 'api://dev-fss.pensjon-q2.pensjon-pen-q2/.default'
 
 azure:
   tenant: trygdeetaten.no

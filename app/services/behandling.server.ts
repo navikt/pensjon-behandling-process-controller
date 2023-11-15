@@ -1,17 +1,15 @@
 import type { BehandlingDto, BehandlingerResponse } from '~/types'
+import { env } from '~/services/env.server'
 
 export async function getBehandlinger(
   accessToken: string,
 ): Promise<BehandlingerResponse | null> {
-  const response = await fetch(
-    `${process.env.PEN_URL}/springapi/behandling/feilende`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'X-Request-ID': crypto.randomUUID(),
-      },
+  const response = await fetch(`${env.penUrl}/springapi/behandling/feilende`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'X-Request-ID': crypto.randomUUID(),
     },
-  )
+  })
 
   if (response.ok) {
     return (await response.json()) as BehandlingerResponse
@@ -25,7 +23,7 @@ export async function getBehandling(
   behandlingId: string,
 ): Promise<BehandlingDto | null> {
   const response = await fetch(
-    `${process.env.PEN_URL}/springapi/behandling/${behandlingId}`,
+    `${env.penUrl}/springapi/behandling/${behandlingId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -46,7 +44,7 @@ export async function fortsettBehandling(
   behandlingId: string,
 ): Promise<void> {
   const response = await fetch(
-    `${process.env.PEN_URL}/springapi/behandling/${behandlingId}/fortsett`,
+    `${env.penUrl}/springapi/behandling/${behandlingId}/fortsett`,
     {
       method: 'PUT',
       headers: {

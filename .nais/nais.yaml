@@ -33,10 +33,10 @@ spec:
   env:
     - name: PEN_APPLICATION
       value: {{ pen.application }}
+    - name: PEN_SCOPE
+      value: {{ pen.scope }}
     - name: PEN_URL
       value: {{ pen.url }}
-    - name: AZURE_CALLBACK_URL
-      value: {{app.ingress}}/auth/callback
   accessPolicy:
     outbound:
       external:
@@ -56,5 +56,5 @@ spec:
         - "http://localhost:3000/auth/callback"
         - "{{app.ingress}}/auth/callback"
     sidecar:
-      enabled: false
-      autoLogin: false
+      enabled: true
+      autoLogin: true
