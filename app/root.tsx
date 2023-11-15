@@ -27,11 +27,7 @@ export const links: LinksFunction = () => {
           { rel: 'stylesheet', href: navInternalStyles },
           { rel: 'stylesheet', href: appStylesHref },
         ]
-      : [
-          { rel: 'stylesheet', href: navStyles },
-          { rel: 'stylesheet', href: navInternalStyles },
-          { rel: 'stylesheet', href: appStylesHref },
-        ]),
+      : []),
   ]
 }
 
