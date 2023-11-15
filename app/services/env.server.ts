@@ -1,7 +1,6 @@
 import { ensureEnv } from '~/common/utils'
 
 export const env = ensureEnv({
-  callbackUrl: 'AZURE_CALLBACK_URL',
   clientId: 'AZURE_APP_CLIENT_ID',
   clientSecret: 'AZURE_APP_CLIENT_SECRET',
   issuer: 'AZURE_OPENID_CONFIG_ISSUER',
