@@ -7,6 +7,7 @@ COPY package.json .
 COPY package-lock.json .
 COPY node_modules/ node_modules/
 COPY build/ build/
+COPY public/ public/
 COPY server.mjs .
 
 EXPOSE 8080
