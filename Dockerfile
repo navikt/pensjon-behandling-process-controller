@@ -3,8 +3,6 @@ FROM node:20
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
 COPY node_modules/ node_modules/
 COPY build/ build/
 COPY public/ public/
