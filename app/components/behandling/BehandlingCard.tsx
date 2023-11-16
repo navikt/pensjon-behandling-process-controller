@@ -184,6 +184,9 @@ export default function BehandlingCard(props: Props) {
             <Entry labelText={'Utsatt til'}>
               {formatIsoTimestamp(props.behandling.utsattTil)}
             </Entry>
+            <Entry labelText={'Stoppet'}>
+              {formatIsoTimestamp(props.behandling.stoppet)}
+            </Entry>
 
             <Entry labelText={'Prioritet'}>{props.behandling.prioritet}</Entry>
           </Card.Grid>
