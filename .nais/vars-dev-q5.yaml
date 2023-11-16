@@ -1,0 +1,15 @@
+app:
+  name: 'pensjon-bpc-q5'
+  namespace: 'pensjon-q5'
+  team: 'pensjon-q5'
+
+pen:
+  application: 'pensjon-pen-q5'
+  outbound: 'pensjon-pen-q5.dev-fss-pub.nais.io'
+  scope: 'api://dev-fss.pensjon-q5.pensjon-pen-q5/.default'
+  url: 'https://pensjon-pen-q5.dev-fss-pub.nais.io/pen'
+
+azure:
+  tenant: trygdeetaten.no
+  grupper:
+    drift: '45095575-4a2b-4784-8f5d-c4ccfc9192ea' # 0000-GA-PENSJON_NDU - Nav drift og utvikling
