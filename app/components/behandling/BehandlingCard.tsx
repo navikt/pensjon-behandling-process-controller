@@ -41,6 +41,32 @@ export default function BehandlingCard(props: Props) {
 
   const ref = useRef<HTMLDialogElement>(null)
 
+  function debugButton() {
+    if (props.behandling.status === 'FULLFORT') {
+      return <></>
+    } else if (props.behandling.status === 'DEBUG') {
+      return (
+        <Tooltip content="Avslutt debugging slik at behandlingen forsetter automatisk (kun mulig i testmiljø)">
+          <fetcher.Form method="post" action="fjernFraDebug">
+            <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
+              Fjern fra debug
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    } else {
+      return (
+        <Tooltip content="Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt (kun mulig i testmiljø)">
+          <fetcher.Form method="post" action="taTilDebug">
+            <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
+              Ta til debug
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    }
+  }
+
   return (
     <>
       <Card id={props.behandling.uuid}>
@@ -92,14 +118,7 @@ export default function BehandlingCard(props: Props) {
                   </fetcher.Form>
                 </Tooltip>
 
-                <Tooltip content="Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt (kun mulig i testmiljø)">
-                  <Button
-                    variant={'secondary'}
-                    icon={<SandboxIcon aria-hidden />}
-                  >
-                    Debug
-                  </Button>
-                </Tooltip>
+                {debugButton()}
 
                 <Tooltip content="Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte">
                   <Button

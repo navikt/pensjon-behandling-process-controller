@@ -58,3 +58,43 @@ export async function fortsettBehandling(
     throw new Error()
   }
 }
+
+export async function taTilDebug(
+  accessToken: string,
+  behandlingId: string,
+): Promise<void> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/debug`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error()
+  }
+}
+
+export async function fjernFraDebug(
+  accessToken: string,
+  behandlingId: string,
+): Promise<void> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/debug`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error()
+  }
+}
