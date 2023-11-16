@@ -29,6 +29,7 @@ export type BehandlingDto = {
   kravId: number | null
   vedtakId: number | null
   journalpostId: string | null
+  kibanaUrl?: string
 }
 
 export type AktivitetDTO = {

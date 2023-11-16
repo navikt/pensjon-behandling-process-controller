@@ -1,5 +1,6 @@
 import type { BehandlingDto, BehandlingerResponse } from '~/types'
 import { env } from '~/services/env.server'
+import { kibanaLink } from '~/services/kibana.server'
 
 export async function getBehandlinger(
   accessToken: string,
@@ -37,7 +38,9 @@ export async function getBehandling(
   )
 
   if (response.ok) {
-    return (await response.json()) as BehandlingDto
+    const behandling = (await response.json()) as BehandlingDto
+    behandling.kibanaUrl = kibanaLink(behandling)
+    return behandling
   } else {
     throw new Error()
   }
