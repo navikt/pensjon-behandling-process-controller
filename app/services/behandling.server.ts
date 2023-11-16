@@ -3,13 +3,17 @@ import { env } from '~/services/env.server'
 
 export async function getBehandlinger(
   accessToken: string,
+  status: string,
 ): Promise<BehandlingerResponse | null> {
-  const response = await fetch(`${env.penUrl}/springapi/behandling/feilende`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'X-Request-ID': crypto.randomUUID(),
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/?status=${status}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
     },
-  })
+  )
 
   if (response.ok) {
     return (await response.json()) as BehandlingerResponse

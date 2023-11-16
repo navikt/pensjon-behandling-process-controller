@@ -59,8 +59,12 @@ export default function App() {
                 <ul>
                   <li>
                     <NavLink to={`/dashboard`}>Dashboard</NavLink>
-                    <NavLink to={`/behandlinger/?feilende`}>
+                    <NavLink to={`/behandlinger/FEILET`}>
                       Feilende behandlinger
+                    </NavLink>
+                    <NavLink to={`/behandlinger/DEBUG`}>I debug</NavLink>
+                    <NavLink to={`/behandlinger/STOPPET`}>
+                      Stoppede behandlinger
                     </NavLink>
                   </li>
                 </ul>
