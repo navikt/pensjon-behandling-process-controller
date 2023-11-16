@@ -59,9 +59,6 @@ export async function requireAccessToken(request: Request) {
     accessToken = (session.get('user') as User).accessToken
   }
 
-  let tokenResponse = await exchange(
-    accessToken,
-    'api://dev-fss.pensjon-q2.pensjon-pen-q2/.default',
-  )
+  let tokenResponse = await exchange(accessToken, env.penScope)
   return tokenResponse.access_token
 }
