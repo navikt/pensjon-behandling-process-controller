@@ -98,3 +98,23 @@ export async function fjernFraDebug(
     throw new Error()
   }
 }
+
+export async function stopp(
+  accessToken: string,
+  behandlingId: string,
+): Promise<void> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/stopp`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error()
+  }
+}

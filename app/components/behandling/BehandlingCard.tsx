@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { MouseEvent, useRef } from 'react'
 import type { BehandlingDto } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
@@ -39,10 +39,25 @@ function kibanaLink(behandling: BehandlingDto) {
 export default function BehandlingCard(props: Props) {
   const fetcher = useFetcher()
 
-  const ref = useRef<HTMLDialogElement>(null)
+  const stopModal = useRef<HTMLDialogElement>(null)
+
+  function stopp() {
+    fetcher.submit(
+      {},
+      {
+        action: 'stopp',
+        method: 'POST',
+      },
+    )
+
+    stopModal.current?.close()
+  }
 
   function debugButton() {
-    if (props.behandling.status === 'FULLFORT') {
+    if (
+      props.behandling.status === 'FULLFORT' ||
+      props.behandling.status === 'STOPPET'
+    ) {
       return <></>
     } else if (props.behandling.status === 'DEBUG') {
       return (
@@ -64,6 +79,75 @@ export default function BehandlingCard(props: Props) {
           </fetcher.Form>
         </Tooltip>
       )
+    }
+  }
+
+  function fjernUtsattButton() {
+    if (props.behandling.status === 'UNDER_BEHANDLING') {
+      return (
+        <Tooltip content="Fjerner utsatt tidspunkt slik at behandling kan kjøres umiddelbart">
+          <fetcher.Form method="post" action="fortsett">
+            <Button
+              variant={'secondary'}
+              icon={<PlayIcon aria-hidden />}
+              name={'fortsett'}
+            >
+              Fortsett
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    } else {
+      return <></>
+    }
+  }
+
+  function stoppButton() {
+    if (
+      props.behandling.status !== 'FULLFORT' &&
+      props.behandling.status !== 'STOPPET'
+    ) {
+      return (
+        <>
+          <Tooltip content="Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte">
+            <Button
+              variant={'danger'}
+              icon={<XMarkOctagonIcon aria-hidden />}
+              onClick={() => stopModal.current?.showModal()}
+            >
+              Stopp behandling
+            </Button>
+          </Tooltip>
+
+          <Modal ref={stopModal} header={{ heading: 'Stopp behandling' }}>
+            <Modal.Body>
+              <BodyLong>
+                Ønsker du virkerlig å stoppe denne behandlingen. Saken, kravet,
+                vedtaket eller liknende, som behandlinger er knyttet til må mest
+                sannsynlig rapporteres til linja. Stopping av en behandling skal
+                kun gjøres om feil ikke kan løses på annen måte. Denne
+                handlingen kan ikke angres
+              </BodyLong>
+            </Modal.Body>
+            <Modal.Footer>
+              <fetcher.Form method="post" action="taTilDebug">
+                <Button type="button" variant="danger" onClick={stopp}>
+                  Stopp behandling
+                </Button>
+              </fetcher.Form>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => stopModal.current?.close()}
+              >
+                Avbryt
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      )
+    } else {
+      return <></>
     }
   }
 
@@ -104,63 +188,11 @@ export default function BehandlingCard(props: Props) {
             <Entry labelText={'Prioritet'}>{props.behandling.prioritet}</Entry>
           </Card.Grid>
           <Card.Grid>
-            {props.behandling.status !== 'FULLFORT' ? (
-              <>
-                <Tooltip content="Forsett behandling umiddelbart - se bort fra utsatt til">
-                  <fetcher.Form method="post" action="fortsett">
-                    <Button
-                      variant={'secondary'}
-                      icon={<PlayIcon aria-hidden />}
-                      name={'fortsett'}
-                    >
-                      Fortsett
-                    </Button>
-                  </fetcher.Form>
-                </Tooltip>
+            {fjernUtsattButton()}
 
-                {debugButton()}
+            {debugButton()}
 
-                <Tooltip content="Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte">
-                  <Button
-                    variant={'danger'}
-                    icon={<XMarkOctagonIcon aria-hidden />}
-                    onClick={() => ref.current?.showModal()}
-                  >
-                    Stopp behandling
-                  </Button>
-                </Tooltip>
-
-                <Modal ref={ref} header={{ heading: 'Stopp behandling' }}>
-                  <Modal.Body>
-                    <BodyLong>
-                      Ønsker du virkerlig å stoppe denne behandlingen. Saken,
-                      kravet, vedtaket eller liknende, som behandlinger er
-                      knyttet til må mest sannsynlig rapporteres til linja.
-                      Stopping av en behandling skal kun gjøres om feil ikke kan
-                      løses på annen måte. Denne handlingen kan ikke angres
-                    </BodyLong>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button
-                      type="button"
-                      variant="danger"
-                      onClick={() => ref.current?.close()}
-                    >
-                      Stopp behandling
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      onClick={() => ref.current?.close()}
-                    >
-                      Avbryt
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </>
-            ) : (
-              <></>
-            )}
+            {stoppButton()}
           </Card.Grid>
           <Card.Grid>
             <a href={kibanaLink(props.behandling)}>Kibana</a>
