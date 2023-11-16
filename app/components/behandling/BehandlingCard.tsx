@@ -15,16 +15,14 @@ import { PlayIcon, SandboxIcon, XMarkOctagonIcon } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
 import { decodeBehandling } from '~/components/behandling/decode'
 import { useFetcher } from '@remix-run/react'
-import { env } from '~/services/env.server'
 
 export interface Props {
   behandling: BehandlingDto
 }
 
-const application = env.penApplication
-
 function kibanaLink(behandling: BehandlingDto) {
   const minuteMultiplier = 60000
+  const application = "pensjon-pen-q2"
 
   const startTime = new Date(
     new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier,
