@@ -151,6 +151,23 @@ export default function BehandlingCard(props: Props) {
     }
   }
 
+  function copyPaseEntry(name: string, value: string | number | null) {
+    if (value) {
+      return (
+        <Entry labelText={`${name}`}>
+          <HStack align="start">
+            {value}
+            <Tooltip content={`Kopier ${name}`}>
+              <CopyButton copyText={value.toString()} size={'xsmall'} />
+            </Tooltip>
+          </HStack>
+        </Entry>
+      )
+    } else {
+      return <></>
+    }
+  }
+
   return (
     <>
       <Card id={props.behandling.uuid}>
@@ -189,6 +206,12 @@ export default function BehandlingCard(props: Props) {
             </Entry>
 
             <Entry labelText={'Prioritet'}>{props.behandling.prioritet}</Entry>
+
+            {copyPaseEntry('Fødselsnummer', props.behandling.fnr)}
+            {copyPaseEntry('SakId', props.behandling.sakId)}
+            {copyPaseEntry('KravId', props.behandling.kravId)}
+            {copyPaseEntry('VedtakId', props.behandling.vedtakId)}
+            {copyPaseEntry('JournalpostId', props.behandling.journalpostId)}
           </Card.Grid>
           <Card.Grid>
             {fjernUtsattButton()}

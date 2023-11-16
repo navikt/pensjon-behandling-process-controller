@@ -23,6 +23,12 @@ export type BehandlingDto = {
   status: string
   prioritet: number
   aktiviteter: AktivitetDTO[]
+
+  fnr: string | null
+  sakId: number | null
+  kravId: number | null
+  vedtakId: number | null
+  journalpostId: string | null
 }
 
 export type AktivitetDTO = {
