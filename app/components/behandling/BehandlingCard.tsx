@@ -21,10 +21,11 @@ export interface Props {
   behandling: BehandlingDto
 }
 
+const application = env.penApplication
+
 function kibanaLink(behandling: BehandlingDto) {
   const minuteMultiplier = 60000
 
-  const application = env.penApplication
   const startTime = new Date(
     new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier,
   ).toISOString()
