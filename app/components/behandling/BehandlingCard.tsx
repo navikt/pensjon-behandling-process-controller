@@ -1,4 +1,4 @@
-import React, { MouseEvent, useRef } from 'react'
+import React, { useRef } from 'react'
 import type { BehandlingDto } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
@@ -15,6 +15,7 @@ import { PlayIcon, SandboxIcon, XMarkOctagonIcon } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
 import { decodeBehandling } from '~/components/behandling/decode'
 import { useFetcher } from '@remix-run/react'
+import { env } from '~/services/env.server'
 
 export interface Props {
   behandling: BehandlingDto
@@ -23,7 +24,7 @@ export interface Props {
 function kibanaLink(behandling: BehandlingDto) {
   const minuteMultiplier = 60000
 
-  const application = 'pensjon-pen-q2'
+  const application = env.penApplication
   const startTime = new Date(
     new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier,
   ).toISOString()
@@ -221,7 +222,7 @@ export default function BehandlingCard(props: Props) {
             {stoppButton()}
           </Card.Grid>
           <Card.Grid>
-            <a href={kibanaLink(props.behandling)}>Kibana</a>
+            <a href={kibanaLink(props.behandling)} target="_blank" rel="noopener noreferrer">Kibana</a>
           </Card.Grid>
         </Card.Body>
       </Card>
