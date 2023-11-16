@@ -45,6 +45,11 @@ jobs:
     strategy:
       matrix:
         include:
+          - name: pensjon-bpc
+            cluster: prod-gcp
+            vars: .nais/vars-prod.yaml
+            deploy_apikey: NAIS_DEPLOY_PENSJON_PROD_APIKEY
+
           - name: pensjon-bpc-q2
             cluster: dev-gcp
             vars: .nais/vars-dev-q2.yaml

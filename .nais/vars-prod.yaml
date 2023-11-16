@@ -1,0 +1,16 @@
+app:
+  name: 'pensjon-bpc'
+  namespace: 'pensjondeployer'
+  team: 'pensjondeployer'
+  ingress: 'https://pensjon-bpc.intern.nav.no'
+
+pen:
+  application: 'pensjon-pen'
+  outbound: 'pensjon-pen.prod-fss-pub.nais.io'
+  scope: 'api://prod-fss.pensjondeployer.pensjon-pen/.default'
+  url: 'https://pensjon-pen.prod-fss-pub.nais.io/pen'
+
+azure:
+  tenant: nav.no
+  grupper:
+    drift: 'c66e1209-42d7-4868-9799-4c398524d86e' # 0000-GA-PENSJON_NDU - Nav drift og utvikling
