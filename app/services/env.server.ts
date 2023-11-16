@@ -6,6 +6,7 @@ export const env = ensureEnv({
   issuer: 'AZURE_OPENID_CONFIG_ISSUER',
   tokenEnpoint: 'AZURE_OPENID_CONFIG_TOKEN_ENDPOINT',
 
+  env: 'ENV',
   penApplication: 'PEN_APPLICATION',
   penScope: 'PEN_SCOPE',
   penUrl: 'PEN_URL',

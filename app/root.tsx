@@ -8,6 +8,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useNavigation,
 } from '@remix-run/react'
 import navInternalStyles from '@navikt/ds-css-internal/dist/index.css'
@@ -17,6 +18,8 @@ import appStylesHref from './app.css'
 
 import { cssBundleHref } from '@remix-run/css-bundle'
 import { HStack, InternalHeader, Spacer, VStack } from '@navikt/ds-react'
+import { json } from '@remix-run/node'
+import { env } from '~/services/env.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -31,8 +34,14 @@ export const links: LinksFunction = () => {
   ]
 }
 
+export async function loader() {
+  return json({ env: env.env });
+}
+
 export default function App() {
   const navigation = useNavigation()
+
+  const { env }  = useLoaderData<typeof loader>();
 
   return (
     <html lang="en">
@@ -45,14 +54,26 @@ export default function App() {
       </head>
       <body>
         <VStack gap="0" style={{ width: '100%' }}>
-          <InternalHeader>
+          { env === 'p' ?
+          <InternalHeader className={'navds-tag--error-filled'} >
+            <InternalHeader.Title as="h1">
+              Behandling Process Controller
+            </InternalHeader.Title>
+            <InternalHeader.Title as="h1">
+              P R O D U K S J O N !
+            </InternalHeader.Title>
+            <Spacer />
+            <InternalHeader.User name="Ola Utvikler" />
+          </InternalHeader>
+          :
+          <InternalHeader >
             <InternalHeader.Title as="h1">
               Behandling Process Controller
             </InternalHeader.Title>
             <Spacer />
             <InternalHeader.User name="Ola Utvikler" />
           </InternalHeader>
-
+          }
           <HStack gap="0">
             <div id="sidebar">
               <nav>

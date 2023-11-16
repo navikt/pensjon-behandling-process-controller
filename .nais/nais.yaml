@@ -31,6 +31,8 @@ spec:
   ingresses:
     - {{app.ingress}}
   env:
+    - name: ENV
+      value: {{ app.env }}
     - name: PEN_APPLICATION
       value: {{ pen.application }}
     - name: PEN_SCOPE
