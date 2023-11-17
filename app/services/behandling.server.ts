@@ -1,13 +1,15 @@
-import type { BehandlingDto, BehandlingerResponse } from '~/types'
+import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { env } from '~/services/env.server'
 import { kibanaLink } from '~/services/kibana.server'
 
 export async function getBehandlinger(
   accessToken: string,
   status: string,
-): Promise<BehandlingerResponse | null> {
+  page: number,
+  size: number,
+): Promise<BehandlingerPage | null> {
   const response = await fetch(
-    `${env.penUrl}/springapi/behandling/?status=${status}`,
+    `${env.penUrl}/springapi/behandling/?status=${status}&page=${page}&size=${size}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -17,7 +19,7 @@ export async function getBehandlinger(
   )
 
   if (response.ok) {
-    return (await response.json()) as BehandlingerResponse
+    return (await response.json()) as BehandlingerPage
   } else {
     throw new Error()
   }

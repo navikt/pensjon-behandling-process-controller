@@ -35,13 +35,13 @@ export const links: LinksFunction = () => {
 }
 
 export async function loader() {
-  return json({ env: env.env });
+  return json({ env: env.env })
 }
 
 export default function App() {
   const navigation = useNavigation()
 
-  const { env }  = useLoaderData<typeof loader>();
+  const { env } = useLoaderData<typeof loader>()
 
   return (
     <html lang="en">
@@ -54,26 +54,26 @@ export default function App() {
       </head>
       <body>
         <VStack gap="0" style={{ width: '100%' }}>
-          { env === 'p' ?
-          <InternalHeader className={'navds-tag--error-filled'} >
-            <InternalHeader.Title as="h1">
-              Behandling Process Controller
-            </InternalHeader.Title>
-            <InternalHeader.Title as="h1">
-              P R O D U K S J O N !
-            </InternalHeader.Title>
-            <Spacer />
-            <InternalHeader.User name="Ola Utvikler" />
-          </InternalHeader>
-          :
-          <InternalHeader >
-            <InternalHeader.Title as="h1">
-              Behandling Process Controller
-            </InternalHeader.Title>
-            <Spacer />
-            <InternalHeader.User name="Ola Utvikler" />
-          </InternalHeader>
-          }
+          {env === 'p' ? (
+            <InternalHeader className={'navds-tag--error-filled'}>
+              <InternalHeader.Title as="h1">
+                Behandling Process Controller
+              </InternalHeader.Title>
+              <InternalHeader.Title as="h1">
+                P R O D U K S J O N !
+              </InternalHeader.Title>
+              <Spacer />
+              <InternalHeader.User name="Ola Utvikler" />
+            </InternalHeader>
+          ) : (
+            <InternalHeader>
+              <InternalHeader.Title as="h1">
+                Behandling Process Controller
+              </InternalHeader.Title>
+              <Spacer />
+              <InternalHeader.User name="Ola Utvikler" />
+            </InternalHeader>
+          )}
           <HStack gap="0">
             <div id="sidebar">
               <nav>
@@ -87,6 +87,11 @@ export default function App() {
                     <NavLink to={`/behandlinger/STOPPET`}>
                       Stoppede behandlinger
                     </NavLink>
+                    <NavLink to={`/behandlinger/UNDER_BEHANDLING`}>
+                      Under behandling
+                    </NavLink>
+                    <NavLink to={`/behandlinger/OPPRETTET`}>Opprettet</NavLink>
+                    <NavLink to={`/behandlinger/FULLFORT`}>Fullførte</NavLink>
                   </li>
                 </ul>
               </nav>

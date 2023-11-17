@@ -2,6 +2,8 @@ export enum Behandlingstatus {
   OPPRETTET,
   UNDER_BEHANDLING,
   FULLFORT,
+  STOPPET,
+  DEBUG,
 }
 
 export enum Aktivitetstatus {
@@ -45,6 +47,24 @@ export type AktivitetDTO = {
   ventPaForegaendeAktiviteter: boolean
 }
 
-export interface BehandlingerResponse {
-  behandlinger: BehandlingDto[]
+export type BehandlingerPage = {
+  content: BehandlingDto[]
+
+  pageable: string
+  totalPages: number
+  totalElements: number
+  last: boolean
+  first: boolean
+  numberOfElements: number
+  number: number
+  size: number
+  empty: boolean
+
+  sort: PageSort
+}
+
+export type PageSort = {
+  unsorted: boolean
+  sorted: boolean
+  empty: boolean
 }
