@@ -1,7 +1,10 @@
 import { Authenticator } from 'remix-auth'
 import { OAuth2Strategy } from 'remix-auth-oauth2'
-import { getSession, sessionStorage } from '~/services/session.server'
-import invariant from 'tiny-invariant'
+import {
+  destroySession,
+  getSession,
+  sessionStorage,
+} from '~/services/session.server'
 import { redirect } from '@remix-run/node'
 import * as process from 'process'
 import { exchange } from '~/services/obo.server'
@@ -43,22 +46,42 @@ if (process.env.ENABLE_OAUTH20_CODE_FLOW && process.env.AZURE_CALLBACK_URL) {
   )
 }
 
-export async function requireAccessToken(request: Request) {
-  let accessToken
+function redirectUrl(request: Request) {
+  let searchParams = new URLSearchParams([
+    ['redirectTo', new URL(request.url).pathname],
+  ])
+  let redirectTo = `/login?${searchParams}`
+  return redirectTo
+}
 
+export async function requireAccessToken(request: Request) {
   let authorization = request.headers.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    accessToken = authorization.substring('bearer '.length)
+    let tokenResponse = await exchange(
+      authorization.substring('bearer '.length),
+      env.penScope,
+    )
+    return tokenResponse.access_token
   } else {
     const session = await getSession(request.headers.get('cookie'))
 
     if (!session.has('user')) {
       // if there is no user session, redirect to login
-      throw redirect('/login')
+      throw redirect(redirectUrl(request))
+    } else {
+      try {
+        let tokenResponse = await exchange(
+          (session.get('user') as User).accessToken,
+          env.penScope,
+        )
+        return tokenResponse.access_token
+      } catch (e) {
+        throw redirect(redirectUrl(request), {
+          headers: {
+            'Set-Cookie': await destroySession(session),
+          },
+        })
+      }
     }
-    accessToken = (session.get('user') as User).accessToken
   }
-
-  let tokenResponse = await exchange(accessToken, env.penScope)
-  return tokenResponse.access_token
 }
