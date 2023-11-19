@@ -68,3 +68,22 @@ export type PageSort = {
   sorted: boolean
   empty: boolean
 }
+
+export type BehandlingAntall = {
+  navn: string
+  antall: number
+}
+
+export type DatoAntall = {
+  dato: string
+  antall: number
+}
+
+export type DashboardResponse = {
+  totaltAntallBehandlinger: number
+  feilendeBehandlinger: number
+  antallUferdigeBehandlinger: number
+  ukjenteBehandlingstyper: string[]
+  behandlingAntall: BehandlingAntall[]
+  opprettetPerDag: DatoAntall[]
+}

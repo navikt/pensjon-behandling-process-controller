@@ -4,6 +4,7 @@ import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import {
   BodyLong,
+  Box,
   Button,
   CopyButton,
   HStack,
@@ -154,69 +155,93 @@ export default function BehandlingCard(props: Props) {
 
   return (
     <>
-      <Card id={props.behandling.uuid}>
-        <Card.Header>
-          <Card.Heading>{decodeBehandling(props.behandling.type)}</Card.Heading>
-        </Card.Header>
-        <Card.Body>
-          <Card.Grid>
-            <Entry labelText={'BehandlingId'}>
-              <HStack align="start">
-                {props.behandling.behandlingId}
-                <Tooltip content="Kopier behandlingsidentifikator">
-                  <CopyButton
-                    copyText={props.behandling.behandlingId.toString()}
-                    size={'xsmall'}
-                  />
-                </Tooltip>
-              </HStack>
-            </Entry>
-            <Entry labelText={'Status'}>{props.behandling.status}</Entry>
-            <Entry labelText={'Funksjonell identifikator'}>
-              {props.behandling.funksjonellIdentifikator}
-            </Entry>
+      <Box
+        background={'surface-default'}
+        style={{ padding: '6px' }}
+        borderRadius="medium"
+        shadow="medium"
+      >
+        <Card id={props.behandling.uuid}>
+          <Card.Header>
+            <Card.Heading>
+              {decodeBehandling(props.behandling.type)}
+            </Card.Heading>
+          </Card.Header>
+          <Card.Body>
+            <Card.Grid>
+              <Entry labelText={'BehandlingId'}>
+                <HStack align="start">
+                  {props.behandling.behandlingId}
+                  <Tooltip content="Kopier behandlingsidentifikator">
+                    <CopyButton
+                      copyText={props.behandling.behandlingId.toString()}
+                      size={'xsmall'}
+                    />
+                  </Tooltip>
+                </HStack>
+              </Entry>
+              <Entry labelText={'Status'}>{props.behandling.status}</Entry>
+              <Entry labelText={'Funksjonell identifikator'}>
+                {props.behandling.funksjonellIdentifikator}
+              </Entry>
 
-            <Entry labelText={'Opprettet'}>
-              {formatIsoTimestamp(props.behandling.opprettet)}
-            </Entry>
-            <Entry labelText={'Siste kjøring'}>
-              {formatIsoTimestamp(props.behandling.sisteKjoring)}
-            </Entry>
-            <Entry labelText={'Utsatt til'}>
-              {formatIsoTimestamp(props.behandling.utsattTil)}
-            </Entry>
-            <Entry labelText={'Stoppet'}>
-              {formatIsoTimestamp(props.behandling.stoppet)}
-            </Entry>
+              <Entry labelText={'Opprettet'}>
+                {formatIsoTimestamp(props.behandling.opprettet)}
+              </Entry>
+              <Entry labelText={'Siste kjøring'}>
+                {formatIsoTimestamp(props.behandling.sisteKjoring)}
+              </Entry>
+              <Entry labelText={'Utsatt til'}>
+                {formatIsoTimestamp(props.behandling.utsattTil)}
+              </Entry>
+              <Entry labelText={'Stoppet'}>
+                {formatIsoTimestamp(props.behandling.stoppet)}
+              </Entry>
 
-            <Entry labelText={'Prioritet'}>{props.behandling.prioritet}</Entry>
+              <Entry labelText={'Prioritet'}>
+                {props.behandling.prioritet}
+              </Entry>
 
-            {copyPaseEntry('Fødselsnummer', props.behandling.fnr)}
-            {copyPaseEntry('SakId', props.behandling.sakId)}
-            {copyPaseEntry('KravId', props.behandling.kravId)}
-            {copyPaseEntry('VedtakId', props.behandling.vedtakId)}
-            {copyPaseEntry('JournalpostId', props.behandling.journalpostId)}
-          </Card.Grid>
-          <Card.Grid>
-            {fjernUtsattButton()}
+              {copyPaseEntry('Fødselsnummer', props.behandling.fnr)}
+              {copyPaseEntry('SakId', props.behandling.sakId)}
+              {copyPaseEntry('KravId', props.behandling.kravId)}
+              {copyPaseEntry('VedtakId', props.behandling.vedtakId)}
+              {copyPaseEntry('JournalpostId', props.behandling.journalpostId)}
+            </Card.Grid>
+            <Card.Grid>
+              {fjernUtsattButton()}
 
-            {debugButton()}
+              {debugButton()}
 
-            {stoppButton()}
-          </Card.Grid>
-          <Card.Grid>
-            <a href={props.behandling.kibanaUrl} target="_blank" rel="noopener noreferrer">Kibana</a>
-          </Card.Grid>
-        </Card.Body>
-      </Card>
-      <Card id={props.behandling.uuid}>
-        <Card.Header>
-          <Card.Heading>Aktiviteter</Card.Heading>
-        </Card.Header>
-        <Card.Body>
-          <BehandlingAktivitetTable behandling={props.behandling} />
-        </Card.Body>
-      </Card>
+              {stoppButton()}
+            </Card.Grid>
+            <Card.Grid>
+              <a
+                href={props.behandling.kibanaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kibana
+              </a>
+            </Card.Grid>
+          </Card.Body>
+        </Card>
+      </Box>
+      <Box
+        background={'surface-default'}
+        style={{ padding: '6px', marginTop: '12px' }}
+        borderRadius="medium"
+        shadow="medium"
+      >
+        <Card id={props.behandling.uuid}>
+          <Card.Header>
+            <Card.Heading>Aktiviteter</Card.Heading>
+          </Card.Header>
+          <Card.Body>
+            <BehandlingAktivitetTable behandling={props.behandling} />
+          </Card.Body>
+        </Card>
+      </Box>
     </>
   )
 }

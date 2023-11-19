@@ -1,6 +1,27 @@
 import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { env } from '~/services/env.server'
 import { kibanaLink } from '~/services/kibana.server'
+import { DashboardResponse } from '~/types'
+
+export async function getDashboardSummary(
+  accessToken: string,
+): Promise<DashboardResponse | null> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/dashboard-summary`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as DashboardResponse
+  } else {
+    throw new Error()
+  }
+}
 
 export async function getBehandlinger(
   accessToken: string,

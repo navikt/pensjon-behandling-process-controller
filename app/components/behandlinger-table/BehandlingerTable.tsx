@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pagination, Table } from '@navikt/ds-react'
+import { Box, Pagination, Table } from '@navikt/ds-react'
 import { useSort } from '~/hooks/useSort'
 import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { Link, useSearchParams } from '@remix-run/react'
@@ -26,7 +26,12 @@ export default function BehandlingerTable(props: Props) {
   }
 
   return (
-    <>
+    <Box
+      background={'surface-default'}
+      style={{ padding: '6px' }}
+      borderRadius="medium"
+      shadow="medium"
+    >
       <Table
         size={'medium'}
         onSortChange={onSort}
@@ -91,6 +96,6 @@ export default function BehandlingerTable(props: Props) {
         prevNextTexts={true}
         onPageChange={onPageChange}
       />
-    </>
+    </Box>
   )
 }
