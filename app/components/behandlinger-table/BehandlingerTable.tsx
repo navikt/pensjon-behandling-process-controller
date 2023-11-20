@@ -4,7 +4,7 @@ import { useSort } from '~/hooks/useSort'
 import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { Link, useSearchParams } from '@remix-run/react'
 import { formatIsoTimestamp } from '~/common/date'
-import { decodeBehandling } from '~/components/behandling/decode'
+import { decodeBehandling } from '~/common/decodeBehandling'
 
 interface Props {
   behandlingerResponse: BehandlingerPage

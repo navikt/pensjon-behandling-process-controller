@@ -14,8 +14,8 @@ import {
 import BehandlingAktivitetTable from '~/components/aktiviteter-table/BehandlingAktivitetTable'
 import { PlayIcon, SandboxIcon, XMarkOctagonIcon } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
-import { decodeBehandling } from '~/components/behandling/decode'
 import { useFetcher } from '@remix-run/react'
+import { decodeBehandling } from '~/common/decodeBehandling'
 
 export interface Props {
   behandling: BehandlingDto
