@@ -45,7 +45,11 @@ export function BehandlingerPerDagLineChart(props: Props) {
 
   let data = days.map((value) => {
     let dato =
-      value.getFullYear() + '-' + (value.getMonth() + 1) + '-' + value.getDate()
+      value.getFullYear() +
+      '-' +
+      (value.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      value.getDate().toString().padStart(2, '0')
 
     let datoAntall = props.opprettetPerDag.find((value) => value.dato === dato)
     return datoAntall ? datoAntall.antall : 0
