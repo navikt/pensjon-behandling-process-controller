@@ -91,10 +91,10 @@ export type DashboardResponse = {
 }
 
 interface HalLink {
-  href: string;
-  type: string;
+  href: string
+  type: string
 }
 
 interface HalLinks {
-  [s: string]: HalLink | HalLink[];
+  [s: string]: HalLink | HalLink[]
 }

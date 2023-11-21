@@ -12,7 +12,12 @@ import {
   Tooltip,
 } from '@navikt/ds-react'
 import BehandlingAktivitetTable from '~/components/aktiviteter-table/BehandlingAktivitetTable'
-import { PlayIcon, SandboxIcon, XMarkOctagonIcon } from '@navikt/aksel-icons'
+import {
+  CogFillIcon,
+  PlayIcon,
+  SandboxIcon,
+  XMarkOctagonIcon,
+} from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
 import { useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
@@ -79,6 +84,26 @@ export default function BehandlingCard(props: Props) {
               name={'fortsett'}
             >
               Fortsett
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    } else {
+      return <></>
+    }
+  }
+
+  function runButton() {
+    if (hasLink('runBehandling')) {
+      return (
+        <Tooltip content="Kjører behandlingen lokalt">
+          <fetcher.Form method="post" action="runBehandling">
+            <Button
+              variant={'secondary'}
+              icon={<CogFillIcon aria-hidden />}
+              name={'runBehandling'}
+            >
+              Kjør lokalt
             </Button>
           </fetcher.Form>
         </Tooltip>
@@ -202,6 +227,8 @@ export default function BehandlingCard(props: Props) {
               {debugButton()}
 
               {stoppButton()}
+
+              {runButton()}
             </Card.Grid>
             <Card.Grid>
               <a

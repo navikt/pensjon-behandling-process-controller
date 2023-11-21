@@ -129,6 +129,26 @@ export async function fjernFraDebug(
   }
 }
 
+export async function runBehandling(
+  accessToken: string,
+  behandlingId: string,
+): Promise<void> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/run`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error()
+  }
+}
+
 export async function stopp(
   accessToken: string,
   behandlingId: string,
