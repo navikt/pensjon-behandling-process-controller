@@ -38,15 +38,14 @@ export default function BehandlingCard(props: Props) {
     stopModal.current?.close()
   }
 
+  function hasLink(rel: string) {
+    return props.behandling._links && props.behandling._links[rel]
+  }
+
   function debugButton() {
-    if (
-      props.behandling.status === 'FULLFORT' ||
-      props.behandling.status === 'STOPPET'
-    ) {
-      return <></>
-    } else if (props.behandling.status === 'DEBUG') {
+    if (hasLink('fjernFraDebug')) {
       return (
-        <Tooltip content="Avslutt debugging slik at behandlingen forsetter automatisk (kun mulig i testmiljø)">
+        <Tooltip content="Avslutt debugging slik at behandlingen forsetter automatisk">
           <fetcher.Form method="post" action="fjernFraDebug">
             <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
               Fjern fra debug
@@ -54,9 +53,9 @@ export default function BehandlingCard(props: Props) {
           </fetcher.Form>
         </Tooltip>
       )
-    } else {
+    } else if (hasLink('taTilDebug')) {
       return (
-        <Tooltip content="Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt (kun mulig i testmiljø)">
+        <Tooltip content="Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt">
           <fetcher.Form method="post" action="taTilDebug">
             <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
               Ta til debug
@@ -64,11 +63,13 @@ export default function BehandlingCard(props: Props) {
           </fetcher.Form>
         </Tooltip>
       )
+    } else {
+      return <></>
     }
   }
 
   function fjernUtsattButton() {
-    if (props.behandling.status === 'UNDER_BEHANDLING') {
+    if (hasLink('fortsett')) {
       return (
         <Tooltip content="Fjerner utsatt tidspunkt slik at behandling kan kjøres umiddelbart">
           <fetcher.Form method="post" action="fortsett">
@@ -88,10 +89,7 @@ export default function BehandlingCard(props: Props) {
   }
 
   function stoppButton() {
-    if (
-      props.behandling.status !== 'FULLFORT' &&
-      props.behandling.status !== 'STOPPET'
-    ) {
+    if (hasLink('stopp')) {
       return (
         <>
           <Tooltip content="Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte">
@@ -136,7 +134,7 @@ export default function BehandlingCard(props: Props) {
     }
   }
 
-  function copyPaseEntry(name: string, value: string | number | null) {
+  function copyPasteEntry(name: string, value: string | number | null) {
     if (value) {
       return (
         <Entry labelText={`${name}`}>
@@ -169,17 +167,13 @@ export default function BehandlingCard(props: Props) {
           </Card.Header>
           <Card.Body>
             <Card.Grid>
-              <Entry labelText={'BehandlingId'}>
-                <HStack align="start">
-                  {props.behandling.behandlingId}
-                  <Tooltip content="Kopier behandlingsidentifikator">
-                    <CopyButton
-                      copyText={props.behandling.behandlingId.toString()}
-                      size={'xsmall'}
-                    />
-                  </Tooltip>
-                </HStack>
-              </Entry>
+              {copyPasteEntry('BehandlingId', props.behandling.behandlingId)}
+              {copyPasteEntry('Fødselsnummer', props.behandling.fnr)}
+              {copyPasteEntry('SakId', props.behandling.sakId)}
+              {copyPasteEntry('KravId', props.behandling.kravId)}
+              {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
+              {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
+
               <Entry labelText={'Status'}>{props.behandling.status}</Entry>
               <Entry labelText={'Funksjonell identifikator'}>
                 {props.behandling.funksjonellIdentifikator}
@@ -201,12 +195,6 @@ export default function BehandlingCard(props: Props) {
               <Entry labelText={'Prioritet'}>
                 {props.behandling.prioritet}
               </Entry>
-
-              {copyPaseEntry('Fødselsnummer', props.behandling.fnr)}
-              {copyPaseEntry('SakId', props.behandling.sakId)}
-              {copyPaseEntry('KravId', props.behandling.kravId)}
-              {copyPaseEntry('VedtakId', props.behandling.vedtakId)}
-              {copyPaseEntry('JournalpostId', props.behandling.journalpostId)}
             </Card.Grid>
             <Card.Grid>
               {fjernUtsattButton()}

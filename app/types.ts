@@ -32,6 +32,8 @@ export type BehandlingDto = {
   vedtakId: number | null
   journalpostId: string | null
   kibanaUrl?: string
+
+  _links?: HalLinks
 }
 
 export type AktivitetDTO = {
@@ -86,4 +88,13 @@ export type DashboardResponse = {
   ukjenteBehandlingstyper: string[]
   behandlingAntall: BehandlingAntall[]
   opprettetPerDag: DatoAntall[]
+}
+
+interface HalLink {
+  href: string;
+  type: string;
+}
+
+interface HalLinks {
+  [s: string]: HalLink | HalLink[];
 }
