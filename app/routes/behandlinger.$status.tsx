@@ -19,7 +19,7 @@ export const loader = async ({ params, request }: ActionFunctionArgs) => {
     accessToken,
     params.status,
     page ? +page : 0,
-    size ? +size : 10,
+    size ? +size : 100,
   )
   if (!behandlinger) {
     throw new Response('Not Found', { status: 404 })
