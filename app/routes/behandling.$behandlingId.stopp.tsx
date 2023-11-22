@@ -1,11 +1,7 @@
 import type { ActionFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { requireAccessToken } from '~/services/auth.server'
-import {
-  fjernFraDebug,
-  getBehandling,
-  stopp,
-} from '~/services/behandling.server'
+import { getBehandling, stopp } from '~/services/behandling.server'
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.behandlingId, 'Missing behandlingId param')

@@ -98,3 +98,7 @@ interface HalLink {
 interface HalLinks {
   [s: string]: HalLink | HalLink[]
 }
+
+export type StartBatchResponse = {
+  behandlingId: number
+}

@@ -1,7 +1,10 @@
-import type { BehandlingDto, BehandlingerPage } from '~/types'
+import type {
+  BehandlingDto,
+  BehandlingerPage,
+  DashboardResponse,
+} from '~/types'
 import { env } from '~/services/env.server'
 import { kibanaLink } from '~/services/kibana.server'
-import { DashboardResponse } from '~/types'
 
 export async function getDashboardSummary(
   accessToken: string,
@@ -25,12 +28,21 @@ export async function getDashboardSummary(
 
 export async function getBehandlinger(
   accessToken: string,
-  status: string,
+  status: string | null,
+  forrigeBehandlingId: string | null,
   page: number,
   size: number,
 ): Promise<BehandlingerPage | null> {
+  let request = ''
+  if (status) {
+    request += `&status=${status}`
+  }
+  if (forrigeBehandlingId) {
+    request += `&forrigeBehandlingId=${forrigeBehandlingId}`
+  }
+
   const response = await fetch(
-    `${env.penUrl}/springapi/behandling/?status=${status}&page=${page}&size=${size}`,
+    `${env.penUrl}/springapi/behandling/?page=${page}&size=${size}${request}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

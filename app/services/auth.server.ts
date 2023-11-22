@@ -9,6 +9,8 @@ import { redirect } from '@remix-run/node'
 import * as process from 'process'
 import { exchange } from '~/services/obo.server'
 import { env } from '~/services/env.server'
+import type { JwtPayload } from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 type User = {
   accessToken: string
@@ -50,8 +52,7 @@ function redirectUrl(request: Request) {
   let searchParams = new URLSearchParams([
     ['redirectTo', new URL(request.url).pathname],
   ])
-  let redirectTo = `/login?${searchParams}`
-  return redirectTo
+  return `/login?${searchParams}`
 }
 
 export async function requireAccessToken(request: Request) {
@@ -82,6 +83,37 @@ export async function requireAccessToken(request: Request) {
           },
         })
       }
+    }
+  }
+}
+
+export async function getNAVident(request: Request) {
+  let accessToken: string | undefined | null
+
+  let authorization = request.headers.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    let tokenResponse = await exchange(
+      authorization.substring('bearer '.length),
+      env.penScope,
+    )
+    accessToken = tokenResponse.access_token
+  } else {
+    const session = await getSession(request.headers.get('cookie'))
+
+    if (!session.has('user')) {
+      accessToken = null
+    } else {
+      accessToken = (session.get('user') as User).accessToken
+    }
+
+    if (accessToken) {
+      interface AzureADJwtPayload extends JwtPayload {
+        NAVident?: string
+      }
+      let jwt: AzureADJwtPayload = jwtDecode<AzureADJwtPayload>(accessToken)
+      return jwt.NAVident
+    } else {
+      return null
     }
   }
 }

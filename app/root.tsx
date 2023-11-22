@@ -18,8 +18,9 @@ import appStylesHref from './app.css'
 
 import { cssBundleHref } from '@remix-run/css-bundle'
 import { HStack, InternalHeader, Spacer, VStack } from '@navikt/ds-react'
-import { json } from '@remix-run/node'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { env } from '~/services/env.server'
+import { getNAVident } from '~/services/auth.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -34,14 +35,19 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export async function loader() {
-  return json({ env: env.env })
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  const navIdent = await getNAVident(request)
+
+  return json({
+    env: env.env,
+    navIdent: navIdent,
+  })
 }
 
 export default function App() {
   const navigation = useNavigation()
 
-  const { env } = useLoaderData<typeof loader>()
+  const { env, navIdent } = useLoaderData<typeof loader>()
 
   return (
     <html lang="en">
@@ -71,7 +77,7 @@ export default function App() {
                 Behandling Process Controller
               </InternalHeader.Title>
               <Spacer />
-              <InternalHeader.User name="Ola Utvikler" />
+              <InternalHeader.User name={navIdent ? navIdent : ''} />
             </InternalHeader>
           )}
           <HStack gap="0">
@@ -80,18 +86,44 @@ export default function App() {
                 <ul>
                   <li>
                     <NavLink to={`/dashboard`}>Dashboard</NavLink>
-                    <NavLink to={`/behandlinger/FEILET`}>
-                      Feilende behandlinger
-                    </NavLink>
-                    <NavLink to={`/behandlinger/DEBUG`}>I debug</NavLink>
-                    <NavLink to={`/behandlinger/STOPPET`}>
-                      Stoppede behandlinger
-                    </NavLink>
-                    <NavLink to={`/behandlinger/UNDER_BEHANDLING`}>
-                      Under behandling
-                    </NavLink>
-                    <NavLink to={`/behandlinger/OPPRETTET`}>Opprettet</NavLink>
-                    <NavLink to={`/behandlinger/FULLFORT`}>Fullførte</NavLink>
+                  </li>
+
+                  <li>
+                    <h1>Batch behandling</h1>
+                    <ul>
+                      <li>
+                        <NavLink to={`/batch-opprett`}>Opprett</NavLink>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <h1>Behandlinger</h1>
+                    <ul>
+                      <li>
+                        <NavLink to={`/behandlinger/FEILET`}>Feilende</NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={`/behandlinger/DEBUG`}>I debug</NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={`/behandlinger/STOPPET`}>Stoppede</NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={`/behandlinger/UNDER_BEHANDLING`}>
+                          Under behandling
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={`/behandlinger/OPPRETTET`}>
+                          Opprettet
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={`/behandlinger/FULLFORT`}>
+                          Fullførte
+                        </NavLink>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </nav>

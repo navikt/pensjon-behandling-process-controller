@@ -18,6 +18,7 @@ export const loader = async ({ params, request }: ActionFunctionArgs) => {
   const behandlinger = await getBehandlinger(
     accessToken,
     params.status,
+    null,
     page ? +page : 0,
     size ? +size : 100,
   )
