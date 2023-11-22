@@ -29,7 +29,7 @@ export async function getDashboardSummary(
 export async function getBehandlinger(
   accessToken: string,
   status: string | null,
-  forrigeBehandlingId: string | null,
+  forrigeBehandlingId: number | null,
   page: number,
   size: number,
 ): Promise<BehandlingerPage | null> {

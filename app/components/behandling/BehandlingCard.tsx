@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import type { BehandlingDto } from '~/types'
+import type { BehandlingDto, BehandlingerPage } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import {
@@ -9,21 +9,26 @@ import {
   CopyButton,
   HStack,
   Modal,
+  Tabs,
   Tooltip,
 } from '@navikt/ds-react'
 import BehandlingAktivitetTable from '~/components/aktiviteter-table/BehandlingAktivitetTable'
 import {
+  ClockDashedIcon,
   CogFillIcon,
   PlayIcon,
   SandboxIcon,
+  TasklistIcon,
   XMarkOctagonIcon,
 } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
 import { useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
+import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 
 export interface Props {
   behandling: BehandlingDto
+  avhengigeBehandlinger: BehandlingerPage | null
 }
 
 export default function BehandlingCard(props: Props) {
@@ -242,20 +247,43 @@ export default function BehandlingCard(props: Props) {
           </Card.Body>
         </Card>
       </Box>
+
       <Box
         background={'surface-default'}
         style={{ padding: '6px', marginTop: '12px' }}
         borderRadius="medium"
         shadow="medium"
       >
-        <Card id={props.behandling.uuid}>
-          <Card.Header>
-            <Card.Heading>Aktiviteter</Card.Heading>
-          </Card.Header>
-          <Card.Body>
+        <Tabs defaultValue={'aktiviteter'}>
+          <Tabs.List>
+            <Tabs.Tab
+              value="aktiviteter"
+              label="Aktiviteter"
+              icon={<TasklistIcon />}
+            />
+            {props.avhengigeBehandlinger ? (
+              <Tabs.Tab
+                value="behandlinger"
+                label="Avhengige behandlinger"
+                icon={<ClockDashedIcon />}
+              />
+            ) : (
+              <></>
+            )}
+          </Tabs.List>
+          <Tabs.Panel value="aktiviteter">
             <BehandlingAktivitetTable behandling={props.behandling} />
-          </Card.Body>
-        </Card>
+          </Tabs.Panel>
+          {props.avhengigeBehandlinger ? (
+            <Tabs.Panel value="behandlinger">
+              <BehandlingerTable
+                behandlingerResponse={props.avhengigeBehandlinger}
+              />
+            </Tabs.Panel>
+          ) : (
+            <></>
+          )}
+        </Tabs>
       </Box>
     </>
   )
