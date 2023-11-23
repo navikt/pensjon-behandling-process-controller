@@ -55,6 +55,8 @@ export function BehandlingerPerDagLineChart(props: Props) {
     return datoAntall ? datoAntall.antall : 0
   })
 
+  const radius = props.antallDager > 30 ? 0 : 3
+
   return (
     <Line
       options={{
@@ -76,6 +78,11 @@ export function BehandlingerPerDagLineChart(props: Props) {
             display: false,
           },
         },
+        elements: {
+          point: {
+            radius: radius,
+          }
+        }
       }}
       data={{
         labels: labels,
