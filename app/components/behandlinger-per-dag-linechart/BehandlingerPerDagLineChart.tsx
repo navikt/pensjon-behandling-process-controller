@@ -81,8 +81,8 @@ export function BehandlingerPerDagLineChart(props: Props) {
         elements: {
           point: {
             radius: radius,
-          }
-        }
+          },
+        },
       }}
       data={{
         labels: labels,

@@ -16,6 +16,10 @@ type User = {
   accessToken: string
 }
 
+interface AzureADJwtPayload extends JwtPayload {
+  NAVident?: string
+}
+
 function getUser(accessToken: string) {
   return {
     accessToken,
@@ -92,28 +96,18 @@ export async function getNAVident(request: Request) {
 
   let authorization = request.headers.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    let tokenResponse = await exchange(
-      authorization.substring('bearer '.length),
-      env.penScope,
-    )
-    accessToken = tokenResponse.access_token
+    accessToken = authorization.substring('bearer '.length)
   } else {
     const session = await getSession(request.headers.get('cookie'))
 
-    if (!session.has('user')) {
-      accessToken = null
-    } else {
-      accessToken = (session.get('user') as User).accessToken
-    }
+    accessToken = session.has('user')
+      ? (session.get('user') as User).accessToken
+      : null
+  }
 
-    if (accessToken) {
-      interface AzureADJwtPayload extends JwtPayload {
-        NAVident?: string
-      }
-      let jwt: AzureADJwtPayload = jwtDecode<AzureADJwtPayload>(accessToken)
-      return jwt.NAVident
-    } else {
-      return null
-    }
+  if (accessToken) {
+    return jwtDecode<AzureADJwtPayload>(accessToken).NAVident
+  } else {
+    return null
   }
 }
