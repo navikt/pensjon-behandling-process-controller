@@ -39,7 +39,7 @@ export default function Dashboard() {
         />
         <DashboardCard
           iconBackgroundColor={'var(--a-surface-action)'}
-          title="Uferdige"
+          title="Under behandling"
           value={formatNumber(dashboardResponse.antallUferdigeBehandlinger)}
           icon={CogFillIcon}
         />
