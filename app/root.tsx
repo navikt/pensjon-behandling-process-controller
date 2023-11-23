@@ -89,10 +89,11 @@ export default function App() {
                   </li>
 
                   <li>
-                    <h1>Batch behandling</h1>
+                    <h1>Batch</h1>
                     <ul>
                       <li>
                         <NavLink to={`/batch-opprett`}>Opprett</NavLink>
+                        <NavLink to={`/batcher`}>Kjøringer</NavLink>
                       </li>
                     </ul>
                   </li>

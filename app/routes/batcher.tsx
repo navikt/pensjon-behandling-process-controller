@@ -7,9 +7,7 @@ import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import invariant from 'tiny-invariant'
 
-export const loader = async ({ params, request }: ActionFunctionArgs) => {
-  invariant(params.status, 'Missing status param')
-
+export const loader = async ({ request }: ActionFunctionArgs) => {
   const url = new URL(request.url)
   const size = url.searchParams.get('size')
   const page = url.searchParams.get('page')
@@ -17,15 +15,17 @@ export const loader = async ({ params, request }: ActionFunctionArgs) => {
   const accessToken = await requireAccessToken(request)
   const behandlinger = await getBehandlinger(
     accessToken,
-    params.status,
     null,
     null,
+    true,
     page ? +page : 0,
     size ? +size : 100,
   )
   if (!behandlinger) {
     throw new Response('Not Found', { status: 404 })
   }
+
+  console.log(behandlinger)
 
   return json({ behandlinger })
 }

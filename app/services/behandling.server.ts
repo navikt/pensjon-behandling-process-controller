@@ -30,6 +30,7 @@ export async function getBehandlinger(
   accessToken: string,
   status: string | null,
   forrigeBehandlingId: number | null,
+  isBatch: boolean | null,
   page: number,
   size: number,
 ): Promise<BehandlingerPage | null> {
@@ -39,6 +40,9 @@ export async function getBehandlinger(
   }
   if (forrigeBehandlingId) {
     request += `&forrigeBehandlingId=${forrigeBehandlingId}`
+  }
+  if (isBatch) {
+    request += '&isBatch=true'
   }
 
   const response = await fetch(
