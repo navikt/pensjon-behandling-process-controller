@@ -25,8 +25,6 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
     throw new Response('Not Found', { status: 404 })
   }
 
-  console.log(behandlinger)
-
   return json({ behandlinger })
 }
 

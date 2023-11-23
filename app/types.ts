@@ -18,6 +18,7 @@ export type BehandlingDto = {
   type: string
   uuid: string
   funksjonellIdentifikator: string
+  forrigeBehandlingId: number | null
   sisteKjoring: string
   utsattTil: string | null
   stoppet: string | null

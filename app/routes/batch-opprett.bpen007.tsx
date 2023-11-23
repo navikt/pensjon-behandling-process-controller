@@ -10,7 +10,5 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   let response = await opprettBpen007(accessToken, +updates.behandlingsAr)
 
-  console.log(response)
-
   return redirect(`/behandling/${response.behandlingId}`)
 }

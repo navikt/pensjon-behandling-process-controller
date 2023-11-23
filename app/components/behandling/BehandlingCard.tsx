@@ -22,7 +22,7 @@ import {
   XMarkOctagonIcon,
 } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
-import { useFetcher } from '@remix-run/react'
+import { Link, NavLink, useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 
@@ -202,6 +202,18 @@ export default function BehandlingCard(props: Props) {
               {copyPasteEntry('SakId', props.behandling.sakId)}
               {copyPasteEntry('KravId', props.behandling.kravId)}
               {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
+              {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
+              {props.behandling.forrigeBehandlingId ? (
+                <Entry labelText={'Opprettet av behandling'}>
+                  <Link
+                    to={`/behandling/${props.behandling.forrigeBehandlingId}`}
+                  >
+                    {props.behandling.forrigeBehandlingId}
+                  </Link>
+                </Entry>
+              ) : (
+                <></>
+              )}
               {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
 
               <Entry labelText={'Status'}>{props.behandling.status}</Entry>

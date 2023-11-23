@@ -4,7 +4,7 @@ import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import { formatIsoTimestamp } from '~/common/date'
 import { Link } from '@remix-run/react'
-import { CopyButton, HStack, Tooltip } from '@navikt/ds-react'
+import { Box, CopyButton, HStack, Tooltip } from '@navikt/ds-react'
 
 export type Props = {
   behandling: BehandlingDto
@@ -13,7 +13,12 @@ export type Props = {
 
 export default function AktivitetCard(props: Props) {
   return (
-    <>
+    <Box
+      background={'surface-default'}
+      style={{ padding: '6px' }}
+      borderRadius="medium"
+      shadow="medium"
+    >
       <Card id={props.aktivitet.uuid}>
         <Card.Header>
           <Card.Heading>
@@ -70,6 +75,6 @@ export default function AktivitetCard(props: Props) {
           </Card.Grid>
         </Card.Body>
       </Card>
-    </>
+    </Box>
   )
 }

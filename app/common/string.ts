@@ -1,5 +1,5 @@
 export function findCommonAktivitetPrefix(words: string[]) {
-  if (!words[0] || words.length == 1) return words[0] || ''
+  if (!words[0] || words.length == 1) return ''
 
   let i = 0
   while (
