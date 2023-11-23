@@ -55,7 +55,7 @@ export function BehandlingerPerDagLineChart(props: Props) {
     return datoAntall ? datoAntall.antall : 0
   })
 
-  const radius = props.antallDager > 30 ? 0 : 3
+  const radius = props.antallDager > 30 ? 1 : 3
 
   return (
     <Line
