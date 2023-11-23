@@ -33,7 +33,7 @@ export function BehandlingerPerDagLineChartCard(props: Props) {
               variant={antallDager === 365 ? 'primary' : 'tertiary'}
               onClick={() => setAntallDager(365)}
           >
-            7 dager
+            365 dager
           </Button>
           <Button
             style={{ marginRight: '6px' }}
