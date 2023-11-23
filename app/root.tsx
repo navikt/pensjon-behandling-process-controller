@@ -69,7 +69,7 @@ export default function App() {
                 P R O D U K S J O N !
               </InternalHeader.Title>
               <Spacer />
-              <InternalHeader.User name="Ola Utvikler" />
+              <InternalHeader.User name={navIdent ? navIdent : ''} />
             </InternalHeader>
           ) : (
             <InternalHeader>
