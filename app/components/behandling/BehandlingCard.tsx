@@ -25,6 +25,7 @@ import { formatIsoTimestamp } from '~/common/date'
 import { Link, NavLink, useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
+import {BehandlingKjoringerTable} from "~/components/kjoringer-table/BehandlingKjoringerTable";
 
 export interface Props {
   behandling: BehandlingDto
@@ -266,8 +267,13 @@ export default function BehandlingCard(props: Props) {
         borderRadius="medium"
         shadow="medium"
       >
-        <Tabs defaultValue={'aktiviteter'}>
+        <Tabs defaultValue={'kjoringer'}>
           <Tabs.List>
+            <Tabs.Tab
+              value="kjoringer"
+              label="Kjøringer"
+              icon={<TasklistIcon />}
+            />
             <Tabs.Tab
               value="aktiviteter"
               label="Aktiviteter"
@@ -283,6 +289,9 @@ export default function BehandlingCard(props: Props) {
               <></>
             )}
           </Tabs.List>
+          <Tabs.Panel value="kjoringer">
+            <BehandlingKjoringerTable behandling={props.behandling} visAktivitetId={true} />
+          </Tabs.Panel>
           <Tabs.Panel value="aktiviteter">
             <BehandlingAktivitetTable behandling={props.behandling} />
           </Tabs.Panel>

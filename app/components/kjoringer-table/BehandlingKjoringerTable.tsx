@@ -1,0 +1,151 @@
+import type {BehandlingDto, BehandlingKjoringDTO} from "~/types";
+import {useSort} from "~/hooks/useSort";
+import React from "react";
+import {CopyButton, Table, Tooltip} from "@navikt/ds-react";
+import {Link} from "@remix-run/react";
+import {formatIsoTimestamp} from "~/common/date";
+import {formatNumber} from "~/common/number";
+
+type Props = {
+    behandling: BehandlingDto
+    visBehandlingId?: boolean
+    visAktivitetId?: boolean
+}
+
+function tidsbruk(it: BehandlingKjoringDTO) {
+    let startet = new Date(it.startet)
+    let avsluttet = new Date(it.avsluttet)
+    return formatNumber(avsluttet.getTime() - startet.getTime()) + " ms"
+}
+
+export function BehandlingKjoringerTable(props: Props) {
+    const { sortKey, onSort, sortFunc, sortDecending } =
+        useSort<BehandlingKjoringDTO>('startet')
+
+    const sortedKjoringer: BehandlingKjoringDTO[] = React.useMemo(() => {
+        return props.behandling.behandlingKjoringer.sort(sortFunc)
+    }, [props.behandling.behandlingKjoringer, sortFunc])
+
+    function finnAktivitet(aktivitetId: number | null) {
+        if (aktivitetId) {
+            return props.behandling.aktiviteter.find((it) => it.aktivitetId == aktivitetId)
+        } else {
+            return undefined;
+        }
+    }
+
+    return (
+        <Table
+            size={'medium'}
+            onSortChange={onSort}
+            sort={{
+                direction: sortDecending ? 'descending' : 'ascending',
+                orderBy: sortKey as string,
+            }}
+            zebraStripes
+        >
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell />
+
+                    { props.visBehandlingId ?
+                    <Table.ColumnHeader sortable sortKey="behandlingId">
+                        BehandlingId
+                    </Table.ColumnHeader>
+                    : <></>
+                    }
+                    <Table.ColumnHeader>
+                        Aktivitet
+                    </Table.ColumnHeader>
+                    { props.visAktivitetId ?
+                    <Table.ColumnHeader sortable sortKey="aktivitetId">
+                        AktivitetId
+                    </Table.ColumnHeader>
+                    : <></>
+                    }
+                    <Table.ColumnHeader sortable sortKey="startet">
+                        Startet
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader sortable sortKey="avsluttet">
+                        Avsluttet
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader sortable>
+                        Tidsbruk
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader sortable sortKey="correlationId">
+                        CorrelationId
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader sortable sortKey="feilmelding">
+                        Feilmelding
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader>
+                        Kopier stack trace
+                    </Table.ColumnHeader>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {sortedKjoringer?.map((it: BehandlingKjoringDTO) => {
+                    return (
+                        <Table.ExpandableRow
+                            key={it.behandlingKjoringId}
+                            content={<pre>{it.stackTrace}</pre>}
+
+                        >
+                            { props.visBehandlingId ?
+                            <Table.DataCell>
+                                <Link
+                                    to={`/behandling/${it.behandlingId}`}
+                                >
+                                    {it.behandlingId}
+                                </Link>
+                            </Table.DataCell>
+                            : <></>
+                            }
+                            <Table.DataCell>
+                                <Link
+                                    to={`/aktivitet/${it.behandlingId}/${it.aktivitetId}`}
+                                >
+                                {finnAktivitet(it.aktivitetId)?.type}
+                                </Link>
+                            </Table.DataCell>
+                            { props.visAktivitetId ?
+                            <Table.DataCell>
+                                <Link
+                                    to={`/aktivitet/${it.behandlingId}/${it.aktivitetId}`}
+                                >
+                                    {it.aktivitetId}
+                                </Link>
+                            </Table.DataCell>
+                                : <></>
+                            }
+                            <Table.DataCell>
+                                {formatIsoTimestamp(it.startet)}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {formatIsoTimestamp(it.avsluttet)}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {
+                                    tidsbruk(it)
+                                }
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {it.correlationId}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {it.feilmelding}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {it.stackTrace ?
+                                <Tooltip content={`Kopier stack trace`}>
+                                    <CopyButton copyText={it.stackTrace} size={'xsmall'} />
+                                </Tooltip>
+                                    : <></>
+                                }
+                            </Table.DataCell>
+                        </Table.ExpandableRow>
+                    )
+                })}
+            </Table.Body>
+        </Table>
+    )}
