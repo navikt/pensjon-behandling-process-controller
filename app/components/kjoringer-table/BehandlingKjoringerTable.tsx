@@ -1,10 +1,11 @@
-import type {BehandlingDto, BehandlingKjoringDTO} from "~/types";
+import type {BehandlingDto, BehandlingKjoringDTO, HalLink} from "~/types";
 import {useSort} from "~/hooks/useSort";
 import React from "react";
 import {CopyButton, Table, Tooltip} from "@navikt/ds-react";
 import {Link} from "@remix-run/react";
 import {formatIsoTimestamp} from "~/common/date";
 import {formatNumber} from "~/common/number";
+import {ExternalLinkIcon} from "@navikt/aksel-icons";
 
 type Props = {
     behandling: BehandlingDto
@@ -31,6 +32,23 @@ export function BehandlingKjoringerTable(props: Props) {
             return props.behandling.aktiviteter.find((it) => it.aktivitetId == aktivitetId)
         } else {
             return undefined;
+        }
+    }
+
+    function correlationID(it: BehandlingKjoringDTO) {
+        if (it._links && it._links['kibana']) {
+            return <a
+                href={(it._links['kibana'] as HalLink).href}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                {it.correlationId}
+                <ExternalLinkIcon/>
+            </a>
+
+        } else {
+            return <>
+                {it.correlationId}</>;
         }
     }
 
@@ -91,31 +109,31 @@ export function BehandlingKjoringerTable(props: Props) {
                             content={<pre>{it.stackTrace}</pre>}
 
                         >
-                            { props.visBehandlingId ?
-                            <Table.DataCell>
-                                <Link
-                                    to={`/behandling/${it.behandlingId}`}
-                                >
-                                    {it.behandlingId}
-                                </Link>
-                            </Table.DataCell>
-                            : <></>
+                            {props.visBehandlingId ?
+                                <Table.DataCell>
+                                    <Link
+                                        to={`/behandling/${it.behandlingId}`}
+                                    >
+                                        {it.behandlingId}
+                                    </Link>
+                                </Table.DataCell>
+                                : <></>
                             }
                             <Table.DataCell>
                                 <Link
                                     to={`/aktivitet/${it.behandlingId}/${it.aktivitetId}`}
                                 >
-                                {finnAktivitet(it.aktivitetId)?.type}
+                                    {finnAktivitet(it.aktivitetId)?.type}
                                 </Link>
                             </Table.DataCell>
-                            { props.visAktivitetId ?
-                            <Table.DataCell>
-                                <Link
-                                    to={`/aktivitet/${it.behandlingId}/${it.aktivitetId}`}
-                                >
-                                    {it.aktivitetId}
-                                </Link>
-                            </Table.DataCell>
+                            {props.visAktivitetId ?
+                                <Table.DataCell>
+                                    <Link
+                                        to={`/aktivitet/${it.behandlingId}/${it.aktivitetId}`}
+                                    >
+                                        {it.aktivitetId}
+                                    </Link>
+                                </Table.DataCell>
                                 : <></>
                             }
                             <Table.DataCell>
@@ -130,16 +148,16 @@ export function BehandlingKjoringerTable(props: Props) {
                                 }
                             </Table.DataCell>
                             <Table.DataCell>
-                                {it.correlationId}
+                                {correlationID(it)}
                             </Table.DataCell>
                             <Table.DataCell>
                                 {it.feilmelding}
                             </Table.DataCell>
                             <Table.DataCell>
                                 {it.stackTrace ?
-                                <Tooltip content={`Kopier stack trace`}>
-                                    <CopyButton copyText={it.stackTrace} size={'xsmall'} />
-                                </Tooltip>
+                                    <Tooltip content={`Kopier stack trace`}>
+                                        <CopyButton copyText={it.stackTrace} size={'xsmall'}/>
+                                    </Tooltip>
                                     : <></>
                                 }
                             </Table.DataCell>

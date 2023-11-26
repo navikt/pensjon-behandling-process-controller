@@ -47,6 +47,8 @@ export type BehandlingKjoringDTO = {
   correlationId: string
   feilmelding: string | null
   stackTrace: string | null
+
+  _links?: HalLinks
 }
 
 export type AktivitetDTO = {
@@ -103,12 +105,12 @@ export type DashboardResponse = {
   opprettetPerDag: DatoAntall[]
 }
 
-interface HalLink {
+export interface HalLink {
   href: string
   type: string
 }
 
-interface HalLinks {
+export interface HalLinks {
   [s: string]: HalLink | HalLink[]
 }
 
