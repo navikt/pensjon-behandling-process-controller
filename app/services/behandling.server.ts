@@ -184,3 +184,23 @@ export async function stopp(
     throw new Error()
   }
 }
+
+export async function getSokeresultater( //TODO
+  accessToken: string,
+): Promise<DashboardResponse | null> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/dashboard-summary`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as DashboardResponse
+  } else {
+    throw new Error()
+  }
+}

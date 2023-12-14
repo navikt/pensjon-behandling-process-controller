@@ -87,7 +87,9 @@ export default function App() {
                   <li>
                     <NavLink to={`/dashboard`}>Dashboard</NavLink>
                   </li>
-
+                  <li>
+                    <NavLink to={`/sok`}>Søk</NavLink>
+                  </li>
                   <li>
                     <h1>Batch</h1>
                     <ul>
