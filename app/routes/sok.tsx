@@ -16,19 +16,26 @@ import { BehandlingAntallTableCard } from '~/components/behandling-antall-table/
 import { BehandlingerPerDagLineChartCard } from '~/components/behandlinger-per-dag-linechart/BehandlingerPerDagLineChartCard'
 import { Sokeresultater } from '~/components/sok/Sokeresultater'
 import { Sokefelt } from '~/components/sok/Sokefelt'
+import { Search } from "@navikt/ds-react";
 
 export const loader = async ({ request }: ActionFunctionArgs) => {
   const accessToken = await requireAccessToken(request)
-  const sokResponse = await getSokeresultater(accessToken)
+  const sokResponse = await getSokeresultater(accessToken, "22976726")
   if (!sokResponse) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return json({ dashboardResponse: sokResponse })
+  return json({ behandlingerResponse: sokResponse })
 }
 
 export default function Sok() {
-    return (
-        <Sokefelt></Sokefelt>
+
+  const { behandlingerResponse } = useLoaderData<typeof loader>()
+    return (<div>   
+       <form >
+      <Search label="SakId" variant="primary" />
+      </form>
+        <Sokeresultater behandlingerResponse={behandlingerResponse} ></Sokeresultater>
+        </div>
     )
 }

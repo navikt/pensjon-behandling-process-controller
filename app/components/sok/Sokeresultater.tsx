@@ -1,18 +1,19 @@
 import React from "react";
 import BehandlingerTable from "../behandlinger-table/BehandlingerTable";
-import type { BehandlingDto } from '~/types'
+import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { Sokefelt } from "./Sokefelt";
 
 
 
 interface Props  {
-    behandling: BehandlingDto
+    behandlingerResponse: BehandlingerPage
 }
 
 
 export function Sokeresultater(props: Props) {
 
 
-    return <div><Sokefelt></Sokefelt>
-    {/*some resultat container*/}</div>
+    return <div>
+    <BehandlingerTable
+    behandlingerResponse={props.behandlingerResponse}></BehandlingerTable></div>
 }

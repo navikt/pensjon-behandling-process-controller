@@ -188,9 +188,9 @@ export async function stopp(
 export async function getSokeresultater( //TODO
   accessToken: string,
   sakId: string,
-): Promise<BehandlingDto | null> {
+): Promise<BehandlingerPage | null> {
   const response = await fetch(
-    `${env.penUrl}/springapi/behandling/bySakId/${sakId}`,
+    `${env.penUrl}/springapi/behandling/bysakid/${sakId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -200,7 +200,7 @@ export async function getSokeresultater( //TODO
   )
 
   if (response.ok) {
-    return (await response.json()) as BehandlingDto
+    return (await response.json()) as BehandlingerPage
   } else {
     throw new Error()
   }
