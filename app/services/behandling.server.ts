@@ -185,7 +185,7 @@ export async function stopp(
   }
 }
 
-export async function getSokeresultater( //TODO
+export async function getSokeresultater(
   accessToken: string,
   sakId: string,
 ): Promise<BehandlingerPage | null> {
@@ -198,6 +198,7 @@ export async function getSokeresultater( //TODO
       },
     },
   )
+
 
   if (response.ok) {
     return (await response.json()) as BehandlingerPage

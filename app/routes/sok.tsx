@@ -1,41 +1,30 @@
-import type { ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { requireAccessToken } from '~/services/auth.server'
 import { getSokeresultater } from '~/services/behandling.server'
-import { useLoaderData } from '@remix-run/react'
-import { HGrid } from '@navikt/ds-react'
-import {
-  ClipboardFillIcon,
-  CogFillIcon,
-  ExclamationmarkTriangleFillIcon,
-  XMarkOctagonFillIcon,
-} from '@navikt/aksel-icons'
-import { formatNumber } from '~/common/number'
-import { DashboardCard } from '~/components/dashboard-card/DashboardCard'
-import { BehandlingAntallTableCard } from '~/components/behandling-antall-table/BehandlingAntallTableCard'
-import { BehandlingerPerDagLineChartCard } from '~/components/behandlinger-per-dag-linechart/BehandlingerPerDagLineChartCard'
 import { Sokeresultater } from '~/components/sok/Sokeresultater'
-import { Sokefelt } from '~/components/sok/Sokefelt'
 import { Search } from "@navikt/ds-react";
+import { useSubmit, useActionData } from '@remix-run/react'
 
-export const loader = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({request}: ActionFunctionArgs) => {
+  const formData = await request.formData()
+  const sakId = String(formData.get('SakId'))
   const accessToken = await requireAccessToken(request)
-  const sokResponse = await getSokeresultater(accessToken, "22976726")
-  if (!sokResponse) {
-    throw new Response('Not Found', { status: 404 })
-  }
-
-  return json({ behandlingerResponse: sokResponse })
+  const sokResponse = await getSokeresultater(accessToken, sakId)
+  return json({ sokResponse })
 }
 
 export default function Sok() {
-
-  const { behandlingerResponse } = useLoaderData<typeof loader>()
+  
+  const { sokResponse } = useActionData<typeof action>() ?? {}
+  const submit = useSubmit()
+  const handleSubmit = (e: { target: { form: string }})=> submit(e.target.form)
+  
     return (<div>   
-       <form >
-      <Search label="SakId" variant="primary" />
+       <form method = "post">
+      <Search label="SakId" variant="primary" name = "SakId" ></Search>
       </form>
-        <Sokeresultater behandlingerResponse={behandlingerResponse} ></Sokeresultater>
+        {sokResponse && <Sokeresultater behandlingerResponse={sokResponse!} ></Sokeresultater>}
         </div>
     )
 }

@@ -117,3 +117,17 @@ export interface HalLinks {
 export type StartBatchResponse = {
   behandlingId: number
 }
+
+export type BehandlingSearchResult = {
+   behandlingId: number,
+   type: string,
+   uuid: string,
+   funksjonellIdentifikator: string,
+   forrigeBehandlingId: number,
+   sisteKjoring: string | null,
+   utsattTil:  string | null,
+   opprettet:  string | null,
+   stoppet:  string | null,
+   status: string,
+   prioritet: number
+}
