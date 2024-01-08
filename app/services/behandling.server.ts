@@ -184,3 +184,26 @@ export async function stopp(
     throw new Error()
   }
 }
+
+export async function getSokeresultater(
+  accessToken: string,
+  sakId: string,
+  page: number,
+  size: number,
+): Promise<BehandlingerPage | null> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/bysakid/?page=${page}&size=${size}&sakId=${sakId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as BehandlingerPage
+  } else {
+    throw new Error()
+  }
+}
