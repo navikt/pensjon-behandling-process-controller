@@ -1,7 +1,6 @@
-import React from "react";
+
 import BehandlingerTable from "../behandlinger-table/BehandlingerTable";
 import type { BehandlingDto, BehandlingerPage } from '~/types'
-import { Sokefelt } from "./Sokefelt";
 
 
 
