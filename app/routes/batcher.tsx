@@ -5,7 +5,6 @@ import { getBehandlinger } from '~/services/behandling.server'
 
 import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
-import invariant from 'tiny-invariant'
 
 export const loader = async ({ request }: ActionFunctionArgs) => {
   const url = new URL(request.url)
