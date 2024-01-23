@@ -56,6 +56,7 @@ spec:
           - NAVident
       replyURLs:
         - "http://localhost:3000/auth/callback"
+        - "http://localhost:3000/api/auth/callback/azure-ad"
         - "{{app.ingress}}/auth/callback"
     sidecar:
       enabled: true
