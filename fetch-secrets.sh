@@ -8,11 +8,32 @@ white="[97;1m"
 yellow="[33;1m"
 endcolor="[0m"
 
+HAR_NAIS_CLI=$(command -v nais >& /dev/null ; echo $?)
+
+if [ $HAR_NAIS_CLI ]; then
+  DISCONNECT_STATUS=$(nais device status | grep -c Disconnected)	
+
+  if [ $DISCONNECT_STATUS -eq 1 ]; then
+    read -p "Du er ikke koblet til med naisdevice. Vil du koble til? (j/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[YyjJ]$ ]]; then
+      nais device connect
+    else
+      echo "Du må være koblet til med naisdevice, avslutter"
+      exit 1
+    fi
+  fi
+fi
+
 base64 --help >& /dev/null || (
   echo "ERROR: You need to install the base64 tool on your machine. (brew install base64 on macOS)" && exit 1
 ) || exit 1
 which kubectl >& /dev/null || (
   echo "ERROR: You need to install and configure kubectl (see: https://confluence.adeo.no/x/UzjYF)" && exit 1
+) || exit 1
+
+gcloud auth print-access-token >& /dev/null || (
+  echo "Inlogging i GCP er utløpt. Kjør 'gcloud auth login'" && exit 1
 ) || exit 1
 
 declare -a azureAdFields=(
