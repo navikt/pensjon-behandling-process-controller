@@ -13,8 +13,7 @@ command -v kubectl >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere kub
 command -v gcloud >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere gcloud (https://docs.nais.io/basics/access/)${endcolor}"; exit 1; }
 command -v gcloud >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere gcloud (https://docs.nais.io/basics/access/)${endcolor}"; exit 1; }
 
-if command -v nais >& /dev/null;
-then
+if command -v nais >& /dev/null; then
   DISCONNECT_STATUS=$(nais device status | grep -c Disconnected)
 
   if [ $DISCONNECT_STATUS -eq 1 ]; then
