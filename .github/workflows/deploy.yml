@@ -50,6 +50,11 @@ jobs:
             vars: .nais/vars-prod.yaml
             deploy_apikey: NAIS_DEPLOY_PENSJON_PROD_APIKEY
 
+          - name: pensjon-bpc-q0
+            cluster: dev-gcp
+            vars: .nais/vars-dev-q0.yaml
+            deploy_apikey: NAIS_DEPLOY_PENSJON_Q0_APIKEY
+
           - name: pensjon-bpc-q1
             cluster: dev-gcp
             vars: .nais/vars-dev-q1.yaml
@@ -59,6 +64,11 @@ jobs:
             cluster: dev-gcp
             vars: .nais/vars-dev-q2.yaml
             deploy_apikey: NAIS_DEPLOY_PENSJON_Q2_APIKEY
+
+          - name: pensjon-bpc-q5
+            cluster: dev-gcp
+            vars: .nais/vars-dev-q5.yaml
+            deploy_apikey: NAIS_DEPLOY_PENSJON_Q5_APIKEY
 
     steps:
       - uses: actions/checkout@v4
