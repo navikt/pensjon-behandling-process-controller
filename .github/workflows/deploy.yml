@@ -38,6 +38,9 @@ jobs:
           cache-to: type=gha,mode=max
 
   deploy:
+    permissions:
+      contents: "read"
+      id-token: "write"  
     if: github.ref == 'refs/heads/main'
     needs: [build]
     runs-on: 'ubuntu-latest'
@@ -48,34 +51,28 @@ jobs:
           - name: pensjon-bpc
             cluster: prod-gcp
             vars: .nais/vars-prod.yaml
-            deploy_apikey: NAIS_DEPLOY_PENSJON_PROD_APIKEY
 
           - name: pensjon-bpc-q0
             cluster: dev-gcp
             vars: .nais/vars-dev-q0.yaml
-            deploy_apikey: NAIS_DEPLOY_PENSJON_Q0_APIKEY
 
           - name: pensjon-bpc-q1
             cluster: dev-gcp
             vars: .nais/vars-dev-q1.yaml
-            deploy_apikey: NAIS_DEPLOY_PENSJON_Q1_APIKEY
 
           - name: pensjon-bpc-q2
             cluster: dev-gcp
             vars: .nais/vars-dev-q2.yaml
-            deploy_apikey: NAIS_DEPLOY_PENSJON_Q2_APIKEY
 
           - name: pensjon-bpc-q5
             cluster: dev-gcp
             vars: .nais/vars-dev-q5.yaml
-            deploy_apikey: NAIS_DEPLOY_PENSJON_Q5_APIKEY
 
     steps:
       - uses: actions/checkout@v4
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         name: 'Deploy to NAIS'
         env:
-          APIKEY: ${{ secrets[format('{0}', matrix.deploy_apikey)] }}
           RESOURCE: .nais/nais.yaml
           CLUSTER: '${{ matrix.cluster }}'
           VARS: ${{matrix.vars}}
