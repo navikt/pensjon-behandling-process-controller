@@ -31,16 +31,13 @@ export default function BatchOpprett() {
           <button type="submit">Opprett</button>
         </p>
       </Form>
-      {env !== 'p' ? (
-        <>
-          <h1>Opprett BPEN096 batckjøring</h1>
-          <Form action='bpen096' method='POST'>
-          <p>
-            <button type='submit'>Opprett</button>
-          </p>
-          </Form>
-        </>
-      ) : ""}
+
+      <h1>Opprett BPEN096 batckjøring</h1>
+      <Form action='bpen096' method='POST'>
+      <p>
+        <button type='submit'>Opprett</button>
+      </p>
+      </Form>
     </div>
   )
 }
