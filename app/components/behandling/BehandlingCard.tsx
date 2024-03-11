@@ -22,10 +22,11 @@ import {
   XMarkOctagonIcon,
 } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
-import { Link, NavLink, useFetcher } from '@remix-run/react'
+import { Link, useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
-import {BehandlingKjoringerTable} from "~/components/kjoringer-table/BehandlingKjoringerTable";
+import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
+import { BehandlingBatchFremdriftDoughnutChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchFremdriftDoughnutChart'
 
 export interface Props {
   behandling: BehandlingDto
@@ -56,8 +57,8 @@ export default function BehandlingCard(props: Props) {
   function debugButton() {
     if (hasLink('fjernFraDebug')) {
       return (
-        <Tooltip content="Avslutt debugging slik at behandlingen forsetter automatisk">
-          <fetcher.Form method="post" action="fjernFraDebug">
+        <Tooltip content='Avslutt debugging slik at behandlingen forsetter automatisk'>
+          <fetcher.Form method='post' action='fjernFraDebug'>
             <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
               Fjern fra debug
             </Button>
@@ -66,8 +67,8 @@ export default function BehandlingCard(props: Props) {
       )
     } else if (hasLink('taTilDebug')) {
       return (
-        <Tooltip content="Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt">
-          <fetcher.Form method="post" action="taTilDebug">
+        <Tooltip content='Pause automatisk behandling slik at behandlingen kan kjøres i debugger lokalt'>
+          <fetcher.Form method='post' action='taTilDebug'>
             <Button variant={'secondary'} icon={<SandboxIcon aria-hidden />}>
               Ta til debug
             </Button>
@@ -82,8 +83,8 @@ export default function BehandlingCard(props: Props) {
   function fjernUtsattButton() {
     if (hasLink('fortsett')) {
       return (
-        <Tooltip content="Fjerner utsatt tidspunkt slik at behandling kan kjøres umiddelbart">
-          <fetcher.Form method="post" action="fortsett">
+        <Tooltip content='Fjerner utsatt tidspunkt slik at behandling kan kjøres umiddelbart'>
+          <fetcher.Form method='post' action='fortsett'>
             <Button
               variant={'secondary'}
               icon={<PlayIcon aria-hidden />}
@@ -102,8 +103,8 @@ export default function BehandlingCard(props: Props) {
   function runButton() {
     if (hasLink('runBehandling')) {
       return (
-        <Tooltip content="Kjører behandlingen lokalt">
-          <fetcher.Form method="post" action="runBehandling">
+        <Tooltip content='Kjører behandlingen lokalt'>
+          <fetcher.Form method='post' action='runBehandling'>
             <Button
               variant={'secondary'}
               icon={<CogFillIcon aria-hidden />}
@@ -123,7 +124,7 @@ export default function BehandlingCard(props: Props) {
     if (hasLink('stopp')) {
       return (
         <>
-          <Tooltip content="Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte">
+          <Tooltip content='Stopper behandlingen, skal kun gjøres om feil ikke kan løses på annen måte'>
             <Button
               variant={'danger'}
               icon={<XMarkOctagonIcon aria-hidden />}
@@ -144,14 +145,14 @@ export default function BehandlingCard(props: Props) {
               </BodyLong>
             </Modal.Body>
             <Modal.Footer>
-              <fetcher.Form method="post" action="taTilDebug">
-                <Button type="button" variant="danger" onClick={stopp}>
+              <fetcher.Form method='post' action='taTilDebug'>
+                <Button type='button' variant='danger' onClick={stopp}>
                   Stopp behandling
                 </Button>
               </fetcher.Form>
               <Button
-                type="button"
-                variant="secondary"
+                type='button'
+                variant='secondary'
                 onClick={() => stopModal.current?.close()}
               >
                 Avbryt
@@ -169,7 +170,7 @@ export default function BehandlingCard(props: Props) {
     if (value) {
       return (
         <Entry labelText={`${name}`}>
-          <HStack align="start">
+          <HStack align='start'>
             {value}
             <Tooltip content={`Kopier ${name}`}>
               <CopyButton copyText={value.toString()} size={'xsmall'} />
@@ -184,119 +185,146 @@ export default function BehandlingCard(props: Props) {
 
   return (
     <>
-      <Box
-        background={'surface-default'}
-        style={{ padding: '6px' }}
-        borderRadius="medium"
-        shadow="medium"
-      >
-        <Card id={props.behandling.uuid}>
-          <Card.Header>
-            <Card.Heading>
-              {decodeBehandling(props.behandling.type)}
-            </Card.Heading>
-          </Card.Header>
-          <Card.Body>
-            <Card.Grid>
-              {copyPasteEntry('BehandlingId', props.behandling.behandlingId)}
-              {copyPasteEntry('Fødselsnummer', props.behandling.fnr)}
-              {copyPasteEntry('SakId', props.behandling.sakId)}
-              {copyPasteEntry('KravId', props.behandling.kravId)}
-              {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
-              {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
-              {props.behandling.forrigeBehandlingId ? (
-                <Entry labelText={'Opprettet av behandling'}>
-                  <Link
-                    to={`/behandling/${props.behandling.forrigeBehandlingId}`}
+      <div className={'flex-grid'} style={{ paddingTop: '12px' }}>
+        <div className={'col'}>
+          <Box
+            background={'surface-default'}
+            style={{ padding: '6px' }}
+            borderRadius='medium'
+            shadow='medium'
+          >
+            <Card id={props.behandling.uuid}>
+              <Card.Header>
+                <Card.Heading>
+                  {decodeBehandling(props.behandling.type)}
+                </Card.Heading>
+              </Card.Header>
+              <Card.Body>
+                <Card.Grid>
+                  {copyPasteEntry('BehandlingId', props.behandling.behandlingId)}
+                  {copyPasteEntry('Fødselsnummer', props.behandling.fnr)}
+                  {copyPasteEntry('SakId', props.behandling.sakId)}
+                  {copyPasteEntry('KravId', props.behandling.kravId)}
+                  {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
+                  {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
+                  {props.behandling.forrigeBehandlingId ? (
+                    <Entry labelText={'Opprettet av behandling'}>
+                      <Link
+                        to={`/behandling/${props.behandling.forrigeBehandlingId}`}
+                      >
+                        {props.behandling.forrigeBehandlingId}
+                      </Link>
+                    </Entry>
+                  ) : (
+                    <></>
+                  )}
+                  {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
+
+                  <Entry labelText={'Status'}>{props.behandling.status}</Entry>
+                  <Entry labelText={'Funksjonell identifikator'}>
+                    {props.behandling.funksjonellIdentifikator}
+                  </Entry>
+
+                  <Entry labelText={'Opprettet'}>
+                    {formatIsoTimestamp(props.behandling.opprettet)}
+                  </Entry>
+                  <Entry labelText={'Siste kjøring'}>
+                    {formatIsoTimestamp(props.behandling.sisteKjoring)}
+                  </Entry>
+                  <Entry labelText={'Utsatt til'}>
+                    {formatIsoTimestamp(props.behandling.utsattTil)}
+                  </Entry>
+                  <Entry labelText={'Stoppet'}>
+                    {formatIsoTimestamp(props.behandling.stoppet)}
+                  </Entry>
+
+                  <Entry labelText={'Prioritet'}>
+                    {props.behandling.prioritet}
+                  </Entry>
+                </Card.Grid>
+                <Card.Grid>
+                  {fjernUtsattButton()}
+
+                  {debugButton()}
+
+                  {stoppButton()}
+
+                  {runButton()}
+                </Card.Grid>
+                <Card.Grid>
+                  <a
+                    href={props.behandling.kibanaUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    {props.behandling.forrigeBehandlingId}
-                  </Link>
-                </Entry>
-              ) : (
-                <></>
-              )}
-              {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
-
-              <Entry labelText={'Status'}>{props.behandling.status}</Entry>
-              <Entry labelText={'Funksjonell identifikator'}>
-                {props.behandling.funksjonellIdentifikator}
-              </Entry>
-
-              <Entry labelText={'Opprettet'}>
-                {formatIsoTimestamp(props.behandling.opprettet)}
-              </Entry>
-              <Entry labelText={'Siste kjøring'}>
-                {formatIsoTimestamp(props.behandling.sisteKjoring)}
-              </Entry>
-              <Entry labelText={'Utsatt til'}>
-                {formatIsoTimestamp(props.behandling.utsattTil)}
-              </Entry>
-              <Entry labelText={'Stoppet'}>
-                {formatIsoTimestamp(props.behandling.stoppet)}
-              </Entry>
-
-              <Entry labelText={'Prioritet'}>
-                {props.behandling.prioritet}
-              </Entry>
-            </Card.Grid>
-            <Card.Grid>
-              {fjernUtsattButton()}
-
-              {debugButton()}
-
-              {stoppButton()}
-
-              {runButton()}
-            </Card.Grid>
-            <Card.Grid>
-              <a
-                href={props.behandling.kibanaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Kibana
-              </a>
-            </Card.Grid>
-          </Card.Body>
-        </Card>
-      </Box>
+                    Kibana
+                  </a>
+                </Card.Grid>
+              </Card.Body>
+            </Card>
+          </Box>
+        </div>
+        {props.behandling.fremdrift && props.avhengigeBehandlinger?.empty === false ? (
+          <div className={'col'}>
+            <Box
+              background={'surface-default'}
+              style={{ padding: '6px' }}
+              borderRadius='medium'
+              shadow='medium'
+            >
+              <Card.Header>
+                <Card.Heading>
+                  Fremdrift avhengige behandlinger
+                </Card.Heading>
+              </Card.Header>
+              <Card>
+                <Card.Grid style={{ height: '400px' }}>
+                  <BehandlingBatchFremdriftDoughnutChart fremdrift={props.behandling.fremdrift} />
+                </Card.Grid>
+              </Card>
+            </Box>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
 
       <Box
         background={'surface-default'}
         style={{ padding: '6px', marginTop: '12px' }}
-        borderRadius="medium"
-        shadow="medium"
+        borderRadius='medium'
+        shadow='medium'
       >
         <Tabs defaultValue={'kjoringer'}>
           <Tabs.List>
             <Tabs.Tab
-              value="kjoringer"
-              label="Kjøringer"
+              value='kjoringer'
+              label='Kjøringer'
               icon={<TasklistIcon />}
             />
             <Tabs.Tab
-              value="aktiviteter"
-              label="Aktiviteter"
+              value='aktiviteter'
+              label='Aktiviteter'
               icon={<TasklistIcon />}
             />
             {props.avhengigeBehandlinger ? (
               <Tabs.Tab
-                value="behandlinger"
-                label="Avhengige behandlinger"
+                value='behandlinger'
+                label='Avhengige behandlinger'
                 icon={<ClockDashedIcon />}
               />
             ) : (
               <></>
             )}
           </Tabs.List>
-          <Tabs.Panel value="kjoringer">
+          <Tabs.Panel value='kjoringer'>
             <BehandlingKjoringerTable behandling={props.behandling} visAktivitetId={true} />
           </Tabs.Panel>
-          <Tabs.Panel value="aktiviteter">
+          <Tabs.Panel value='aktiviteter'>
             <BehandlingAktivitetTable behandling={props.behandling} />
           </Tabs.Panel>
           {props.avhengigeBehandlinger ? (
-            <Tabs.Panel value="behandlinger">
+            <Tabs.Panel value='behandlinger'>
               <BehandlingerTable
                 behandlingerResponse={props.avhengigeBehandlinger}
               />

@@ -27,6 +27,7 @@ export type BehandlingDto = {
   prioritet: number
   behandlingKjoringer: BehandlingKjoringDTO[]
   aktiviteter: AktivitetDTO[]
+  fremdrift: FremdriftDTO
 
   fnr: string | null
   sakId: number | null
@@ -36,6 +37,11 @@ export type BehandlingDto = {
   kibanaUrl?: string
 
   _links?: HalLinks
+}
+
+export type FremdriftDTO = {
+  fullforte: number
+  totalt: number
 }
 
 export type BehandlingKjoringDTO = {
