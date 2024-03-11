@@ -87,7 +87,7 @@ export function BehandlingKjoringerTable(props: Props) {
                     <Table.ColumnHeader sortable sortKey="avsluttet">
                         Avsluttet
                     </Table.ColumnHeader>
-                    <Table.ColumnHeader sortable>
+                    <Table.ColumnHeader>
                         Tidsbruk
                     </Table.ColumnHeader>
                     <Table.ColumnHeader sortable sortKey="correlationId">
