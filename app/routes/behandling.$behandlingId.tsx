@@ -1,13 +1,13 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { json } from '@remix-run/node'
+import { defer } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 
-import { getBehandling, getBehandlinger } from '~/services/behandling.server'
+import { getBehandling, getBehandlinger, getFremdrift } from '~/services/behandling.server'
 
 import invariant from 'tiny-invariant'
 import { requireAccessToken } from '~/services/auth.server'
 import BehandlingCard from '~/components/behandling/BehandlingCard'
-import { BehandlingerPage } from '~/types'
+import type { BehandlingerPage, FremdriftDTO } from '~/types'
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.behandlingId, 'Missing behandlingId param')
@@ -18,9 +18,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     throw new Response('Not Found', { status: 404 })
   }
 
-  let avhengigeBehandlinger: BehandlingerPage | null
+  let avhengigeBehandlinger: Promise<BehandlingerPage | null> | null = null
+  let fremdrift: Promise<FremdriftDTO | null> | null = null
   if (behandling._links && behandling._links['avhengigeBehandlinger']) {
-    avhengigeBehandlinger = await getBehandlinger(
+    avhengigeBehandlinger = getBehandlinger(
       accessToken,
       null,
       behandling.behandlingId,
@@ -28,20 +29,28 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       0,
       100,
     )
-  } else {
-    avhengigeBehandlinger = null
+    fremdrift = getFremdrift(
+      accessToken,
+      behandling.behandlingId,
+    )
   }
 
-  return json({ behandling, avhengigeBehandlinger })
+  return defer(
+    {
+      behandling,
+      avhengigeBehandlinger: avhengigeBehandlinger,
+      fremdrift: fremdrift,
+    })
 }
 
 export default function Behandling() {
-  const { behandling, avhengigeBehandlinger } = useLoaderData<typeof loader>()
+  const { behandling, avhengigeBehandlinger, fremdrift } = useLoaderData<typeof loader>()
 
   return (
     <BehandlingCard
       behandling={behandling}
       avhengigeBehandlinger={avhengigeBehandlinger}
+      fremdrift={fremdrift}
     />
   )
 }

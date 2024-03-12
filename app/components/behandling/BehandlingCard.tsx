@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import type { BehandlingDto, BehandlingerPage } from '~/types'
+import React, { Suspense, useRef } from 'react'
+import type { BehandlingDto, BehandlingerPage, FremdriftDTO } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import {
@@ -22,7 +22,7 @@ import {
   XMarkOctagonIcon,
 } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
-import { Link, useFetcher } from '@remix-run/react'
+import { Await, Link, useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
@@ -30,7 +30,8 @@ import { BehandlingBatchFremdriftDoughnutChart } from '~/components/behandling-b
 
 export interface Props {
   behandling: BehandlingDto
-  avhengigeBehandlinger: BehandlingerPage | null
+  avhengigeBehandlinger: Promise<BehandlingerPage | null> | null
+  fremdrift: Promise<FremdriftDTO | null> | null
 }
 
 export default function BehandlingCard(props: Props) {
@@ -264,7 +265,7 @@ export default function BehandlingCard(props: Props) {
             </Card>
           </Box>
         </div>
-        {props.behandling.fremdrift && props.avhengigeBehandlinger?.empty === false ? (
+        {props.fremdrift ? (
           <div className={'col'}>
             <Box
               background={'surface-default'}
@@ -279,7 +280,17 @@ export default function BehandlingCard(props: Props) {
               </Card.Header>
               <Card>
                 <Card.Grid style={{ height: '400px' }}>
-                  <BehandlingBatchFremdriftDoughnutChart fremdrift={props.behandling.fremdrift} />
+                  <Suspense>
+                    <Await resolve={props.fremdrift}>
+                      {fremdrift =>
+                        fremdrift ? (
+                          <BehandlingBatchFremdriftDoughnutChart fremdrift={fremdrift} />
+                        ) : (
+                          <>Mangler endepunkt for fremdrift</>
+                        )
+                      }
+                    </Await>
+                  </Suspense>
                 </Card.Grid>
               </Card>
             </Box>
@@ -325,9 +336,17 @@ export default function BehandlingCard(props: Props) {
           </Tabs.Panel>
           {props.avhengigeBehandlinger ? (
             <Tabs.Panel value='behandlinger'>
-              <BehandlingerTable
-                behandlingerResponse={props.avhengigeBehandlinger}
-              />
+              <Suspense>
+                <Await resolve={props.avhengigeBehandlinger}>
+                  {avhengigeBehandlinger =>
+                    avhengigeBehandlinger ? (
+                      <BehandlingerTable behandlingerResponse={avhengigeBehandlinger} />
+                    ) : (
+                      <></>
+                    )
+                  }
+                </Await>
+              </Suspense>
             </Tabs.Panel>
           ) : (
             <></>

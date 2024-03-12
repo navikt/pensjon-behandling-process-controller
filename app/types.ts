@@ -27,7 +27,6 @@ export type BehandlingDto = {
   prioritet: number
   behandlingKjoringer: BehandlingKjoringDTO[]
   aktiviteter: AktivitetDTO[]
-  fremdrift: FremdriftDTO
 
   fnr: string | null
   sakId: number | null

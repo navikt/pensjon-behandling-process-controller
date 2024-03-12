@@ -1,8 +1,4 @@
-import type {
-  BehandlingDto,
-  BehandlingerPage,
-  DashboardResponse,
-} from '~/types'
+import type { BehandlingDto, BehandlingerPage, DashboardResponse, FremdriftDTO } from '~/types'
 import { env } from '~/services/env.server'
 import { kibanaLink } from '~/services/kibana.server'
 
@@ -33,7 +29,7 @@ export async function getBehandlinger(
   isBatch: boolean | null,
   page: number,
   size: number,
-): Promise<BehandlingerPage | null> {
+): Promise<BehandlingerPage> {
   let request = ''
   if (status) {
     request += `&status=${status}`
@@ -80,6 +76,29 @@ export async function getBehandling(
     const behandling = (await response.json()) as BehandlingDto
     behandling.kibanaUrl = kibanaLink(behandling)
     return behandling
+  } else {
+    throw new Error()
+  }
+}
+
+export async function getFremdrift(
+  accessToken: string,
+  forrigeBehandlingId: number | null,
+): Promise<FremdriftDTO | null> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${forrigeBehandlingId}/fremdrift`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as FremdriftDTO
+  } else if (response.status === 404) {
+    return null // inntil nytt endepunkt er på plass
   } else {
     throw new Error()
   }
