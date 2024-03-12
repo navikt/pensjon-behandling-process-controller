@@ -27,6 +27,7 @@ import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
 import { BehandlingBatchFremdriftDoughnutChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchFremdriftDoughnutChart'
+import { SkeletonLoader } from '~/components/loader/SkeletonLoader'
 
 export interface Props {
   behandling: BehandlingDto
@@ -280,7 +281,7 @@ export default function BehandlingCard(props: Props) {
               </Card.Header>
               <Card>
                 <Card.Grid style={{ height: '400px' }}>
-                  <Suspense>
+                  <Suspense fallback={<SkeletonLoader />}>
                     <Await resolve={props.fremdrift}>
                       {fremdrift =>
                         fremdrift ? (
@@ -336,7 +337,7 @@ export default function BehandlingCard(props: Props) {
           </Tabs.Panel>
           {props.avhengigeBehandlinger ? (
             <Tabs.Panel value='behandlinger'>
-              <Suspense>
+              <Suspense fallback={<SkeletonLoader />}>
                 <Await resolve={props.avhengigeBehandlinger}>
                   {avhengigeBehandlinger =>
                     avhengigeBehandlinger ? (
