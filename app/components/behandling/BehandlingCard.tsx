@@ -1,5 +1,5 @@
 import React, { Suspense, useRef } from 'react'
-import type { BehandlingDto, BehandlingerPage, FremdriftDTO } from '~/types'
+import type { BehandlingDto, BehandlingerPage, DetaljertFremdriftDTO } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import {
@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   CopyButton,
-  HStack,
+  HStack, Loader,
   Modal,
   Tabs,
   Tooltip,
@@ -26,13 +26,13 @@ import { Await, Link, useFetcher } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
-import { BehandlingBatchFremdriftDoughnutChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchFremdriftDoughnutChart'
 import { SkeletonLoader } from '~/components/loader/SkeletonLoader'
+import { BehandlingBatchDetaljertFremdriftBarChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchDetaljertFremdriftBarChart'
 
 export interface Props {
   behandling: BehandlingDto
   avhengigeBehandlinger: Promise<BehandlingerPage | null> | null
-  fremdrift: Promise<FremdriftDTO | null> | null
+  detaljertFremdrift: Promise<DetaljertFremdriftDTO | null> | null
 }
 
 export default function BehandlingCard(props: Props) {
@@ -266,7 +266,7 @@ export default function BehandlingCard(props: Props) {
             </Card>
           </Box>
         </div>
-        {props.fremdrift ? (
+        {props.detaljertFremdrift ? (
           <div className={'col'}>
             <Box
               background={'surface-default'}
@@ -277,17 +277,28 @@ export default function BehandlingCard(props: Props) {
               <Card.Header>
                 <Card.Heading>
                   Fremdrift avhengige behandlinger
+                  <Suspense fallback={<Loader size="small" title="Venter..." />}>
+                    <Await resolve={props.detaljertFremdrift}>
+                      {detaljertFremdrift =>
+                        detaljertFremdrift ? (
+                          ' ' + ((detaljertFremdrift.ferdig / detaljertFremdrift.totalt) * 100).toFixed(2) + '%'
+                        ) : (
+                          <></>
+                        )
+                      }
+                    </Await>
+                  </Suspense>
                 </Card.Heading>
               </Card.Header>
               <Card>
-                <Card.Grid style={{ height: '400px' }}>
-                  <Suspense fallback={<SkeletonLoader />}>
-                    <Await resolve={props.fremdrift}>
-                      {fremdrift =>
-                        fremdrift ? (
-                          <BehandlingBatchFremdriftDoughnutChart fremdrift={fremdrift} />
+                <Card.Grid>
+                  <Suspense fallback={<Loader size='3xlarge' title='Venter...' />}>
+                    <Await resolve={props.detaljertFremdrift}>
+                      {detaljertFremdrift =>
+                        detaljertFremdrift ? (
+                          <BehandlingBatchDetaljertFremdriftBarChart detaljertFremdrift={detaljertFremdrift} />
                         ) : (
-                          <>Mangler endepunkt for fremdrift</>
+                          <>Mangler endepunkt for detaljertfremdrift</>
                         )
                       }
                     </Await>

@@ -1,4 +1,4 @@
-import type { BehandlingDto, BehandlingerPage, DashboardResponse, FremdriftDTO } from '~/types'
+import type { BehandlingDto, BehandlingerPage, DashboardResponse, DetaljertFremdriftDTO } from '~/types'
 import { env } from '~/services/env.server'
 import { kibanaLink } from '~/services/kibana.server'
 
@@ -81,12 +81,12 @@ export async function getBehandling(
   }
 }
 
-export async function getFremdrift(
+export async function getDetaljertFremdrift(
   accessToken: string,
   forrigeBehandlingId: number | null,
-): Promise<FremdriftDTO | null> {
+): Promise<DetaljertFremdriftDTO | null> {
   const response = await fetch(
-    `${env.penUrl}/springapi/behandling/${forrigeBehandlingId}/fremdrift`,
+    `${env.penUrl}/springapi/behandling/${forrigeBehandlingId}/detaljertfremdrift`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -96,7 +96,7 @@ export async function getFremdrift(
   )
 
   if (response.ok) {
-    return (await response.json()) as FremdriftDTO
+    return (await response.json()) as DetaljertFremdriftDTO
   } else if (response.status === 404) {
     return null // inntil nytt endepunkt er på plass
   } else {

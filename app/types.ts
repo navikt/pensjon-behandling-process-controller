@@ -38,9 +38,22 @@ export type BehandlingDto = {
   _links?: HalLinks
 }
 
-export type FremdriftDTO = {
-  fullforte: number
+export type DetaljertFremdriftDTO = {
+  ferdig: number
   totalt: number
+  behandlingerDetaljertFremdrift: BehandlingDetaljertFremdriftDTO[],
+}
+
+export type BehandlingDetaljertFremdriftDTO = {
+  level: number
+  behandlingCode: string
+  ferdig: number
+  totalt: number
+  debug: number
+  fullfort: number
+  opprettet: number
+  stoppet: number
+  underBehandling: number
 }
 
 export type BehandlingKjoringDTO = {
