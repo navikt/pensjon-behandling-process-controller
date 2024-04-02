@@ -6,7 +6,7 @@ export async function opprettBpen006(
   behandlingsmaned: number,
 ): Promise<StartBatchResponse> {
   const response = await fetch(
-    `${env.penUrl}/api/aldersovergang/batch`,
+    `${env.penUrl}/springapi/aldersovergang/batch`,
     {
       method: 'POST',
       headers: {
