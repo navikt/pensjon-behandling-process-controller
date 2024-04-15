@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 env="q2"
 
@@ -32,17 +32,43 @@ gcloud auth print-access-token >& /dev/null || (
   echo "Inlogging i GCP er utløpt. Kjør 'gcloud auth login'" && exit 1
 ) || exit 1
 
+declare -A kubernetes_context_namespace_secrets
+declare -A kubernetes_secret_array
+
 function fetch_kubernetes_secret {
     local context=$1
     local namespace=$2
     local secret=$3
     local name=$4
+    local context_namespace_secrets_key
+    local context_namespace_secrets_value
+    local secret_name
+    local secret_response
 
     echo -n -e "\t$name "
 
+
+    context_namespace_secrets_key="$context:$namespace"
+
+    if [ -v kubernetes_context_namespace_secrets["$context_namespace_secrets_key"] ]; then
+        context_namespace_secrets_value=${kubernetes_context_namespace_secrets["$context_namespace_secrets_key"]}
+    else
+        context_namespace_secrets_value=$(kubectl --context="$context" -n "$namespace" get secrets)
+        kubernetes_context_namespace_secrets["$context_namespace_secrets_key"]=$context_namespace_secrets_value
+    fi
+
+    secret_name=$(echo "$context_namespace_secrets_value" | grep "$secret" | tail -1 | awk '{print $1}')
+
+    if [ -v kubernetes_secret_array["$secret_name"] ]; then
+        secret_response=${kubernetes_secret_array["$secret_name"]}
+    else
+        secret_response=$(kubectl --context="$context" -n "$namespace" get secret "$secret_name" -o json)
+        kubernetes_secret_array["$secret_name"]=$secret_response
+    fi
+
     {
       echo -n "$name="
-      kubectl --context="$context" -n "$namespace" get secret "$(kubectl --context=$context -n $namespace get secrets | grep $secret | tail -1 | awk '{print $1}')" -o json | jq -j ".data[\"$name\"]" | base64 --decode
+      echo "$secret_response" | jq -j ".data[\"$name\"]" | base64 --decode
       echo
     } >> .env
 
