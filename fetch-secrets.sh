@@ -8,6 +8,17 @@ white="[97;1m"
 red="[31;1m"
 endcolor="[0m"
 
+if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
+    echo "Du har for gammel versjon av bash. Vennligst installer versjon 4 eller høyere"
+
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        echo
+        echo "På Mac kan du kjøre: ${white}brew install bash${endcolor}"
+    fi
+
+    exit 1
+fi
+
 command -v base64 >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere installere base64 (brew install base64 on macOS)${endcolor}"; exit 1; }
 command -v kubectl >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere kubectl (https://docs.nais.io/basics/access/)${endcolor}"; exit 1; }
 command -v gcloud >/dev/null 2>&1 || { echo -e >&2 "${red}Du må installere gcloud (https://docs.nais.io/basics/access/)${endcolor}"; exit 1; }
@@ -29,7 +40,14 @@ if command -v nais >& /dev/null; then
 fi
 
 gcloud auth print-access-token >& /dev/null || (
-  echo "Inlogging i GCP er utløpt. Kjør 'gcloud auth login'" && exit 1
+  read -p "Inlogging i GCP er utløpt. Vil du autentisere på nytt? (j/n) " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[YyjJ]$ ]]; then
+    gcloud auth login
+  else
+    echo -e "${red}Du må ha en gyldig innlogging i GCP. Du kan logge inn med 'gcloud auth login', avslutter${endcolor}"
+    exit 1
+  fi
 ) || exit 1
 
 declare -A kubernetes_context_namespace_secrets
