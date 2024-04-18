@@ -6,7 +6,7 @@
     "build": "remix build",
     "build:server": "tsc --project server/tsconfig.json",
     "dev": "remix dev",
-    "fetch-secrets": "node --loader ts-node/esm fetch-secrets.ts",
+    "fetch-secrets": "./fetch-secrets.sh",
     "start": "remix-serve build",
     "typecheck": "tsc"
   },

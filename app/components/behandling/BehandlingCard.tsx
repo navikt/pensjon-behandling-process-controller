@@ -220,7 +220,6 @@ export default function BehandlingCard(props: Props) {
                   ) : (
                     <></>
                   )}
-                  {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
 
                   <Entry labelText={'Status'}>{props.behandling.status}</Entry>
                   <Entry labelText={'Funksjonell identifikator'}>
