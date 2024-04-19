@@ -3,6 +3,8 @@ import { TasklistIcon } from '@navikt/aksel-icons'
 import React from 'react'
 import xmlFormat from 'xml-formatter'
 import Diff from '~/components/behandling/Diff'
+import Card from '~/components/card/Card'
+import { Entry } from '~/components/entry/Entry'
 
 export interface Props {
   debugJson: string
@@ -47,12 +49,30 @@ export default function RtvBrevSammenligning(props: Props) {
     >
       {resultat}
 
-      <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
-      <CopyButton copyText={penXml} size={'xsmall'} text="Pen xml"/>
+      <Card>
+        <Card.Grid>
+          <Entry labelText={'Brevgruppe'}>
+            {data.brevgruppe}
+          </Entry>
+          <Entry labelText={'Brevkode'}>
+            {data.brevkode}
+          </Entry>
+          <Entry labelText={'Bus XML'}>
+            <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
+          </Entry>
+          <Entry labelText={'Pen XML'}>
+            <CopyButton copyText={penXml} size={'xsmall'} text="Pen xml"/>
+          </Entry>
+        </Card.Grid>
+      </Card>
 
-
-      <Tabs defaultValue={'xmlDiff'}>
+      <Tabs defaultValue={'xmlDiffOnly'}>
         <Tabs.List>
+          <Tabs.Tab
+            value='xmlDiffOnly'
+            label='XML Diff Only'
+            icon={<TasklistIcon />}
+          />
           <Tabs.Tab
             value='xmlDiff'
             label='XML Diff'
@@ -75,7 +95,10 @@ export default function RtvBrevSammenligning(props: Props) {
           />
         </Tabs.List>
         <Tabs.Panel value='xmlDiff'>
-          <Diff oldStr={busXml} newStr={penXml} />
+          <Diff oldStr={busXml} newStr={penXml} onlyDiff={false}/>
+        </Tabs.Panel>
+        <Tabs.Panel value='xmlDiffOnly'>
+          <Diff oldStr={busXml} newStr={penXml} onlyDiff={true} />
         </Tabs.Panel>
         <Tabs.Panel value='xmlUnitDiff'>
           <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>

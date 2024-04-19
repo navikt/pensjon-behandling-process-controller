@@ -5,6 +5,7 @@ import type { Change } from 'diff'
 export interface Props {
   oldStr: string
   newStr: string
+  onlyDiff: boolean
 }
 
 export default function Diff(props: Props) {
@@ -32,6 +33,8 @@ export default function Diff(props: Props) {
       >
         {group.value}
       </pre>
+    } else if (props.onlyDiff) {
+      return <></>
     } else {
       return <pre
         key={group.count}
