@@ -47,6 +47,8 @@ export default function RtvBrevSammenligning(props: Props) {
       borderRadius='medium'
       shadow='medium'
     >
+      {data.kommentar ? <Alert variant="info">{data.kommentar}</Alert> : <></>}
+
       {resultat}
 
       <Card>
@@ -56,6 +58,9 @@ export default function RtvBrevSammenligning(props: Props) {
           </Entry>
           <Entry labelText={'Brevkode'}>
             {data.brevkode}
+          </Entry>
+          <Entry labelText={'Tittel'}>
+            {data.tittel}
           </Entry>
           <Entry labelText={'Bus XML'}>
             <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>

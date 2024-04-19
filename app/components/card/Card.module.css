@@ -9,7 +9,7 @@
 
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 15em));
+  grid-template-columns: repeat(3, minmax(auto, 15em));
   grid-gap: 1em;
   justify-self: flex-start;
   align-items: center;
