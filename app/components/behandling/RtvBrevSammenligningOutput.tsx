@@ -1,13 +1,34 @@
 import { Box, CopyButton, Tabs } from '@navikt/ds-react'
 import { TasklistIcon } from '@navikt/aksel-icons'
 import React from 'react'
+import xmlFormat from 'xml-formatter';
 
 export interface Props {
   debugJson: string
 }
 
+function prettyXml(xml: string | null): string {
+  if (xml) {
+    console.log("oh so pretty")
+  let perty = xmlFormat(xml, {
+    indentation: '  ',
+    filter: (node) => node.type !== 'Comment',
+    collapseContent: true,
+    lineSeparator: '\n'
+  })
+    console.log(perty)
+    return perty
+} else {
+    return ''
+  }
+}
+
 export default function RtvBrevSammenligning(props: Props) {
   let data = JSON.parse(props.debugJson)
+
+  let busXml = prettyXml(data.busXml)
+  let penXml = prettyXml(data.penXml)
+
   return (
     <Box
       background={'surface-default'}
@@ -34,21 +55,17 @@ export default function RtvBrevSammenligning(props: Props) {
           />
         </Tabs.List>
         <Tabs.Panel value='forskjeller'>
-          <CopyButton copyText={data.busXml} size={'xsmall'} text="Bus xml"/>
-          <CopyButton copyText={data.penXml} size={'xsmall'} text="Pen xml"/>
-                          <pre>
-                  {JSON.stringify(data.differences, null, 2)}
-                </pre>
+          <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
+          <CopyButton copyText={penXml} size={'xsmall'} text="Pen xml"/>
+          <pre>
+            {JSON.stringify(data.differences, null, 2)}
+          </pre>
         </Tabs.Panel>
         <Tabs.Panel value='busXml'>
-                          <pre>
-                  {data.busXml}
-                </pre>
+          <pre>{busXml}</pre>
         </Tabs.Panel>
         <Tabs.Panel value='penXml'>
-                          <pre>
-                  {data.penXml}
-                </pre>
+          <pre>{penXml}</pre>
         </Tabs.Panel>
       </Tabs>
     </Box>
