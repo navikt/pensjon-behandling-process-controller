@@ -28,6 +28,7 @@ import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable
 import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
 import { SkeletonLoader } from '~/components/loader/SkeletonLoader'
 import { BehandlingBatchDetaljertFremdriftBarChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchDetaljertFremdriftBarChart'
+import RtvBrevSammenligning from '~/components/behandling/RtvBrevSammenligningOutput'
 
 export interface Props {
   behandling: BehandlingDto
@@ -310,6 +311,13 @@ export default function BehandlingCard(props: Props) {
           <></>
         )}
       </div>
+
+      {
+      ( props.behandling.debugJson
+      ? <RtvBrevSammenligning debugJson={props.behandling.debugJson}></RtvBrevSammenligning>
+      : <></>
+      )
+      }
 
       <Box
         background={'surface-default'}

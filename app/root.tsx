@@ -80,7 +80,7 @@ export default function App() {
               <InternalHeader.User name={navIdent ? navIdent : ''} />
             </InternalHeader>
           )}
-          <HStack gap="0">
+          <HStack gap="0" wrap={false}>
             <div id="sidebar">
               <nav>
                 <ul>
