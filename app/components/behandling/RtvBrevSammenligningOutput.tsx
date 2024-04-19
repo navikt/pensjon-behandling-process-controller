@@ -1,7 +1,8 @@
-import { Box, CopyButton, Tabs } from '@navikt/ds-react'
+import { Alert, Box, CopyButton, Tabs } from '@navikt/ds-react'
 import { TasklistIcon } from '@navikt/aksel-icons'
 import React from 'react'
-import xmlFormat from 'xml-formatter';
+import xmlFormat from 'xml-formatter'
+import Diff from '~/components/behandling/Diff'
 
 export interface Props {
   debugJson: string
@@ -9,15 +10,12 @@ export interface Props {
 
 function prettyXml(xml: string | null): string {
   if (xml) {
-    console.log("oh so pretty")
-  let perty = xmlFormat(xml, {
-    indentation: '  ',
-    filter: (node) => node.type !== 'Comment',
-    collapseContent: true,
-    lineSeparator: '\n'
-  })
-    console.log(perty)
-    return perty
+    return xmlFormat(xml, {
+      indentation: '  ',
+      filter: (node) => node.type !== 'Comment',
+      collapseContent: true,
+      lineSeparator: '\n'
+    })
 } else {
     return ''
   }
@@ -29,6 +27,17 @@ export default function RtvBrevSammenligning(props: Props) {
   let busXml = prettyXml(data.busXml)
   let penXml = prettyXml(data.penXml)
 
+  let resultat
+  if (data.differences) {
+    if (data.differences.length > 0) {
+      resultat = <Alert variant="error">Det er {data.differences.length} forskjeller</Alert>
+    } else {
+      resultat = <Alert variant="success">Generet XML er lik</Alert>
+    }
+  } else {
+      resultat = <Alert variant="warning">Resultat av XML Unit Diff mangler</Alert>
+  }
+
   return (
     <Box
       background={'surface-default'}
@@ -36,11 +45,22 @@ export default function RtvBrevSammenligning(props: Props) {
       borderRadius='medium'
       shadow='medium'
     >
-      <Tabs defaultValue={'forskjeller'}>
+      {resultat}
+
+      <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
+      <CopyButton copyText={penXml} size={'xsmall'} text="Pen xml"/>
+
+
+      <Tabs defaultValue={'xmlDiff'}>
         <Tabs.List>
           <Tabs.Tab
-            value='forskjeller'
-            label='Forskjeller'
+            value='xmlDiff'
+            label='XML Diff'
+            icon={<TasklistIcon />}
+          />
+          <Tabs.Tab
+            value='xmlUnitDiff'
+            label='XML Unit Diff'
             icon={<TasklistIcon />}
           />
           <Tabs.Tab
@@ -54,7 +74,10 @@ export default function RtvBrevSammenligning(props: Props) {
             icon={<TasklistIcon />}
           />
         </Tabs.List>
-        <Tabs.Panel value='forskjeller'>
+        <Tabs.Panel value='xmlDiff'>
+          <Diff oldStr={busXml} newStr={penXml} />
+        </Tabs.Panel>
+        <Tabs.Panel value='xmlUnitDiff'>
           <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
           <CopyButton copyText={penXml} size={'xsmall'} text="Pen xml"/>
           <pre>
