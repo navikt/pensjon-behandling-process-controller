@@ -1,10 +1,18 @@
-import { Form } from '@remix-run/react'
+import { Form, useLoaderData } from '@remix-run/react'
+import { json } from '@remix-run/node'
+import { env } from '~/services/env.server'
 
+export const loader = async () => {
+  return json({
+    env: env.env,
+  })
+}
 
 export default function BatchOpprett() {
   const now = new Date()
   const lastYear = now.getFullYear() - 1
   const denneBehandlingsmaneden = now.getFullYear() * 100 + now.getMonth() + 1
+  const { env } = useLoaderData<typeof loader>()
 
   return (
       <div>
@@ -66,6 +74,8 @@ export default function BatchOpprett() {
               </p>
           </Form>
 
+        { env !== 'p' ? (
+          <>
           <h1>Opprett RTV Brev Sammenligning</h1>
           <Form action='rtv-brev-sammenligning' method='POST'>
             <p>
@@ -108,6 +118,8 @@ export default function BatchOpprett() {
               <button type='submit'>Opprett</button>
             </p>
           </Form>
+          </>
+        ) : <></> }
       </div>
   )
 }
