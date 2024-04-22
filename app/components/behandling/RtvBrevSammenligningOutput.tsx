@@ -98,6 +98,11 @@ export default function RtvBrevSammenligning(props: Props) {
             label='pen'
             icon={<TasklistIcon />}
           />
+          <Tabs.Tab
+            value='bestillBrevRequest'
+            label='Request'
+            icon={<TasklistIcon />}
+          />
         </Tabs.List>
         <Tabs.Panel value='xmlDiff'>
           <Diff oldStr={busXml} newStr={penXml} onlyDiff={false}/>
@@ -117,6 +122,11 @@ export default function RtvBrevSammenligning(props: Props) {
         </Tabs.Panel>
         <Tabs.Panel value='penXml'>
           <pre>{penXml}</pre>
+        </Tabs.Panel>
+        <Tabs.Panel value='bestillBrevRequest'>
+          <pre>
+            {JSON.stringify(data.bestillBrevRequest, null, 2)}
+          </pre>
         </Tabs.Panel>
       </Tabs>
     </Box>
