@@ -2,16 +2,7 @@ import React, { Suspense, useRef } from 'react'
 import type { BehandlingDto, BehandlingerPage, DetaljertFremdriftDTO } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
-import {
-  BodyLong,
-  Box,
-  Button,
-  CopyButton,
-  HStack, Loader,
-  Modal,
-  Tabs,
-  Tooltip,
-} from '@navikt/ds-react'
+import { BodyLong, Box, Button, CopyButton, HStack, Loader, Modal, Tabs, Tooltip } from '@navikt/ds-react'
 import BehandlingAktivitetTable from '~/components/aktiviteter-table/BehandlingAktivitetTable'
 import {
   ClockDashedIcon,
@@ -27,7 +18,9 @@ import { decodeBehandling } from '~/common/decodeBehandling'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
 import { SkeletonLoader } from '~/components/loader/SkeletonLoader'
-import { BehandlingBatchDetaljertFremdriftBarChart } from '~/components/behandling-batch-fremdrift/BehandlingBatchDetaljertFremdriftBarChart'
+import {
+  BehandlingBatchDetaljertFremdriftBarChart,
+} from '~/components/behandling-batch-fremdrift/BehandlingBatchDetaljertFremdriftBarChart'
 import RtvBrevSammenligning from '~/components/behandling/RtvBrevSammenligningOutput'
 
 export interface Props {
@@ -186,6 +179,7 @@ export default function BehandlingCard(props: Props) {
     }
   }
 
+
   return (
     <>
       <div className={'flex-grid'} style={{ paddingTop: '12px' }}>
@@ -221,6 +215,13 @@ export default function BehandlingCard(props: Props) {
                   ) : (
                     <></>
                   )}
+
+                  {props.behandling.parametere ?
+                    Object.entries(props.behandling.parametere).map(([key, value]) => {
+                      return (<Entry key={key} labelText={`${key}`}>{value as string}</Entry>)
+                    })
+                    : (<></>)
+                  }
 
                   <Entry labelText={'Status'}>{props.behandling.status}</Entry>
                   <Entry labelText={'Funksjonell identifikator'}>

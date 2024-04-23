@@ -8,9 +8,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const updates = Object.fromEntries(formData)
   const accessToken = await requireAccessToken(request)
 
-  console.log("foo", updates.brukAutoBrev == "on")
-  console.log("bar", updates.brukAutoBrev.toString)
-
   let response = await opprettRtvBrevSammenligning(
     accessToken,
     updates.brevGruppe.toString(),

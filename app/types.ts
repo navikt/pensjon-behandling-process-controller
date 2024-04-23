@@ -35,6 +35,8 @@ export type BehandlingDto = {
   journalpostId: string | null
   kibanaUrl?: string
 
+  parametere: any | null
+
   debugJson: string | null
 
   _links?: HalLinks
