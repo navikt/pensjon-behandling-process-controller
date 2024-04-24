@@ -34,7 +34,7 @@ export default function RtvBrevSammenligning(props: Props) {
     if (data.differences.length > 0) {
       resultat = <Alert variant="error">Det er {data.differences.length} forskjeller</Alert>
     } else {
-      resultat = <Alert variant="success">Generet XML er lik</Alert>
+      resultat = <Alert variant="success">Generert XML er lik</Alert>
     }
   } else {
       resultat = <Alert variant="warning">Resultat av XML Unit Diff mangler</Alert>
