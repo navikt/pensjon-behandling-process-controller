@@ -76,7 +76,7 @@ export default function BehandlingCard(props: Props) {
     }
   }
 
-  function fjernUtsattButton() {
+  function fortsettBehandling() {
     if (hasLink('fortsett')) {
       return (
         <Tooltip content='Fjerner utsatt tidspunkt slik at behandling kan kjøres umiddelbart'>
@@ -87,6 +87,26 @@ export default function BehandlingCard(props: Props) {
               name={'fortsett'}
             >
               Fortsett
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    } else {
+      return <></>
+    }
+  }
+
+  function fortsettAvhengigeBehandlinger() {
+    if (hasLink('fortsettAvhengigeBehandlinger')) {
+      return (
+        <Tooltip content='Fjerner utsatt tidspunkt på de avhengige behandlingene slik at de kan kjøres umiddelbart'>
+          <fetcher.Form method='post' action='fortsettAvhengigeBehandlinger'>
+            <Button
+              variant={'secondary'}
+              icon={<PlayIcon aria-hidden />}
+              name={'fortsettAvhengigeBehandlinger'}
+            >
+              Fortsett avhengige behandlinger
             </Button>
           </fetcher.Form>
         </Tooltip>
@@ -199,11 +219,6 @@ export default function BehandlingCard(props: Props) {
               <Card.Body>
                 <Card.Grid>
                   {copyPasteEntry('BehandlingId', props.behandling.behandlingId)}
-                  {copyPasteEntry('Fødselsnummer', props.behandling.fnr)}
-                  {copyPasteEntry('SakId', props.behandling.sakId)}
-                  {copyPasteEntry('KravId', props.behandling.kravId)}
-                  {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
-                  {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
                   {props.behandling.forrigeBehandlingId ? (
                     <Entry labelText={'Opprettet av behandling'}>
                       <Link
@@ -215,28 +230,11 @@ export default function BehandlingCard(props: Props) {
                   ) : (
                     <></>
                   )}
-
-                  {props.behandling.parametere ?
-                    Object.entries(props.behandling.parametere).map(([key, value]) => {
-                      return (<Entry key={key} labelText={`${key}`}>{value as string}</Entry>)
-                    })
-                    : (<></>)
-                  }
-
                   <Entry labelText={'Status'}>{props.behandling.status}</Entry>
                   <Entry labelText={'Funksjonell identifikator'}>
                     {props.behandling.funksjonellIdentifikator}
                   </Entry>
 
-                  <Entry labelText={'Opprettet'}>
-                    {formatIsoTimestamp(props.behandling.opprettet)}
-                  </Entry>
-                  <Entry labelText={'Siste kjøring'}>
-                    {formatIsoTimestamp(props.behandling.sisteKjoring)}
-                  </Entry>
-                  <Entry labelText={'Utsatt til'}>
-                    {formatIsoTimestamp(props.behandling.utsattTil)}
-                  </Entry>
                   <Entry labelText={'Stoppet'}>
                     {formatIsoTimestamp(props.behandling.stoppet)}
                   </Entry>
@@ -246,7 +244,34 @@ export default function BehandlingCard(props: Props) {
                   </Entry>
                 </Card.Grid>
                 <Card.Grid>
-                  {fjernUtsattButton()}
+                  <Entry labelText={'Opprettet'}>
+                    {formatIsoTimestamp(props.behandling.opprettet)}
+                  </Entry>
+                  <Entry labelText={'Siste kjøring'}>
+                    {formatIsoTimestamp(props.behandling.sisteKjoring)}
+                  </Entry>
+                  <Entry labelText={'Utsatt til'}>
+                    {formatIsoTimestamp(props.behandling.utsattTil)}
+                  </Entry>
+                </Card.Grid>
+                <Card.Grid>
+                  {copyPasteEntry('Fødselsnummer', props.behandling.fnr)}
+                  {copyPasteEntry('SakId', props.behandling.sakId)}
+                  {copyPasteEntry('KravId', props.behandling.kravId)}
+                  {copyPasteEntry('VedtakId', props.behandling.vedtakId)}
+                  {copyPasteEntry('JournalpostId', props.behandling.journalpostId)}
+
+                  {props.behandling.parametere ?
+                    Object.entries(props.behandling.parametere).map(([key, value]) => {
+                      return (<Entry key={key} labelText={`${key}`}>{value as string}</Entry>)
+                    })
+                    : (<></>)
+                  }
+                </Card.Grid>
+                <Card.Grid>
+                  {fortsettBehandling()}
+
+                  {fortsettAvhengigeBehandlinger()}
 
                   {debugButton()}
 

@@ -124,6 +124,26 @@ export async function fortsettBehandling(
   }
 }
 
+export async function fortsettAvhengigeBehandlinger(
+  accessToken: string,
+  behandlingId: string,
+): Promise<void> {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/fortsettAvhengigeBehandlinger`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error()
+  }
+}
+
 export async function taTilDebug(
   accessToken: string,
   behandlingId: string,
