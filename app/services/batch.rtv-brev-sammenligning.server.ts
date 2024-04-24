@@ -7,6 +7,7 @@ export async function opprettRtvBrevSammenligning(
   brevKode: string,
   maksAntall: number,
   brukAutoBrev: boolean,
+  startAutobrevId: number,
 ): Promise<StartBatchResponse> {
   const response = await fetch(
     `${env.penUrl}/api/brev/rtv-brev-sammenligning`,
@@ -22,6 +23,7 @@ export async function opprettRtvBrevSammenligning(
         brevKode: brevKode,
         maksAntall: maksAntall,
         brukAutoBrev: brukAutoBrev,
+        startAutobrevId: startAutobrevId,
       }),
     },
   )

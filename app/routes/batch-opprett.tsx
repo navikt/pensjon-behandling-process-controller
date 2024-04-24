@@ -115,6 +115,15 @@ export default function BatchOpprett() {
               />
             </p>
             <p>
+              Start AutobrevId:
+              <input
+                aria-label="Start AutobrevId"
+                name="startAutobrevId"
+                type="number"
+                placeholder="Start AutobrevId"
+              />
+            </p>
+            <p>
               <button type='submit'>Opprett</button>
             </p>
           </Form>

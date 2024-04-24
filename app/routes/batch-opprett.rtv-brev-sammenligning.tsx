@@ -14,6 +14,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     updates.brevKode.toString(),
     +updates.maksAntall,
     updates.brukAutoBrev == "on",
+    +updates.startAutobrevId,
 )
 
   return redirect(`/behandling/${response.behandlingId}`)
