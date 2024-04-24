@@ -34,6 +34,19 @@ export default function BehandlingCard(props: Props) {
 
   const stopModal = useRef<HTMLDialogElement>(null)
 
+  function beregnFremdriftProsent(ferdig: number, totalt: number): string {
+    if ((ferdig === totalt)) {
+      return "100"
+    } else {
+      let prosent = ((ferdig / totalt) * 100).toFixed(2)
+      if (prosent === "100") {
+        return "99.99"
+      } else {
+        return prosent
+      }
+    }
+  }
+
   function stopp() {
     fetcher.submit(
       {},
@@ -307,7 +320,7 @@ export default function BehandlingCard(props: Props) {
                     <Await resolve={props.detaljertFremdrift}>
                       {detaljertFremdrift =>
                         detaljertFremdrift ? (
-                          ' ' + ((detaljertFremdrift.ferdig / detaljertFremdrift.totalt) * 100).toFixed(2) + '%'
+                          ' ' + (beregnFremdriftProsent(detaljertFremdrift.ferdig, detaljertFremdrift.totalt)) + '%'
                         ) : (
                           <></>
                         )
