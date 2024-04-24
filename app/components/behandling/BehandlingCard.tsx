@@ -315,7 +315,7 @@ export default function BehandlingCard(props: Props) {
             >
               <Card.Header>
                 <Card.Heading>
-                  Fremdrift avhengige behandlinger
+                  Fremdrift behandlinger
                   <Suspense fallback={<Loader size="small" title="Venter..." />}>
                     <Await resolve={props.detaljertFremdrift}>
                       {detaljertFremdrift =>
