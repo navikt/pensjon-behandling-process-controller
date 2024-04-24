@@ -39,7 +39,7 @@ export default function BehandlingCard(props: Props) {
       return "100"
     } else {
       let prosent = ((ferdig / totalt) * 100).toFixed(2)
-      if (prosent === "100") {
+      if (prosent === "100.00") {
         return "99.99"
       } else {
         return prosent
