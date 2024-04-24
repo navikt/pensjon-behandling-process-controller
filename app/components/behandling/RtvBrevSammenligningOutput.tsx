@@ -53,15 +53,6 @@ export default function RtvBrevSammenligning(props: Props) {
 
       <Card>
         <Card.Grid>
-          <Entry labelText={'Brevgruppe'}>
-            {data.brevgruppe}
-          </Entry>
-          <Entry labelText={'Brevkode'}>
-            {data.brevkode}
-          </Entry>
-          <Entry labelText={'Tittel'}>
-            {data.tittel}
-          </Entry>
           <Entry labelText={'Bus XML'}>
             <CopyButton copyText={busXml} size={'xsmall'} text="Bus xml"/>
           </Entry>
