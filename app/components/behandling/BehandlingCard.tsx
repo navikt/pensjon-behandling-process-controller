@@ -1,9 +1,8 @@
 import React, { Suspense, useRef } from 'react'
-import type { BehandlingDto, BehandlingerPage, DetaljertFremdriftDTO } from '~/types'
+import type { BehandlingDto, DetaljertFremdriftDTO } from '~/types'
 import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import { BodyLong, Box, Button, CopyButton, HStack, Loader, Modal, Tabs, Tooltip } from '@navikt/ds-react'
-import BehandlingAktivitetTable from '~/components/aktiviteter-table/BehandlingAktivitetTable'
 import {
   ClockDashedIcon,
   CogFillIcon,
@@ -13,11 +12,8 @@ import {
   XMarkOctagonIcon,
 } from '@navikt/aksel-icons'
 import { formatIsoTimestamp } from '~/common/date'
-import { Await, Link, useFetcher } from '@remix-run/react'
+import { Await, Link, Outlet, useFetcher, useLocation, useNavigate } from '@remix-run/react'
 import { decodeBehandling } from '~/common/decodeBehandling'
-import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
-import { BehandlingKjoringerTable } from '~/components/kjoringer-table/BehandlingKjoringerTable'
-import { SkeletonLoader } from '~/components/loader/SkeletonLoader'
 import {
   BehandlingBatchDetaljertFremdriftBarChart,
 } from '~/components/behandling-batch-fremdrift/BehandlingBatchDetaljertFremdriftBarChart'
@@ -25,12 +21,13 @@ import RtvBrevSammenligning from '~/components/behandling/RtvBrevSammenligningOu
 
 export interface Props {
   behandling: BehandlingDto
-  avhengigeBehandlinger: Promise<BehandlingerPage | null> | null
   detaljertFremdrift: Promise<DetaljertFremdriftDTO | null> | null
 }
 
 export default function BehandlingCard(props: Props) {
   const fetcher = useFetcher()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const stopModal = useRef<HTMLDialogElement>(null)
 
@@ -213,6 +210,15 @@ export default function BehandlingCard(props: Props) {
   }
 
 
+  const getCurrentChild = () => {
+    let childPath = location.pathname.split('/').slice(-1)[0]
+    if (childPath === "" || !isNaN(+childPath)) {
+      return "kjoringer"
+    } else {
+      return childPath
+    }
+  }
+
   return (
     <>
       <div className={'flex-grid'} style={{ paddingTop: '12px' }}>
@@ -364,7 +370,16 @@ export default function BehandlingCard(props: Props) {
         borderRadius='medium'
         shadow='medium'
       >
-        <Tabs defaultValue={'kjoringer'}>
+        <Tabs
+          value={getCurrentChild()}
+          onChange={(value) => {
+            if (value === 'kjoringer') {
+              navigate(`./`)
+            } else {
+              navigate(`./${value}`)
+            }
+          }}
+        >
           <Tabs.List>
             <Tabs.Tab
               value='kjoringer'
@@ -376,9 +391,9 @@ export default function BehandlingCard(props: Props) {
               label='Aktiviteter'
               icon={<TasklistIcon />}
             />
-            {props.avhengigeBehandlinger ? (
+            {props.behandling._links && props.behandling._links['avhengigeBehandlinger'] ? (
               <Tabs.Tab
-                value='behandlinger'
+                value='avhengigeBehandlinger'
                 label='Avhengige behandlinger'
                 icon={<ClockDashedIcon />}
               />
@@ -386,29 +401,7 @@ export default function BehandlingCard(props: Props) {
               <></>
             )}
           </Tabs.List>
-          <Tabs.Panel value='kjoringer'>
-            <BehandlingKjoringerTable behandling={props.behandling} visAktivitetId={true} />
-          </Tabs.Panel>
-          <Tabs.Panel value='aktiviteter'>
-            <BehandlingAktivitetTable behandling={props.behandling} />
-          </Tabs.Panel>
-          {props.avhengigeBehandlinger ? (
-            <Tabs.Panel value='behandlinger'>
-              <Suspense fallback={<SkeletonLoader />}>
-                <Await resolve={props.avhengigeBehandlinger}>
-                  {avhengigeBehandlinger =>
-                    avhengigeBehandlinger ? (
-                      <BehandlingerTable behandlingerResponse={avhengigeBehandlinger} />
-                    ) : (
-                      <></>
-                    )
-                  }
-                </Await>
-              </Suspense>
-            </Tabs.Panel>
-          ) : (
-            <></>
-          )}
+          <Outlet/>
         </Tabs>
       </Box>
     </>

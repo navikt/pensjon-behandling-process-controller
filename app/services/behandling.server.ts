@@ -58,6 +58,45 @@ export async function getBehandlinger(
   }
 }
 
+export async function getAvhengigeBehandlinger(
+  accessToken: string,
+  behandlingId: number | null,
+  status: string | null,
+  minLevel: number | null,
+  maxLevel: number | null,
+  page: number,
+  size: number,
+): Promise<BehandlingerPage> {
+  let request = ''
+  if (status) {
+    request += `&status=${status}`
+  }
+
+  if (minLevel) {
+    request +=`&minLevel=${minLevel}`
+  }
+
+  if (maxLevel) {
+    request +=`&maxLevel=${maxLevel}`
+  }
+
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/avhengigeBehandlinger?page=${page}&size=${size}${request}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as BehandlingerPage
+  } else {
+    throw new Error()
+  }
+}
+
 export async function getBehandling(
   accessToken: string,
   behandlingId: string,

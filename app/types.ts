@@ -14,6 +14,7 @@ export enum Aktivitetstatus {
 }
 
 export type BehandlingDto = {
+  level: number | null
   behandlingId: number
   type: string
   uuid: string
