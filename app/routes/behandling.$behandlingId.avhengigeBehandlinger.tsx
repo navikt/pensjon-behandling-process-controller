@@ -15,8 +15,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   let { searchParams } = new URL(request.url);
 
-  console.log(searchParams)
-
   const accessToken = await requireAccessToken(request)
 
   let minLevel = searchParams.get('minLevel')
@@ -27,6 +25,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const avhengigeBehandlinger = await getAvhengigeBehandlinger(
     accessToken,
     +params.behandlingId,
+    searchParams.get('behandlingType'),
     searchParams.get('status'),
     minLevel ? +minLevel : 2,
     maxLevel ? +maxLevel : 1000,

@@ -100,6 +100,9 @@ export type BehandlingerPage = {
   size: number
   empty: boolean
 
+  behandlingStatuser: string[],
+  behandlingTyper: string[],
+
   sort: PageSort
 }
 

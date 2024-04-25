@@ -61,6 +61,7 @@ export async function getBehandlinger(
 export async function getAvhengigeBehandlinger(
   accessToken: string,
   behandlingId: number | null,
+  behandlingType: string | null,
   status: string | null,
   minLevel: number | null,
   maxLevel: number | null,
@@ -70,6 +71,10 @@ export async function getAvhengigeBehandlinger(
   let request = ''
   if (status) {
     request += `&status=${status}`
+  }
+
+  if (behandlingType) {
+    request += `&behandlingType=${behandlingType}`
   }
 
   if (minLevel) {
