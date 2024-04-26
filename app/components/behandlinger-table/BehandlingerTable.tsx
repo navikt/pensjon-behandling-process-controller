@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Pagination, Select, Table } from '@navikt/ds-react'
-import { useSort } from '~/hooks/useSort'
 import type { BehandlingDto, BehandlingerPage } from '~/types'
 import { Link, useSearchParams } from '@remix-run/react'
 import { formatIsoTimestamp } from '~/common/date'
@@ -12,13 +11,26 @@ interface Props {
 }
 
 export default function BehandlingerTable(props: Props) {
-  const { sortKey, onSort, sortFunc, sortDecending } =
-    useSort<BehandlingDto>('behandlingId')
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const sortedBehandlinger = React.useMemo(() => {
-    return props.behandlingerResponse.content.sort(sortFunc)
-  }, [props, sortFunc])
+  let sortParam = searchParams.get("sort")?.split(",")
+  let sortKey = sortParam?.[0] || "behandlingId"
+  let sortDecending = sortParam?.[1] || 'desc'
+
+  const onSortChange = (value: string | undefined) => {
+    if (value) {
+      if (sortKey === value) {
+        let value1 = `${sortKey},${sortDecending === 'asc' ? 'desc' : 'asc'}`
+        searchParams.set("sort", value1)
+      } else {
+        let value2 = `${value},desc`
+        searchParams.set("sort", value2)
+      }
+    } else {
+      searchParams.delete('sort')
+    }
+    setSearchParams(searchParams)
+  }
 
   const onPageChange = (page: number) => {
     searchParams.set('page', (page - 1).toString())
@@ -90,9 +102,9 @@ export default function BehandlingerTable(props: Props) {
       >
         <Table
           size={'medium'}
-          onSortChange={onSort}
+          onSortChange={onSortChange}
           sort={{
-            direction: sortDecending ? 'descending' : 'ascending',
+            direction: sortDecending === 'desc' ? 'descending' : 'ascending',
             orderBy: sortKey as string,
           }}
           zebraStripes
@@ -138,7 +150,7 @@ export default function BehandlingerTable(props: Props) {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {sortedBehandlinger?.map((it: BehandlingDto) => {
+            {props.behandlingerResponse.content?.map((it: BehandlingDto) => {
               return (
                 <Table.Row key={it.uuid}>
                   <Table.DataCell>

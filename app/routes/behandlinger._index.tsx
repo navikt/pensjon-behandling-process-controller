@@ -24,6 +24,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     null,
     page ? +page : 0,
     size ? +size : 100,
+    searchParams.get('sort'),
   )
   if (!behandlinger) {
     throw new Response('Not Found', { status: 404 })

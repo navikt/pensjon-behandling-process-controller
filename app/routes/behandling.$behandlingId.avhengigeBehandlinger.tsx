@@ -2,9 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node'
 import { defer } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 
-import {
-  getAvhengigeBehandlinger,
-} from '~/services/behandling.server'
+import { getAvhengigeBehandlinger } from '~/services/behandling.server'
 
 import invariant from 'tiny-invariant'
 import { requireAccessToken } from '~/services/auth.server'
@@ -19,7 +17,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   let page = searchParams.get('page')
   let size = searchParams.get('size')
-
   const avhengigeBehandlinger = await getAvhengigeBehandlinger(
     accessToken,
     +params.behandlingId,
@@ -27,6 +24,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     searchParams.get('status'),
     page ? +page : 0,
     size ? +size : 10,
+    searchParams.get('sort'),
   )
 
   return defer(

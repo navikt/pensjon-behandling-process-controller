@@ -30,6 +30,7 @@ export async function getBehandlinger(
   isBatch: boolean | null,
   page: number,
   size: number,
+  sort: string | null,
 ): Promise<BehandlingerPage> {
   let request = ''
   if (behandlingType) {
@@ -43,6 +44,9 @@ export async function getBehandlinger(
   }
   if (isBatch) {
     request += '&isBatch=true'
+  }
+  if (sort) {
+    request +=`&sort=${sort}`
   }
 
   const response = await fetch(
@@ -69,6 +73,7 @@ export async function getAvhengigeBehandlinger(
   status: string | null,
   page: number,
   size: number,
+  sort: string | null,
 ): Promise<BehandlingerPage> {
   let request = ''
   if (status) {
@@ -77,6 +82,10 @@ export async function getAvhengigeBehandlinger(
 
   if (behandlingType) {
     request += `&behandlingType=${behandlingType}`
+  }
+
+  if (sort) {
+    request +=`&sort=${sort}`
   }
 
   const response = await fetch(
