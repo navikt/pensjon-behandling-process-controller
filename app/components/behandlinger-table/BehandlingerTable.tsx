@@ -13,16 +13,15 @@ interface Props {
 export default function BehandlingerTable(props: Props) {
   const { sortKey, onSort, sortFunc, sortDecending } =
     useSort<BehandlingDto>('behandlingId')
-  const [, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const sortedBehandlinger = React.useMemo(() => {
     return props.behandlingerResponse.content.sort(sortFunc)
   }, [props, sortFunc])
 
   const onPageChange = (page: number) => {
-    const params = new URLSearchParams()
-    params.set('page', (page - 1).toString())
-    setSearchParams(params)
+    searchParams.set('page', (page - 1).toString())
+    setSearchParams(searchParams)
   }
 
   return (
