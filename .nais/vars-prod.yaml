@@ -2,7 +2,8 @@ app:
   name: 'pensjon-bpc'
   namespace: 'pensjondeployer'
   team: 'pensjondeployer'
-  ingress: 'https://pensjon-bpc.intern.nav.no'
+  ingress: 'https://pensjon-verdande.intern.nav.no'
+  ingress2: 'https://pensjon-bpc.intern.nav.no'
   env: p
 
 pen:
