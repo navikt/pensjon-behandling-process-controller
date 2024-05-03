@@ -52,7 +52,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <title>Behandling Process Controller</title>
+        <title>Verdande</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
@@ -63,7 +63,7 @@ export default function App() {
           {env === 'p' ? (
             <InternalHeader className={'navds-tag--error-filled'}>
               <InternalHeader.Title as="h1">
-                Behandling Process Controller
+                Verdande
               </InternalHeader.Title>
               <InternalHeader.Title as="h1">
                 P R O D U K S J O N !
@@ -74,7 +74,7 @@ export default function App() {
           ) : (
             <InternalHeader>
               <InternalHeader.Title as="h1">
-                Behandling Process Controller
+                Verdande
               </InternalHeader.Title>
               <Spacer />
               <InternalHeader.User name={navIdent ? navIdent : ''} />
