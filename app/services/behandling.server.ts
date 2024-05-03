@@ -67,8 +67,6 @@ export async function getAvhengigeBehandlinger(
   behandlingId: number | null,
   behandlingType: string | null,
   status: string | null,
-  minLevel: number | null,
-  maxLevel: number | null,
   page: number,
   size: number,
 ): Promise<BehandlingerPage> {
@@ -79,14 +77,6 @@ export async function getAvhengigeBehandlinger(
 
   if (behandlingType) {
     request += `&behandlingType=${behandlingType}`
-  }
-
-  if (minLevel) {
-    request +=`&minLevel=${minLevel}`
-  }
-
-  if (maxLevel) {
-    request +=`&maxLevel=${maxLevel}`
   }
 
   const response = await fetch(
