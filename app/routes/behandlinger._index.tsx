@@ -1,24 +1,25 @@
-import { ActionFunctionArgs, json } from '@remix-run/node'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 
-import { getBehandlinger } from '~/services/behandling.server'
+import {
+  getBehandlinger,
+} from '~/services/behandling.server'
 
 import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
-import invariant from 'tiny-invariant'
 
-export const loader = async ({ params, request }: ActionFunctionArgs) => {
-  invariant(params.status, 'Missing status param')
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   let { searchParams } = new URL(request.url);
 
-  const size = searchParams.get('size')
-  const page = searchParams.get('page')
-
   const accessToken = await requireAccessToken(request)
+
+  let page = searchParams.get('page')
+  let size = searchParams.get('size')
+
   const behandlinger = await getBehandlinger(
     accessToken,
     searchParams.get('behandlingType'),
-    params.status,
+    searchParams.get('status'),
     null,
     null,
     page ? +page : 0,
@@ -29,14 +30,15 @@ export const loader = async ({ params, request }: ActionFunctionArgs) => {
   }
 
   return json({ behandlinger })
+
 }
 
-export default function BehandlingerStatus() {
+export default function AvhengigeBehandlinger() {
   const { behandlinger } = useLoaderData<typeof loader>()
 
   return (
     <div id="behandlinger">
-      <BehandlingerTable visStatusSoek={false} behandlingerResponse={behandlinger} />
+      <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger} />
     </div>
   )
 }

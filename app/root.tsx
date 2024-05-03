@@ -98,10 +98,10 @@ export default function App() {
                     </ul>
                   </li>
                   <li>
-                    <h1>Behandlinger</h1>
+                    <h1><NavLink to={`/behandlinger`} end>Behandlinger</NavLink></h1>
                     <ul>
                       <li>
-                        <NavLink to={`/behandlinger/FEILET`}>Feilende</NavLink>
+                        <NavLink to={`/behandlinger/FEILENDE`}>Feilende</NavLink>
                       </li>
                       <li>
                         <NavLink to={`/behandlinger/DEBUG`}>I debug</NavLink>

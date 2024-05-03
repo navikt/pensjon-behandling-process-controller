@@ -8,7 +8,7 @@ export enum Behandlingstatus {
 
 export enum Aktivitetstatus {
   OPPRETTET,
-  FEILET,
+  FEILENDE,
   FULLFORT,
   UNDER_BEHANDLING,
 }

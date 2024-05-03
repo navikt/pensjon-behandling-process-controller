@@ -4,6 +4,7 @@ import React from 'react'
 import { Table } from '@navikt/ds-react'
 import { formatNumber } from '~/common/number'
 import { decodeBehandling } from '~/common/decodeBehandling'
+import { NavLink } from '@remix-run/react'
 
 type Props = {
   oppsummering: BehandlingAntall[]
@@ -30,7 +31,9 @@ export default function BehandlingAntallTable(props: Props) {
           return (
             <Table.Row key={it.navn}>
               <Table.DataCell align={'right'}>{index + 1}</Table.DataCell>
-              <Table.DataCell>{decodeBehandling(it.navn)}</Table.DataCell>
+              <Table.DataCell>
+                <NavLink to={`/behandlinger?behandlingType=${it.navn}`}>{decodeBehandling(it.navn)}</NavLink>
+              </Table.DataCell>
               <Table.DataCell align={'right'}>
                 {formatNumber(it.antall)}
               </Table.DataCell>

@@ -7,14 +7,15 @@ import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 
 export const loader = async ({ request }: ActionFunctionArgs) => {
-  const url = new URL(request.url)
-  const size = url.searchParams.get('size')
-  const page = url.searchParams.get('page')
+  let { searchParams } = new URL(request.url);
+  const size = searchParams.get('size')
+  const page = searchParams.get('page')
 
   const accessToken = await requireAccessToken(request)
   const behandlinger = await getBehandlinger(
     accessToken,
-    null,
+    searchParams.get('behandlingType'),
+    searchParams.get('status'),
     null,
     true,
     page ? +page : 0,
@@ -32,7 +33,7 @@ export default function BehandlingerStatus() {
 
   return (
     <div id="behandlinger">
-      <BehandlingerTable behandlingerResponse={behandlinger} />
+      <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger} />
     </div>
   )
 }

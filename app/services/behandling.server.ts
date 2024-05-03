@@ -24,6 +24,7 @@ export async function getDashboardSummary(
 
 export async function getBehandlinger(
   accessToken: string,
+  behandlingType: string | null,
   status: string | null,
   forrigeBehandlingId: number | null,
   isBatch: boolean | null,
@@ -31,6 +32,9 @@ export async function getBehandlinger(
   size: number,
 ): Promise<BehandlingerPage> {
   let request = ''
+  if (behandlingType) {
+    request += `&behandlingType=${behandlingType}`
+  }
   if (status) {
     request += `&status=${status}`
   }
