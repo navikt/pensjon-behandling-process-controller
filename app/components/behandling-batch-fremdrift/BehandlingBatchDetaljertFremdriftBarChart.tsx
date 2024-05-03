@@ -24,6 +24,11 @@ export function BehandlingBatchDetaljertFremdriftBarChart(props: Props) {
             borderWidth: 1,
           },
           {
+            label: 'FEILENDE',
+            data: props.detaljertFremdrift.behandlingerDetaljertFremdrift.map((it) => it.feilende),
+            borderWidth: 1,
+          },
+          {
             label: 'STOPPET',
             data: props.detaljertFremdrift.behandlingerDetaljertFremdrift.map((it) => it.stoppet),
             borderWidth: 1,

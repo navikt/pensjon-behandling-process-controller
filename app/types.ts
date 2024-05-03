@@ -59,6 +59,7 @@ export type BehandlingDetaljertFremdriftDTO = {
   opprettet: number
   stoppet: number
   underBehandling: number
+  feilende: number
 }
 
 export type BehandlingKjoringDTO = {
