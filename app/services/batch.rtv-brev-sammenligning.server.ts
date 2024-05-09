@@ -1,14 +1,31 @@
 import { env } from '~/services/env.server'
 import type { StartBatchResponse } from '~/types'
 
+type AutobrevBestilling = {
+  autobrev: {
+    brevGruppe: string,
+    brevKode: string | null | undefined,
+    maksAntall: number,
+    startAutobrevId: number,
+  }
+}
+
+type VedtakBestilling = {
+  vedtak: {
+    ar: number,
+    brevGruppe: string,
+    maksAntall: number,
+    sakType: string[],
+    vedtakType: string[],
+  }
+}
+
 export async function opprettRtvBrevSammenligning(
   accessToken: string,
-  brevGruppe: string,
-  brevKode: string,
-  maksAntall: number,
-  brukAutoBrev: boolean,
-  startAutobrevId: number,
+  bestilling: AutobrevBestilling | VedtakBestilling,
 ): Promise<StartBatchResponse> {
+  console.log("bestilling", bestilling)
+
   const response = await fetch(
     `${env.penUrl}/api/brev/rtv-brev-sammenligning`,
     {
@@ -18,13 +35,7 @@ export async function opprettRtvBrevSammenligning(
         'Content-Type': 'application/json',
         'X-Request-ID': crypto.randomUUID(),
       },
-      body: JSON.stringify({
-        brevGruppe: brevGruppe,
-        brevKode: brevKode,
-        maksAntall: maksAntall,
-        brukAutoBrev: brukAutoBrev,
-        startAutobrevId: startAutobrevId,
-      }),
+      body: JSON.stringify(bestilling),
     },
   )
 

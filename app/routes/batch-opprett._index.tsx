@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from '@remix-run/react'
+import { Form, NavLink, useLoaderData } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
 
@@ -8,7 +8,7 @@ export const loader = async () => {
   })
 }
 
-export default function BatchOpprett() {
+export default function BatchOpprett_index() {
   const now = new Date()
   const lastYear = now.getFullYear() - 1
   const denneBehandlingsmaneden = now.getFullYear() * 100 + now.getMonth() + 1
@@ -74,61 +74,7 @@ export default function BatchOpprett() {
               </p>
           </Form>
 
-        { env !== 'p' ? (
-          <>
-          <h1>Opprett RTV Brev Sammenligning</h1>
-          <Form action='rtv-brev-sammenligning' method='POST'>
-            <p>
-              Brevgruppe:
-              <input
-                aria-label="Brevgruppe"
-                name="brevGruppe"
-                type="string"
-                placeholder="Brevgruppe"
-              />
-            </p>
-            <p>
-              Brevkode:
-              <input
-                aria-label="Brevkode"
-                name="brevKode"
-                type="string"
-                placeholder="Brevkode"
-              />
-            </p>
-            <p>
-              Maks antall:
-              <input
-                aria-label="Maks antall"
-                name="maksAntall"
-                type="number"
-                placeholder="Maks antall"
-              />
-            </p>
-            <p>
-              Bruk autobrev:
-              <input
-                aria-label="Bruk autobrev"
-                name="brukAutoBrev"
-                type="checkbox"
-                placeholder="Bruk autobrev"
-              />
-            </p>
-            <p>
-              Start AutobrevId:
-              <input
-                aria-label="Start AutobrevId"
-                name="startAutobrevId"
-                type="number"
-                placeholder="Start AutobrevId"
-              />
-            </p>
-            <p>
-              <button type='submit'>Opprett</button>
-            </p>
-          </Form>
-          </>
-        ) : <></> }
+        <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
       </div>
   )
 }
