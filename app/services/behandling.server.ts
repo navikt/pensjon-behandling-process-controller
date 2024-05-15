@@ -105,6 +105,45 @@ export async function getAvhengigeBehandlinger(
   }
 }
 
+export async function search(
+  accessToken: string,
+  query: string,
+  behandlingType: string | null,
+  status: string | null,
+  page: number,
+  size: number,
+  sort: string | null,
+): Promise<BehandlingerPage> {
+  let request = ''
+  if (status) {
+    request += `&status=${status}`
+  }
+
+  if (behandlingType) {
+    request += `&behandlingType=${behandlingType}`
+  }
+
+  if (sort) {
+    request +=`&sort=${sort}`
+  }
+
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling?query=${query}&page=${page}&size=${size}${request}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as BehandlingerPage
+  } else {
+    throw new Error()
+  }
+}
+
 export async function getBehandling(
   accessToken: string,
   behandlingId: string,
