@@ -19,7 +19,7 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
 
     behandlinger = await search(
       accessToken,
-      searchParams.get('query'),
+      query,
       searchParams.get('behandlingType'),
       searchParams.get('status'),
       page ? +page : 0,
