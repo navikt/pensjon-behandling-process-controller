@@ -1,12 +1,14 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { defer } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Await, useLoaderData } from '@remix-run/react'
 
 import { getAvhengigeBehandlinger } from '~/services/behandling.server'
 
 import invariant from 'tiny-invariant'
 import { requireAccessToken } from '~/services/auth.server'
 import AvhengigeBehandlingerElement from '~/components/behandling/avhengige-behandlinger/AvhengigeBehandlingerElement'
+import React, { Suspense } from 'react'
+import { Skeleton } from '@navikt/ds-react'
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.behandlingId, 'Missing behandlingId param')
@@ -17,7 +19,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   let page = searchParams.get('page')
   let size = searchParams.get('size')
-  const avhengigeBehandlinger = await getAvhengigeBehandlinger(
+  const avhengigeBehandlinger = getAvhengigeBehandlinger(
     accessToken,
     +params.behandlingId,
     searchParams.get('behandlingType'),
@@ -37,6 +39,10 @@ export default function AvhengigeBehandlinger() {
   const { avhengigeBehandlinger } = useLoaderData<typeof loader>()
 
   return (
-    <AvhengigeBehandlingerElement avhengigeBehandlinger={avhengigeBehandlinger}/>
+    <Suspense fallback={<Skeleton variant="text" width="100%" />}>
+      <Await resolve={avhengigeBehandlinger}>
+        {(it) => <AvhengigeBehandlingerElement avhengigeBehandlinger={it}/>}
+      </Await>
+    </Suspense>
   )
 }
