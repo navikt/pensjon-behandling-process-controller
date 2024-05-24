@@ -4,6 +4,7 @@ import Card from '~/components/card/Card'
 import { Entry } from '~/components/entry/Entry'
 import { BodyLong, Box, Button, CopyButton, HStack, Loader, Modal, Tabs, Tooltip } from '@navikt/ds-react'
 import {
+  BankNoteIcon,
   ClockDashedIcon,
   CogFillIcon,
   PlayIcon,
@@ -83,6 +84,22 @@ export default function BehandlingCard(props: Props) {
       )
     } else {
       return <></>
+    }
+  }
+
+  function sendTilOppdragPaNytt() {
+    if (hasLink('sendOppdragsmeldingPaNytt')) {
+      return (
+        <Tooltip content='Sender melding til oppdrag på nytt'>
+          <fetcher.Form method='post' action='sendTilOppdragPaNytt'>
+            <Button variant={'secondary'} icon={<BankNoteIcon aria-hidden />}>
+              Send melding til oppdrag på nytt
+            </Button>
+          </fetcher.Form>
+        </Tooltip>
+      )
+    } else {
+      return (<></>)
     }
   }
 
@@ -293,6 +310,8 @@ export default function BehandlingCard(props: Props) {
                   {fortsettAvhengigeBehandlinger()}
 
                   {debugButton()}
+
+                  {sendTilOppdragPaNytt()}
 
                   {stoppButton()}
 
