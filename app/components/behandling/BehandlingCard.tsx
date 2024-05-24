@@ -31,6 +31,7 @@ export default function BehandlingCard(props: Props) {
   const navigate = useNavigate();
 
   const stopModal = useRef<HTMLDialogElement>(null)
+  const sendTilOppdragPaNyttModal = useRef<HTMLDialogElement>(null)
 
   function beregnFremdriftProsent(ferdig: number, totalt: number): string {
     if ((ferdig === totalt)) {
@@ -55,6 +56,18 @@ export default function BehandlingCard(props: Props) {
     )
 
     stopModal.current?.close()
+  }
+
+  function sendTilOppdragPaNytt() {
+    fetcher.submit(
+      {},
+      {
+        action: 'sendTilOppdragPaNytt',
+        method: 'POST',
+      },
+    )
+
+    sendTilOppdragPaNyttModal.current?.close()
   }
 
   function hasLink(rel: string) {
@@ -87,16 +100,44 @@ export default function BehandlingCard(props: Props) {
     }
   }
 
-  function sendTilOppdragPaNytt() {
+  function sendTilOppdragPaNyttButton() {
     if (hasLink('sendOppdragsmeldingPaNytt')) {
       return (
-        <Tooltip content='Sender melding til oppdrag på nytt'>
-          <fetcher.Form method='post' action='sendTilOppdragPaNytt'>
-            <Button variant={'secondary'} icon={<BankNoteIcon aria-hidden />}>
+        <>
+          <Tooltip content='Sender melding til oppdrag på nytt'>
+            <Button
+              variant='secondary'
+              icon={<BankNoteIcon aria-hidden />}
+              onClick={() => sendTilOppdragPaNyttModal.current?.showModal()}
+            >
               Send melding til oppdrag på nytt
             </Button>
-          </fetcher.Form>
-        </Tooltip>
+          </Tooltip>
+          <Modal ref={sendTilOppdragPaNyttModal} header={{ heading: 'Send melding til oppdrag på nytt' }}>
+            <Modal.Body>
+              <BodyLong>
+                Ønsker du virkerlig å sende melding til oppdrag på nytt?
+                Dette skal kun gjøres når man har bekreftet med
+                #po-utbetaling at meldingen fra Pesys til Opppdrag er
+                borte
+              </BodyLong>
+            </Modal.Body>
+            <Modal.Footer>
+              <fetcher.Form method='post' action='sendTilOppdragPaNytt'>
+                <Button type='button' variant='danger' onClick={sendTilOppdragPaNytt}>
+                  Send til oppdrag på nytt
+                </Button>
+              </fetcher.Form>
+              <Button
+                type='button'
+                variant='secondary'
+                onClick={() => sendTilOppdragPaNyttModal.current?.close()}
+              >
+                Avbryt
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
       )
     } else {
       return (<></>)
@@ -311,7 +352,7 @@ export default function BehandlingCard(props: Props) {
 
                   {debugButton()}
 
-                  {sendTilOppdragPaNytt()}
+                  {sendTilOppdragPaNyttButton()}
 
                   {stoppButton()}
 
