@@ -1,15 +1,15 @@
 import type { StartBatchResponse } from '~/types'
 import { env } from '~/services/env.server'
 
-type StartUttrekkRequest = {
-  fil : File
+export type StartUttrekkRequest = {
+  fil : File | string,
 }
 
 export async function opprettOmsorgsopptjeningUttrekk(
   accessToken: string,
-  bestilling: StartUttrekkRequest,
+  bestilling: File,
 ): Promise<StartBatchResponse> {
-
+console.log(JSON.stringify(bestilling))
   const response = await fetch(
     `${env.penUrl}/api/omsorgsopptjening/uttrekk/opprett`,
     {
@@ -22,7 +22,7 @@ export async function opprettOmsorgsopptjeningUttrekk(
       body: JSON.stringify(bestilling),
     },
   )
-
+  console.log(response.status)
   if (response.ok) {
     return (await response.json()) as StartBatchResponse
   } else {

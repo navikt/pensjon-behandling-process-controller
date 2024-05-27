@@ -31,9 +31,10 @@ export default function OpprettOmsorgsopptjeningUttrekk() {
   }
 
   return (
-    <Form method='POST'>
-      <Filopplasting />
+    <Form name="omsorguttrekk" method='POST' encType="multipart/form-data">
+      {/*<Filopplasting />*/}
       <p>
+        <input type="file" name="minfil"/>
         <button type='submit'>Opprett</button>
       </p>
     </Form>
