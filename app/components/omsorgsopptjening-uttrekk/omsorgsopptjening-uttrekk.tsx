@@ -6,17 +6,17 @@ export default function OpprettOmsorgsopptjeningUttrekk() {
 
   const Filopplasting = () => {
 
-    const [files, setFiles] = useState<FileObject[]>([])
+    const [minfil, setFiles] = useState<FileObject[]>([])
 
     return (
       <VStack gap='6'>
         <UNSAFE_FileUpload.Dropzone
           label='Last opp fil'
-          fileLimit={{ max: 1, current: files.length }}
+          fileLimit={{ max: 1, current: minfil.length }}
           multiple={false}
           onSelect={setFiles}
         />
-        {files.map((file) => (
+        {minfil.map((file) => (
           <UNSAFE_FileUpload.Item
             key={file.file.name}
             file={file.file}
