@@ -1,5 +1,5 @@
 import OpprettOmsorgsopptjeningUttrekk from '~/components/omsorgsopptjening-uttrekk/omsorgsopptjening-uttrekk'
-import type { ActionFunctionArgs} from '@remix-run/node';
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 
 
@@ -14,10 +14,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   minfil.stream().getReader().read()
   .then(async value => {
+    let verdier = new TextDecoder().decode(value.value).split("\n").map(value1 => value1.trim())
+    console.log("Bestilling: " + JSON.stringify(verdier))
     let bestilling = {
-      innhold: JSON.stringify(new TextDecoder().decode(value.value))
+      verdier: verdier
     }
-    console.log("Bestilling: " + JSON.stringify(bestilling))
     let response = await opprettOmsorgsopptjeningUttrekk(
       accessToken,
       bestilling

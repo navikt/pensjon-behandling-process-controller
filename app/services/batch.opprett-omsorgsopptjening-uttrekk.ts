@@ -3,7 +3,7 @@ import { env } from '~/services/env.server'
 
 export async function opprettOmsorgsopptjeningUttrekk(
   accessToken: string,
-  bestilling: { innhold: string },
+  bestilling: { verdier: string[] },
 ): Promise<StartBatchResponse> {
   const response = await fetch(
     `${env.penUrl}/api/omsorgsopptjening/uttrekk/opprett`,
@@ -17,7 +17,6 @@ export async function opprettOmsorgsopptjeningUttrekk(
       body: JSON.stringify(bestilling),
     },
   )
-  console.log(response.status)
   if (response.ok) {
     return (await response.json()) as StartBatchResponse
   } else {
