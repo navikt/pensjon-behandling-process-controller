@@ -460,6 +460,12 @@ export default function BehandlingCard(props: Props) {
             ) : (
               <></>
             )}
+              <Tabs.Tab
+                value='output'
+                label='Output'
+                icon={<TasklistIcon />}
+              />
+
           </Tabs.List>
           <Outlet/>
         </Tabs>
