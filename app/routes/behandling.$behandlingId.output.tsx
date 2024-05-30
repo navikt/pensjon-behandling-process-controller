@@ -8,7 +8,7 @@ import {
 
 import invariant from 'tiny-invariant'
 import { requireAccessToken } from '~/services/auth.server'
-import { Box } from '@navikt/ds-react'
+import { Box, CopyButton } from '@navikt/ds-react'
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.behandlingId, 'Missing behandlingId param')
@@ -28,14 +28,21 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function BehandlingOutput() {
   const { output } = useLoaderData<typeof loader>()
 
-  return (
-   <Box background="surface-info-subtle">
-     { output.str.map((verdi: string, index: number ) => (<>
-       {JSON.stringify(JSON.parse(verdi),null,4)},
-         <br/>
-     </>
-       ))}
+  let temp = ""
+  output.str.map((verdi: string, index: number) => (
+    temp += JSON.stringify(JSON.parse(verdi), null, 4) + ','
+  ))
 
-   </Box>
+  return (
+    <>
+      <CopyButton copyText={temp} />
+      <Box background='surface-info-subtle' id='outputbox'>
+        {output.str.map((verdi: string, index: number) => (<>
+            {JSON.stringify(JSON.parse(verdi), null, 4)},
+            <br />
+          </>
+        ))}
+      </Box>
+    </>
   )
 }
