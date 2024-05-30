@@ -40,8 +40,6 @@ export type BehandlingDto = {
 
   debugJson: string | null
 
-  output: string
-
   _links?: HalLinks
 }
 
