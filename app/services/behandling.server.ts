@@ -167,6 +167,9 @@ export async function getBehandling(
   }
 }
 
+type Output = {
+  str: string[]
+}
 export async function getOutputFromBehandling(
   accessToken: string,
   behandlingId: string,
@@ -182,7 +185,7 @@ export async function getOutputFromBehandling(
   )
 
   if (response.ok) {
-    return (await response.json()) as string
+    return (await response.json()) as Output
   } else {
     throw new Error()
   }
