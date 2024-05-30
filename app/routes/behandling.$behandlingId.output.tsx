@@ -35,7 +35,7 @@ export default function BehandlingOutput() {
 
   return (
     <>
-      <CopyButton copyText={temp} />
+      <CopyButton copyText={"["+temp+"]"} />
       <Box background='surface-info-subtle' id='outputbox'>
         {output.str.map((verdi: string, index: number) => (<>
             {JSON.stringify(JSON.parse(verdi), null, 4)},
