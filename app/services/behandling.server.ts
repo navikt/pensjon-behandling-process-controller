@@ -167,6 +167,30 @@ export async function getBehandling(
   }
 }
 
+type Output = {
+  str: string[]
+}
+export async function getOutputFromBehandling(
+  accessToken: string,
+  behandlingId: string,
+) {
+  const response = await fetch(
+    `${env.penUrl}/springapi/behandling/${behandlingId}/output`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Request-ID': crypto.randomUUID(),
+      },
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as Output
+  } else {
+    throw new Error()
+  }
+}
+
 export async function getDetaljertFremdrift(
   accessToken: string,
   forrigeBehandlingId: number | null,

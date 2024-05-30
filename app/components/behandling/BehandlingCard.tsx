@@ -460,6 +460,16 @@ export default function BehandlingCard(props: Props) {
             ) : (
               <></>
             )}
+            {props.behandling._links && props.behandling._links['output'] ? (
+              <Tabs.Tab
+                value='output'
+                label='Output'
+                icon={<TasklistIcon />}
+              />
+            ) : (
+              <></>
+            )}
+
           </Tabs.List>
           <Outlet/>
         </Tabs>
