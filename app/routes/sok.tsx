@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, defer } from '@remix-run/node'
-import { Alert, Search, VStack } from '@navikt/ds-react'
+import { Search, VStack } from '@navikt/ds-react'
 import { requireAccessToken } from '~/services/auth.server'
 import { search } from '~/services/behandling.server'
 import { useLoaderData } from '@remix-run/react'
@@ -42,10 +42,6 @@ export default function Sok() {
 
   return (
     <VStack gap="4">
-      <Alert variant="info">
-        Søkefunksjonaliteten er under utvikling. Foreløpig så er det kun støtte for å søke med journalpostId
-      </Alert>
-
       <form method='get'>
         <Search label='sok' variant='primary' name='query'></Search>
       </form>
