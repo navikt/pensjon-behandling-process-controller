@@ -1,6 +1,7 @@
-import { Form, NavLink, useLoaderData } from '@remix-run/react'
+import { Form, NavLink, useLoaderData, useSubmit } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
+import { useState } from 'react'
 
 export const loader = async () => {
   return json({
@@ -13,6 +14,9 @@ export default function BatchOpprett_index() {
   const lastYear = now.getFullYear() - 1
   const denneBehandlingsmaneden = now.getFullYear() * 100 + now.getMonth() + 1
   const { env } = useLoaderData<typeof loader>()
+  const [isClicked, setIsClicked] = useState(false)
+  const submit = useSubmit()
+  const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
   return (
       <div>
@@ -29,7 +33,7 @@ export default function BatchOpprett_index() {
               />
             </p>
             <p>
-              <button type="submit">Opprett</button>
+              <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
             </p>
           </Form>
 
