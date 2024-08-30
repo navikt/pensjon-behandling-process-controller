@@ -83,6 +83,8 @@ export default function BatchOpprett_index() {
         <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
         <h1>Opprett Omsorgsopptjening uttrekk</h1>
         <NavLink to={"./omsorgsopptjening-uttrekk"}>Opprett Omsorgsopptjening-uttrekk</NavLink>
+        <h1>Overfør Klager til Kabal</h1>
+        <NavLink to={"./overfortilkabal"}>Start batch behandling</NavLink>
       </div>
   )
 }
