@@ -23,8 +23,9 @@ export default function BatchOpprett_index() {
     <div>
       <h1>Opprett BPEN005 batchkjøring</h1>
       <Form action="bpen005" method="POST">
-        <p>
-          Behandlingsmåned
+        <div style={{display: "inline-block"}}>
+          <label>Behandlingsmåned</label>
+          <br />
           <input
             defaultValue={denneBehandlingsmaneden}
             aria-label="Behandlingsmåned"
@@ -32,13 +33,14 @@ export default function BatchOpprett_index() {
             type="number"
             placeholder="Behandlingsmåned"
           />
-        </p>
-        {/*<p>*/}
-        {/*  <Select label="Begrenet utplukk" size={"small"} >*/}
-        {/*    <option value="true">Ja</option>*/}
-        {/*    <option value="false">Nei</option>*/}
-        {/*  </Select>*/}
-        {/*</p>*/}
+        </div>
+        <br />
+        <div style={{display: "inline-block"}}>
+          <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"}>
+            <option value="true">Ja</option>
+            <option value="false">Nei</option>
+          </Select>
+        </div>
         <p>
           <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
         </p>
