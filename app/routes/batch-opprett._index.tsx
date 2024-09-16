@@ -1,4 +1,4 @@
-import { Form, NavLink, useLoaderData, useSubmit } from '@remix-run/react'
+import { Form, NavLink, useSubmit } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
 import React, { useState } from 'react'
@@ -14,7 +14,6 @@ export default function BatchOpprett_index() {
   const now = new Date()
   const lastYear = now.getFullYear() - 1
   const denneBehandlingsmaneden = now.getFullYear() * 100 + now.getMonth() + 1
-  const { env } = useLoaderData<typeof loader>()
   const [isClicked, setIsClicked] = useState(false)
   const submit = useSubmit()
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
@@ -36,7 +35,7 @@ export default function BatchOpprett_index() {
         </div>
         <br />
         <div style={{display: "inline-block"}}>
-          <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"}>
+          <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"} defaultValue={"false"}>
             <option value="true">Ja</option>
             <option value="false">Nei</option>
           </Select>
