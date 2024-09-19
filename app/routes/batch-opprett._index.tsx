@@ -1,7 +1,8 @@
-import { Form, NavLink, useLoaderData, useSubmit } from '@remix-run/react'
+import { Form, NavLink, useSubmit } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { Select } from '@navikt/ds-react'
 
 export const loader = async () => {
   return json({
@@ -13,72 +14,96 @@ export default function BatchOpprett_index() {
   const now = new Date()
   const lastYear = now.getFullYear() - 1
   const denneBehandlingsmaneden = now.getFullYear() * 100 + now.getMonth() + 1
-  const { env } = useLoaderData<typeof loader>()
   const [isClicked, setIsClicked] = useState(false)
   const submit = useSubmit()
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
   return (
-      <div>
-          <h1>Opprett BPEN006 batchkjøring</h1>
-          <Form action="bpen006" method="POST">
-            <p>
-              Behandlingsmåned
-              <input
-                defaultValue={denneBehandlingsmaneden}
-                aria-label="Behandlingsmåned"
-                name="behandlingsmaned"
-                type="number"
-                placeholder="Behandlingsmåned"
-              />
-            </p>
-            <p>
-              <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
-            </p>
-          </Form>
+    <div>
+      <h1>Opprett BPEN005 batchkjøring</h1>
+      <Form action="bpen005" method="POST">
+        <div style={{display: "inline-block"}}>
+          <label>Behandlingsmåned</label>
+          <br />
+          <input
+            defaultValue={denneBehandlingsmaneden}
+            aria-label="Behandlingsmåned"
+            name="behandlingsmaned"
+            type="number"
+            placeholder="Behandlingsmåned"
+          />
+        </div>
+        <br />
+        <div style={{display: "inline-block"}}>
+          <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"} defaultValue={"false"}>
+            <option value="true">Ja</option>
+            <option value="false">Nei</option>
+          </Select>
+        </div>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+        </p>
+      </Form>
 
-          <h1>Opprett BPEN007 batchkjøring</h1>
-          <Form action="bpen007" method="POST">
-              <p>
-                  Behandlingsår
-                  <input
-                      defaultValue={lastYear}
-                      aria-label="År"
-                      name="behandlingsAr"
-                      type="number"
-                      placeholder="År"
-                  />
-              </p>
-              <p>
-                  <button type="submit">Opprett</button>
-              </p>
-          </Form>
+      <h1>Opprett BPEN006 batchkjøring</h1>
+      <Form action="bpen006" method="POST">
+        <p>
+          Behandlingsmåned
+          <input
+            defaultValue={denneBehandlingsmaneden}
+            aria-label="Behandlingsmåned"
+            name="behandlingsmaned"
+            type="number"
+            placeholder="Behandlingsmåned"
+          />
+        </p>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+        </p>
+      </Form>
 
-          <h1>Opprett BPEN091 batchkjøring</h1>
-          <Form action="bpen091" method="POST">
-              <p>
-                  Behandlingsår
-                  <input
-                      defaultValue={lastYear}
-                      aria-label="År"
-                      name="behandlingsAr"
-                      type="number"
-                      placeholder="År"
-                  />
-              </p>
-              <p>
-                  <button type="submit">Opprett</button>
-              </p>
-          </Form>
+      <h1>Opprett BPEN007 batchkjøring</h1>
+      <Form action="bpen007" method="POST">
+        <p>
+          Behandlingsår
+          <input
+            defaultValue={lastYear}
+            aria-label="År"
+            name="behandlingsAr"
+            type="number"
+            placeholder="År"
+          />
+        </p>
+        <p>
+          <button type="submit">Opprett</button>
+        </p>
+      </Form>
 
-          <h1>Opprett BPEN096 batchkjøring</h1>
-          <Form action='bpen096' method='POST'>
-              <p>
-                  <button type='submit'>Opprett</button>
-              </p>
-          </Form>
+      <h1>Opprett BPEN091 batchkjøring</h1>
+      <Form action="bpen091" method="POST">
+        <p>
+          Behandlingsår
+          <input
+            defaultValue={lastYear}
+            aria-label="År"
+            name="behandlingsAr"
+            type="number"
+            placeholder="År"
+          />
+        </p>
+        <p>
+          <button type="submit">Opprett</button>
+        </p>
+      </Form>
 
-        <h1>Opprett RTV Brev Sammenligninger</h1>
+      <h1>Opprett BPEN096 batchkjøring</h1>
+      <Form action='bpen096' method='POST'>
+        <p>
+          <button type='submit'>Opprett</button>
+        </p>
+      </Form>
+
+      <h1>Opprett RTV Brev Sammenligninger</h1>
 
         <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
         <h1>Opprett Omsorgsopptjening uttrekk</h1>
