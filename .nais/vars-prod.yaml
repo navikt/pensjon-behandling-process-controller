@@ -15,4 +15,4 @@ pen:
 azure:
   tenant: nav.no
   grupper:
-    drift: 'c66e1209-42d7-4868-9799-4c398524d86e' # 0000-GA-PENSJON_NDU - Nav drift og utvikling
+    drift: 'e1c41e4f-dc0f-4406-a8bc-2da00ef21f3c' # https://console.nav.cloud.nais.io/team/pensjon-verdande
