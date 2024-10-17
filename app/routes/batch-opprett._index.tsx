@@ -22,7 +22,7 @@ export default function BatchOpprett_index() {
     <div>
       <h1>Opprett BPEN005 batchkjøring</h1>
       <Form action="bpen005" method="POST">
-        <div style={{display: "inline-block"}}>
+        <div style={{ display: "inline-block" }}>
           <label>Behandlingsmåned</label>
           <br />
           <input
@@ -34,7 +34,7 @@ export default function BatchOpprett_index() {
           />
         </div>
         <br />
-        <div style={{display: "inline-block"}}>
+        <div style={{ display: "inline-block" }}>
           <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"} defaultValue={"false"}>
             <option value="true">Ja</option>
             <option value="false">Nei</option>
@@ -78,7 +78,32 @@ export default function BatchOpprett_index() {
           <button type="submit">Opprett</button>
         </p>
       </Form>
-
+      <h1>Opprett BPEN068 batchkjøring</h1>
+      <Form action="bpen068" method="POST">
+        <p>
+          Satsdato
+          <input
+            defaultValue="2025-05-01"
+            aria-label="Satsdato"
+            name="satsDato"
+            type="text"
+            placeholder="Satsdato"
+          />
+        </p>
+        <p>
+          Reguleringsdato
+          <input
+            defaultValue="2025-05-01"
+            aria-label="Reguleringsdato"
+            name="reguleringsDato"
+            type="text"
+            placeholder="Reguleringsdato"
+          />
+        </p>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+        </p>
+      </Form>
       <h1>Opprett BPEN091 batchkjøring</h1>
       <Form action="bpen091" method="POST">
         <p>
@@ -105,11 +130,11 @@ export default function BatchOpprett_index() {
 
       <h1>Opprett RTV Brev Sammenligninger</h1>
 
-        <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
-        <h1>Opprett Omsorgsopptjening uttrekk</h1>
-        <NavLink to={"./omsorgsopptjening-uttrekk"}>Opprett Omsorgsopptjening-uttrekk</NavLink>
-        <h1>Overfør Klager til Kabal</h1>
-        <NavLink to={"./overfortilkabal"}>Start batch behandling</NavLink>
-      </div>
+      <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
+      <h1>Opprett Omsorgsopptjening uttrekk</h1>
+      <NavLink to={"./omsorgsopptjening-uttrekk"}>Opprett Omsorgsopptjening-uttrekk</NavLink>
+      <h1>Overfør Klager til Kabal</h1>
+      <NavLink to={"./overfortilkabal"}>Start batch behandling</NavLink>
+    </div>
   )
 }
