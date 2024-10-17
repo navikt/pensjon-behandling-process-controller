@@ -7,7 +7,7 @@ export async function opprettBpen068(
   reguleringsDato: string,
 ): Promise<StartBatchResponse> {
   const response = await fetch(
-    `${env.penUrl}/springapi/vedtak/regulering/start`,
+    `${env.penUrl}/api/vedtak/regulering/start`,
     {
       method: 'POST',
       headers: {
