@@ -5,7 +5,18 @@ export async function opprettBpen068(
   accessToken: string,
   satsDato: string,
   reguleringsDato: string,
+  sisteAktivitet: string,
 ): Promise<StartBatchResponse> {
+
+  const body: any = {
+      satsDato: satsDato,
+      reguleringsDato: reguleringsDato,
+  }
+
+  if(sisteAktivitet !== ''){
+    body.sisteAktivitet = sisteAktivitet;
+  }
+
   const response = await fetch(
     `${env.penUrl}/api/vedtak/regulering/start`,
     {
@@ -15,10 +26,7 @@ export async function opprettBpen068(
         'Content-Type': 'application/json',
         'X-Request-ID': crypto.randomUUID(),
       },
-      body: JSON.stringify({
-        satsDato: satsDato,
-        reguleringsDato: reguleringsDato,
-      }),
+      body: JSON.stringify(body),
     },
   )
 
