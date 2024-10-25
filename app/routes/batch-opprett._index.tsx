@@ -112,7 +112,7 @@ export default function BatchOpprett_index() {
         <p>
           Kjør til og med aktivitet
           <input
-            defaultValue= ""
+            defaultValue= "A100"
             aria-label="SisteAktivitet"
             name="sisteAktivitet"
             type="text"
