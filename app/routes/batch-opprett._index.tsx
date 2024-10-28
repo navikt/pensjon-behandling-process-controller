@@ -87,6 +87,24 @@ export default function BatchOpprett_index() {
           <button type="submit">Opprett</button>
         </p>
       </Form>
+      <h1>Opprett ADHOC Brevbestilling batchkjøring</h1>
+      <Form action="adhocBrev" method="POST">
+        <p>
+          InternBatchBrevkode
+          <input
+            defaultValue="ADHOC_2024_AP3"
+            aria-label="InternBatchBrevkode"
+            name="internBatchBrevkode"
+            type="text"
+            placeholder="InternBatchBrevkode"
+          />
+        </p>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
+            Opprett
+          </button>
+        </p>
+      </Form>
       <h1>Opprett BPEN068 batchkjøring</h1>
       <Form action="bpen068" method="POST">
         <p>
@@ -112,7 +130,7 @@ export default function BatchOpprett_index() {
         <p>
           Kjør til og med aktivitet
           <input
-            defaultValue= "A100"
+            defaultValue="A100"
             aria-label="SisteAktivitet"
             name="sisteAktivitet"
             type="text"
