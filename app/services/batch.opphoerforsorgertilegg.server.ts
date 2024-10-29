@@ -5,7 +5,7 @@ export async function opphoerforsorgertilegg(
   accessToken: string,
 ): Promise<StartBatchResponse> {
   const response = await fetch(
-    `${env.penUrl}/springapi/opphoerforsorgertilegg`,
+    `${env.penUrl}/api/opphoerforsorgertillegg`,
     {
       method: 'POST',
       headers: {
