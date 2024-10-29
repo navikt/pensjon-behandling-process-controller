@@ -7,7 +7,7 @@ export async function opprettAdhocBrevBehandling(
 ): Promise<StartBatchResponse> {
 
   const body: any = {
-    internBatchBrevkode: internBatchBrevkode,
+    batchBrevkode: internBatchBrevkode,
   }
 
   const response = await fetch(
