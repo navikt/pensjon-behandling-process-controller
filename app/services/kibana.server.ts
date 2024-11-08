@@ -7,7 +7,8 @@ export function kibanaLink(behandling: BehandlingDto) {
   const timeZone = 'Europe/Oslo'
 
   const adjustToNorwegianTime = (date: Date) => {
-    return utcToZonedTime(date, timeZone)
+    const utcDate = new Date(date.toISOString())
+    return utcToZonedTime(utcDate, timeZone)
   }
 
   const startTime = adjustToNorwegianTime(
