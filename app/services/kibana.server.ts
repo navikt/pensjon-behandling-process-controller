@@ -3,12 +3,18 @@ import { env } from '~/services/env.server'
 
 export function kibanaLink(behandling: BehandlingDto) {
   const application = env.penApplication
+  const minuteMultiplier = 60000
 
-  const startTime = new Date(
-    new Date(behandling.opprettet).getTime() - 5,
+  const adjustToLocalTime = (date: Date) => {
+    const offset = date.getTimezoneOffset() * minuteMultiplier
+    return new Date(date.getTime() - offset)
+  }
+
+  const startTime = adjustToLocalTime(
+    new Date(new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier)
   ).toISOString()
-  const endTime = new Date(
-    new Date(behandling.sisteKjoring).getTime() + 5,
+  const endTime = adjustToLocalTime(
+    new Date(new Date(behandling.sisteKjoring).getTime() + 5 * minuteMultiplier)
   ).toISOString()
 
   const refreshInterval = `(refreshInterval:(pause:!t,value:0),time:(from:'${startTime}',to:'${endTime}'))`
