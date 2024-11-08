@@ -175,7 +175,7 @@ export async function getOutputFromBehandling(
   behandlingId: string,
 ) {
   const response = await fetch(
-    `${env.penUrl}/api/omsorgsopptjening/uttrekk/${behandlingId}/output`,
+    `${env.penUrl}/api/behandling/uttrekk/${behandlingId}/output`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
