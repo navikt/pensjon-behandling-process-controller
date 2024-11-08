@@ -1,20 +1,20 @@
 import type { BehandlingDto } from '~/types'
+import { utcToZonedTime } from 'date-fns-tz'
 import { env } from '~/services/env.server'
 
 export function kibanaLink(behandling: BehandlingDto) {
   const application = env.penApplication
-  const minuteMultiplier = 60000
+  const timeZone = 'Europe/Oslo'
 
-  const adjustToLocalTime = (date: Date) => {
-    const offset = date.getTimezoneOffset() * minuteMultiplier
-    return new Date(date.getTime() - offset)
+  const adjustToNorwegianTime = (date: Date) => {
+    return utcToZonedTime(date, timeZone)
   }
 
-  const startTime = adjustToLocalTime(
-    new Date(new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier)
+  const startTime = adjustToNorwegianTime(
+    new Date(new Date(behandling.opprettet).getTime() - 5 * 60000),
   ).toISOString()
-  const endTime = adjustToLocalTime(
-    new Date(new Date(behandling.sisteKjoring).getTime() + 5 * minuteMultiplier)
+  const endTime = adjustToNorwegianTime(
+    new Date(new Date(behandling.sisteKjoring).getTime() + 5 * 60000),
   ).toISOString()
 
   const refreshInterval = `(refreshInterval:(pause:!t,value:0),time:(from:'${startTime}',to:'${endTime}'))`
