@@ -7,7 +7,7 @@ export function kibanaLink(behandling: BehandlingDto) {
 
   const adjustToLocalTime = (date: Date) => {
     const offset = date.getTimezoneOffset() * minuteMultiplier
-    return new Date(date.getTime() - offset)
+    return new Date(date.getTime() + offset)
   }
 
   const startTime = adjustToLocalTime(

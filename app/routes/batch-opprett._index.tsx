@@ -105,7 +105,7 @@ export default function BatchOpprett_index() {
           Brevmal kode for Sak
           <input
             ref={inputRef}
-            defaultValue="PE_AP_ADHOC_2024_GJR_AP_MNTINDV_2"
+            defaultValue="ERSTATT MED BREVMAL KODE"
             aria-label="Brevmal"
             name="brevmal"
             type="text"
