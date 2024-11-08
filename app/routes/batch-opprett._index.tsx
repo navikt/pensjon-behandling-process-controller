@@ -1,7 +1,7 @@
 import { Form, NavLink, useSubmit } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Select } from '@navikt/ds-react'
 
 export const loader = async () => {
@@ -17,6 +17,18 @@ export default function BatchOpprett_index() {
   const [isClicked, setIsClicked] = useState(false)
   const submit = useSubmit()
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleInput = () => {
+    if (inputRef.current) {
+      inputRef.current.style.width = `${inputRef.current.value.length + 1}ch`
+    }
+  }
+
+  useEffect(() => {
+    handleInput()
+  })
 
   return (
     <div>
@@ -87,16 +99,19 @@ export default function BatchOpprett_index() {
           <button type="submit">Opprett</button>
         </p>
       </Form>
-      <h1>Opprett ADHOC Brevbestilling batchkjøring</h1>
+      <h1>Opprett ADHOC Brevbestilling batchkjøring på brevmal for sak</h1>
       <Form action="adhocBrev" method="POST">
         <p>
-          InternBatchBrevkode
+          Brevmal kode for Sak
           <input
-            defaultValue="ADHOC_2024_AP3"
-            aria-label="InternBatchBrevkode"
-            name="internBatchBrevkode"
+            ref={inputRef}
+            defaultValue="PE_AP_ADHOC_2024_GJR_AP_MNTINDV_2"
+            aria-label="Brevmal"
+            name="brevmal"
             type="text"
-            placeholder="InternBatchBrevkode"
+            placeholder="Brevmal"
+            onInput={handleInput}
+            style={{ width: 'auto' }}
           />
         </p>
         <p>

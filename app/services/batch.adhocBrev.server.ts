@@ -3,11 +3,11 @@ import type { StartBatchResponse } from '~/types'
 
 export async function opprettAdhocBrevBehandling(
   accessToken: string,
-  internBatchBrevkode: string,
+  brevmal: string,
 ): Promise<StartBatchResponse> {
 
   const body: any = {
-    batchBrevkode: internBatchBrevkode,
+    brevmal: brevmal,
   }
 
   const response = await fetch(
