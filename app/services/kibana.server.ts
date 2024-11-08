@@ -2,14 +2,13 @@ import type { BehandlingDto } from '~/types'
 import { env } from '~/services/env.server'
 
 export function kibanaLink(behandling: BehandlingDto) {
-  const minuteMultiplier = 60000
   const application = env.penApplication
 
   const startTime = new Date(
-    new Date(behandling.opprettet).getTime() - 5 * minuteMultiplier,
+    new Date(behandling.opprettet).getTime() - 5,
   ).toISOString()
   const endTime = new Date(
-    new Date(behandling.sisteKjoring).getTime() + 5 * minuteMultiplier,
+    new Date(behandling.sisteKjoring).getTime() + 5,
   ).toISOString()
 
   const refreshInterval = `(refreshInterval:(pause:!t,value:0),time:(from:'${startTime}',to:'${endTime}'))`
