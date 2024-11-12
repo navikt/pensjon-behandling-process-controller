@@ -1,7 +1,7 @@
 import { Form, NavLink, useSubmit } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { env } from '~/services/env.server'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Select } from '@navikt/ds-react'
 
 export const loader = async () => {
@@ -18,11 +18,23 @@ export default function BatchOpprett_index() {
   const submit = useSubmit()
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleInput = () => {
+    if (inputRef.current) {
+      inputRef.current.style.width = `${inputRef.current.value.length + 1}ch`
+    }
+  }
+
+  useEffect(() => {
+    handleInput()
+  })
+
   return (
     <div>
       <h1>Opprett BPEN005 batchkjøring</h1>
       <Form action="bpen005" method="POST">
-        <div style={{ display: "inline-block" }}>
+        <div style={{ display: 'inline-block' }}>
           <label>Behandlingsmåned</label>
           <br />
           <input
@@ -34,14 +46,21 @@ export default function BatchOpprett_index() {
           />
         </div>
         <br />
-        <div style={{ display: "inline-block" }}>
-          <Select label="Begrenset utplukk" size={"small"} name={"begrensetUtplukk"} defaultValue={"false"}>
+        <div style={{ display: 'inline-block' }}>
+          <Select
+            label="Begrenset utplukk"
+            size={'small'}
+            name={'begrensetUtplukk'}
+            defaultValue={'false'}
+          >
             <option value="true">Ja</option>
             <option value="false">Nei</option>
           </Select>
         </div>
         <p>
-          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
+            Opprett
+          </button>
         </p>
       </Form>
 
@@ -58,7 +77,9 @@ export default function BatchOpprett_index() {
           />
         </p>
         <p>
-          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
+            Opprett
+          </button>
         </p>
       </Form>
 
@@ -76,6 +97,27 @@ export default function BatchOpprett_index() {
         </p>
         <p>
           <button type="submit">Opprett</button>
+        </p>
+      </Form>
+      <h1>Opprett ADHOC Brevbestilling batchkjøring på brevmal for sak</h1>
+      <Form action="adhocBrev" method="POST">
+        <p>
+          Brevmal kode for Sak
+          <input
+            ref={inputRef}
+            defaultValue="ERSTATT MED BREVMAL KODE"
+            aria-label="Brevmal"
+            name="brevmal"
+            type="text"
+            placeholder="Brevmal"
+            onInput={handleInput}
+            style={{ width: 'auto' }}
+          />
+        </p>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
+            Opprett
+          </button>
         </p>
       </Form>
       <h1>Opprett BPEN068 batchkjøring</h1>
@@ -101,7 +143,19 @@ export default function BatchOpprett_index() {
           />
         </p>
         <p>
-          <button type="submit" disabled={isClicked} onClick={handleSubmit}>Opprett</button>
+          Kjør til og med aktivitet
+          <input
+            defaultValue="A100"
+            aria-label="SisteAktivitet"
+            name="sisteAktivitet"
+            type="text"
+            placeholder="SisteAktivitet"
+          />
+        </p>
+        <p>
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
+            Opprett
+          </button>
         </p>
       </Form>
       <h1>Opprett BPEN091 batchkjøring</h1>
@@ -122,9 +176,9 @@ export default function BatchOpprett_index() {
       </Form>
 
       <h1>Opprett BPEN096 batchkjøring</h1>
-      <Form action='bpen096' method='POST'>
+      <Form action="bpen096" method="POST">
         <p>
-          <button type='submit'>Opprett</button>
+          <button type="submit">Opprett</button>
         </p>
       </Form>
       <h1>Opprett Opphør av Forsørgertilegg</h1>
@@ -136,11 +190,15 @@ export default function BatchOpprett_index() {
 
       <h1>Opprett RTV Brev Sammenligninger</h1>
 
-      <NavLink to={"./rtv-brev-sammenligning"}>Opprett RTV Brev Sammenligninger</NavLink>
+      <NavLink to={'./rtv-brev-sammenligning'}>
+        Opprett RTV Brev Sammenligninger
+      </NavLink>
       <h1>Opprett Omsorgsopptjening uttrekk</h1>
-      <NavLink to={"./omsorgsopptjening-uttrekk"}>Opprett Omsorgsopptjening-uttrekk</NavLink>
+      <NavLink to={'./omsorgsopptjening-uttrekk'}>
+        Opprett Omsorgsopptjening-uttrekk
+      </NavLink>
       <h1>Overfør Klager til Kabal</h1>
-      <NavLink to={"./overfortilkabal"}>Start batch behandling</NavLink>
+      <NavLink to={'./overfortilkabal'}>Start batch behandling</NavLink>
     </div>
   )
 }

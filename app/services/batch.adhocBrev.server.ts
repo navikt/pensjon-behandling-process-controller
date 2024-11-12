@@ -1,24 +1,17 @@
 import { env } from '~/services/env.server'
 import type { StartBatchResponse } from '~/types'
 
-export async function opprettBpen068(
+export async function opprettAdhocBrevBehandling(
   accessToken: string,
-  satsDato: string,
-  reguleringsDato: string,
-  sisteAktivitet: string,
+  brevmal: string,
 ): Promise<StartBatchResponse> {
 
   const body: any = {
-      satsDato: satsDato,
-      reguleringsDato: reguleringsDato,
-  }
-
-  if(sisteAktivitet !== ''){
-    body.sisteAktivitet = sisteAktivitet;
+    brevmal: brevmal,
   }
 
   const response = await fetch(
-    `${env.penUrl}/api/vedtak/regulering/start`,
+    `${env.penUrl}/api/brev/adhoc/start`,
     {
       method: 'POST',
       headers: {
