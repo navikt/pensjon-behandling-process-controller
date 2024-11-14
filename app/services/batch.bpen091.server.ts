@@ -6,7 +6,7 @@ export async function opprettBpen091(
   beregningsAr: number,
 ): Promise<StartBatchResponse> {
   const response = await fetch(
-    `${env.penUrl}/api/uforetrygd/fastsettforventetinntekt/batch`,
+    `${env.penUrl}/springapi/uforetrygd/fastsettforventetinntekt/batch`,
     {
       method: 'POST',
       headers: {
