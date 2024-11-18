@@ -193,6 +193,8 @@ export default function BatchOpprett_index() {
       </NavLink>
       <h1>Overfør Klager til Kabal</h1>
       <NavLink to={'./overfortilkabal'}>Start batch behandling</NavLink>
+      <h1>Overfør Anker til Kabal</h1>
+      <NavLink to={"./overforankertilkabal"}>Start batch behandling</NavLink>
     </div>
   )
 }
