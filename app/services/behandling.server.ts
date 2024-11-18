@@ -167,8 +167,13 @@ export async function getBehandling(
   }
 }
 
-type Output = {
-  str: string[]
+export type Output = {
+  filnavn: string
+  rader: string[]
+}
+
+export type OutputResponse = {
+  resultater: Output[]
 }
 export async function getOutputFromBehandling(
   accessToken: string,
@@ -185,7 +190,7 @@ export async function getOutputFromBehandling(
   )
 
   if (response.ok) {
-    return (await response.json()) as Output
+    return (await response.json()) as OutputResponse
   } else {
     throw new Error()
   }
