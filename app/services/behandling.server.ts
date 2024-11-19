@@ -50,7 +50,7 @@ export async function getBehandlinger(
   }
 
   const response = await fetch(
-    `${env.penUrl}/springapi/behandling/?page=${page}&size=${size}${request}`,
+    `${env.penUrl}/springapi/behandling?page=${page}&size=${size}${request}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
