@@ -62,6 +62,8 @@ export async function getBehandlinger(
   if (response.ok) {
     return (await response.json()) as BehandlingerPage
   } else {
+    let body = await response.json()
+    console.log(`Feil ved kall til pen ${response.status}`, body)
     throw new Error()
   }
 }
