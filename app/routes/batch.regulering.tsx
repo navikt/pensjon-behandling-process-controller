@@ -9,7 +9,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const updates = Object.fromEntries(formData)
   const accessToken = await requireAccessToken(request)
 
-  let response = await startRegulering(accessToken, updates.satsDato as string, updates.reguleringsDato as string, updates.sisteAktivitet as string)
+  let response = await startRegulering(
+    accessToken,
+    updates.satsDato as string,
+    updates.reguleringsDato as string,
+    updates.sisteAktivitet as string,
+    updates.maxFamiliebehandlinger as string
+  )
 
   return redirect(`/behandling/${response.behandlingId}`)
 }

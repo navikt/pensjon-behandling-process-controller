@@ -40,6 +40,21 @@ export default function ReguleringBatch() {
       />
     </p>
     <p>
+      Opprett max antall familiebehandlinger
+      <select
+        aria-label="MaxFamiliebehandlinger"
+        name="maxFamiliebehandlinger"
+        defaultValue="0"
+      >
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="10">10</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="-1">Alle</option>
+      </select>
+    </p>
+    <p>
       <button type="submit" disabled={isClicked} onClick={handleSubmit}>
         Opprett
       </button>
@@ -47,4 +62,3 @@ export default function ReguleringBatch() {
   </Form>
   </div>;
 }
-

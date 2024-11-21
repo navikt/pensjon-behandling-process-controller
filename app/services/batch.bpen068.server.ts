@@ -6,6 +6,7 @@ export async function startRegulering(
   satsDato: string,
   reguleringsDato: string,
   sisteAktivitet: string,
+  maxFamiliebehandlinger: string,
 ): Promise<StartBatchResponse> {
 
   const body: any = {
@@ -15,6 +16,9 @@ export async function startRegulering(
 
   if(sisteAktivitet !== ''){
     body.sisteAktivitet = sisteAktivitet;
+  }
+  if(maxFamiliebehandlinger !== ''){
+    body.maxFamiliebehandlinger = maxFamiliebehandlinger;
   }
 
   const response = await fetch(
