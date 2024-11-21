@@ -86,21 +86,13 @@ export default function App() {
                   <li>
                     <NavLink to={`/sok`}>Søk</NavLink>
                   </li>
-
                   <li>
                     <h1>Batch</h1>
                     <ul>
                       <li>
                         <NavLink to={`/batch-opprett`}>Opprett</NavLink>
                         <NavLink to={`/batcher`}>Kjøringer</NavLink>
-                      </li>
-                      <li>
-                        <h1>Regulering</h1>
-                        <ul>
-                          <li>
-                            <NavLink to={`./batch/regulering`}>Opprett</NavLink>
-                          </li>
-                        </ul>
+                        <NavLink to={`/batch/regulering`}>Regulering</NavLink>
                       </li>
                     </ul>
                   </li>

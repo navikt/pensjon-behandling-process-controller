@@ -8,7 +8,7 @@ export default function ReguleringBatch() {
   const submit = useSubmit();
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
-  return <Form action="regulering" method="POST">
+  return <div><h1>Regulering</h1><Form method="POST">
     <p>
       Satsdato
       <input
@@ -44,6 +44,7 @@ export default function ReguleringBatch() {
         Opprett
       </button>
     </p>
-  </Form>;
+  </Form>
+  </div>;
 }
 
