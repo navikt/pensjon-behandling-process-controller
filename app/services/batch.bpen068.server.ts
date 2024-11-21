@@ -1,7 +1,7 @@
 import { env } from '~/services/env.server'
 import type { StartBatchResponse } from '~/types'
 
-export async function opprettBpen068(
+export async function startRegulering(
   accessToken: string,
   satsDato: string,
   reguleringsDato: string,

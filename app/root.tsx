@@ -62,9 +62,7 @@ export default function App() {
         <VStack gap="0" style={{ width: '100%' }}>
           {env === 'p' ? (
             <InternalHeader className={'navds-tag--error-filled'}>
-              <InternalHeader.Title as="h1">
-                Verdande
-              </InternalHeader.Title>
+              <InternalHeader.Title as="h1">Verdande</InternalHeader.Title>
               <InternalHeader.Title as="h1">
                 P R O D U K S J O N !
               </InternalHeader.Title>
@@ -73,9 +71,7 @@ export default function App() {
             </InternalHeader>
           ) : (
             <InternalHeader>
-              <InternalHeader.Title as="h1">
-                Verdande
-              </InternalHeader.Title>
+              <InternalHeader.Title as="h1">Verdande</InternalHeader.Title>
               <Spacer />
               <InternalHeader.User name={navIdent ? navIdent : ''} />
             </InternalHeader>
@@ -98,13 +94,27 @@ export default function App() {
                         <NavLink to={`/batch-opprett`}>Opprett</NavLink>
                         <NavLink to={`/batcher`}>Kjøringer</NavLink>
                       </li>
+                      <li>
+                        <h1>Regulering</h1>
+                        <ul>
+                          <li>
+                            <NavLink to={`./batch/regulering`}>Opprett</NavLink>
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   <li>
-                    <h1><NavLink to={`/behandlinger`} end>Behandlinger</NavLink></h1>
+                    <h1>
+                      <NavLink to={`/behandlinger`} end>
+                        Behandlinger
+                      </NavLink>
+                    </h1>
                     <ul>
                       <li>
-                        <NavLink to={`/behandlinger/FEILENDE`}>Feilende</NavLink>
+                        <NavLink to={`/behandlinger/FEILENDE`}>
+                          Feilende
+                        </NavLink>
                       </li>
                       <li>
                         <NavLink to={`/behandlinger/DEBUG`}>I debug</NavLink>
