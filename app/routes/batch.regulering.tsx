@@ -12,7 +12,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const behandlingIfFamilie = updates.behandlingIdFamilie as string
 
-  if(behandlingIfFamilie !== undefined){
+  if(behandlingIfFamilie !== undefined && behandlingIfFamilie !== ''){
     let response = await fortsettBehandling(
       accessToken,
       updates.behandlingIdFamilie as string,
