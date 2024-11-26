@@ -22,7 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     )
 
     return redirect(`/behandling/${response.behandlingId}`)
-  } else if(behandlingIfFamilie === undefined || behandlingIfFamilie === ''){
+  } else if((behandlingIfFamilie === undefined || behandlingIfFamilie === '') && (behandlingIdFortsettAvhengige === undefined && behandlingIdFortsettAvhengige === '')){
     let response = await startRegulering(
       accessToken,
       updates.satsDato as string,
@@ -32,7 +32,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     )
 
     return redirect(`/behandling/${response.behandlingId}`)
-  } else if(behandlingIdFortsettAvhengige !== undefined && behandlingIdFortsettAvhengige !== ''){
+  } else if(behandlingIfFamilie === undefined || behandlingIfFamilie === ''){
     let response = await fortsettAvhengigeBehandling(
       accessToken,
       updates.behandlingIdRegulering as string,
