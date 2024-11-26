@@ -1,5 +1,5 @@
 import { env } from '~/services/env.server'
-import type { StartBatchResponse } from '~/types'
+import { FortsettBatchResponse, StartBatchResponse } from '~/types'
 
 export async function startRegulering(
   accessToken: string,
@@ -67,6 +67,39 @@ export async function fortsettBehandling(
 
   if (response.ok) {
     return (await response.json()) as StartBatchResponse
+  } else {
+    throw new Error()
+  }
+}
+
+export async function fortsettAvhengigeBehandling(
+  accessToken: string,
+  behandlingIdRegulering: string,
+  antallFamiliebehandlinger: string,
+  fortsettTilAktivitet: string,
+): Promise<FortsettBatchResponse> {
+
+  const body: any = {
+    behandlingId: behandlingIdRegulering,
+    fortsettTilAktivitet: fortsettTilAktivitet,
+    antallBehandlinger: antallFamiliebehandlinger,
+  }
+
+  const response = await fetch(
+    `${env.penUrl}/api/vedtak/regulering/fortsett/avhengige`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'X-Request-ID': crypto.randomUUID(),
+      },
+      body: JSON.stringify(body),
+    },
+  )
+
+  if (response.ok) {
+    return (await response.json()) as FortsettBatchResponse
   } else {
     throw new Error()
   }

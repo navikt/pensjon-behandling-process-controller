@@ -1,9 +1,10 @@
 import type { ActionFunctionArgs} from '@remix-run/node';
 import { redirect } from '@remix-run/node'
 import { requireAccessToken } from '~/services/auth.server'
-import { fortsettBehandling, startRegulering } from '~/services/batch.bpen068.server'
+import { fortsettAvhengigeBehandling, fortsettBehandling, startRegulering } from '~/services/batch.bpen068.server'
 import ReguleringBatch from '~/components/regulering/regulering-batch'
 import FortsettFamilieReguleringBehandling from '~/components/regulering/regulering-fortsettbehandling'
+import FortsettAvhengigeReguleringBehandlinger from '~/components/regulering/regulering-fortsett-avhengige'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
@@ -11,6 +12,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const accessToken = await requireAccessToken(request)
 
   const behandlingIfFamilie = updates.behandlingIdFamilie as string
+  const behandlingIdFortsettAvhengige = updates.behandlingIdRegulering as string
 
   if(behandlingIfFamilie !== undefined && behandlingIfFamilie !== ''){
     let response = await fortsettBehandling(
@@ -20,13 +22,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     )
 
     return redirect(`/behandling/${response.behandlingId}`)
-  } else {
+  } else if((behandlingIfFamilie === undefined || behandlingIfFamilie === '') && (behandlingIdFortsettAvhengige !== undefined && behandlingIdFortsettAvhengige !== '')){
     let response = await startRegulering(
       accessToken,
       updates.satsDato as string,
       updates.reguleringsDato as string,
       updates.sisteAktivitet as string,
       updates.maxFamiliebehandlinger as string
+    )
+
+    return redirect(`/behandling/${response.behandlingId}`)
+  } else {
+    let response = await fortsettAvhengigeBehandling(
+      accessToken,
+      updates.behandlingIdRegulering as string,
+      updates.antallFamiliebehandlinger as string,
+      updates.fortsettTilAktivitet as string
     )
 
     return redirect(`/behandling/${response.behandlingId}`)
@@ -39,6 +50,7 @@ export default function OpprettReguleringBatchRoute() {
     <div>
       <ReguleringBatch />
       <FortsettFamilieReguleringBehandling />
+      <FortsettAvhengigeReguleringBehandlinger />
     </div>
   )
 }
