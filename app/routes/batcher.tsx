@@ -5,6 +5,7 @@ import { getBehandlinger } from '~/services/behandling.server'
 
 import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
+import { BehandlingerPage } from '~/types'
 
 export const loader = async ({ request }: ActionFunctionArgs) => {
   let { searchParams } = new URL(request.url);
@@ -20,6 +21,7 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
     true,
     page ? +page : 0,
     size ? +size : 100,
+    null
   )
   if (!behandlinger) {
     throw new Response('Not Found', { status: 404 })
@@ -33,7 +35,7 @@ export default function BehandlingerStatus() {
 
   return (
     <div id="behandlinger">
-      <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger} />
+      <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger as BehandlingerPage} />
     </div>
   )
 }

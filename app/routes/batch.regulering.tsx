@@ -1,5 +1,4 @@
-import type { ActionFunctionArgs } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
+import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
 import { requireAccessToken } from '~/services/auth.server'
 import {
   fortsettAvhengigeBehandling,
@@ -9,6 +8,10 @@ import {
 import ReguleringBatch from '~/components/regulering/regulering-batch'
 import FortsettFamilieReguleringBehandling from '~/components/regulering/regulering-fortsettbehandling'
 import FortsettAvhengigeReguleringBehandlinger from '~/components/regulering/regulering-fortsett-avhengige'
+import { useLoaderData } from '@remix-run/react'
+import { getBehandlinger } from '~/services/behandling.server'
+import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
+import { BehandlingerPage } from '~/types'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
@@ -49,12 +52,42 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return redirect('/error');
 }
 
+export const loader = async ({ request }: ActionFunctionArgs) => {
+  let { searchParams } = new URL(request.url);
+  const size = searchParams.get('size')
+  const page = searchParams.get('page')
+
+  const accessToken = await requireAccessToken(request)
+  const behandlinger = await getBehandlinger(
+    accessToken,
+    "ReguleringUttrekk",
+    null,
+    null,
+    true,
+    page ? +page : 0,
+    size ? +size : 100,
+    null
+  )
+  if (!behandlinger) {
+    throw new Response('Not Found', { status: 404 })
+  }
+
+  return json({ behandlinger })
+}
+
 export default function OpprettReguleringBatchRoute() {
+  const { behandlinger } = useLoaderData<typeof loader>()
+
   return (
     <div>
-      <ReguleringBatch />
-      <FortsettFamilieReguleringBehandling />
-      <FortsettAvhengigeReguleringBehandlinger />
+      <div>
+        <ReguleringBatch />
+        <FortsettFamilieReguleringBehandling />
+        <FortsettAvhengigeReguleringBehandlinger />
+      </div>
+      <div id="behandlinger">
+        <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger as BehandlingerPage} />
+      </div>
     </div>
-  )
+)
 }
