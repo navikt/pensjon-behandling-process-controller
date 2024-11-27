@@ -14,6 +14,7 @@ export default function FortsettAvhengigeReguleringBehandlinger() {
     <div>
       <h1>Fortsett Avhengige behandlinger</h1>
       <Form method="POST">
+        <input type="hidden" name="formType" value="fortsettAvhengige" />
         <p>
           BehandlingId for Uttreksbehandling
           <input

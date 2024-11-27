@@ -14,6 +14,7 @@ export default function FortsettFamilieReguleringBehandling() {
     <div>
       <h1>Fortsett Familiebehandling</h1>
       <Form method="POST">
+        <input type="hidden" name="formType" value="fortsettFamilie" />
         <p>
           BehandlingId
           <input
