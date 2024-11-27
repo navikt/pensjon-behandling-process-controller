@@ -25,23 +25,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       updates.sisteAktivitet as string,
       updates.maxFamiliebehandlinger as string,
     )
+    return redirect(`/behandling/${response.behandlingId}`)
+
   } else if (updates.formType === 'fortsettFamilie') {
     response = await fortsettBehandling(
       accessToken,
       updates.behandlingIdFamilie as string,
       updates.fortsettTilAktivitet as string,
     )
+    return redirect(`/behandling/${response.behandlingId}`)
+
   } else if (updates.formType === 'fortsettAvhengige') {
-    response = await fortsettAvhengigeBehandling(
+    await fortsettAvhengigeBehandling(
       accessToken,
       updates.behandlingIdRegulering as string,
       updates.antallFamiliebehandlinger as string,
       updates.fortsettTilAktivitet as string,
     )
-  }
+    return redirect(`/behandling/${updates.behandlingIdRegulering}`)
 
-  if (response && response.behandlingId) {
-    return redirect(`/behandling/${response.behandlingId}`)
   }
 
   return redirect('/error');
