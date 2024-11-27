@@ -6,6 +6,7 @@ import { getBehandlinger } from '~/services/behandling.server'
 import { requireAccessToken } from '~/services/auth.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import invariant from 'tiny-invariant'
+import { BehandlingerPage } from '~/types'
 
 export const loader = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.status, 'Missing status param')
@@ -36,7 +37,7 @@ export default function BehandlingerStatus() {
 
   return (
     <div id="behandlinger">
-      <BehandlingerTable visStatusSoek={false} behandlingerResponse={behandlinger} />
+      <BehandlingerTable visStatusSoek={false} behandlingerResponse={behandlinger as BehandlingerPage} />
     </div>
   )
 }

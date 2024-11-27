@@ -30,7 +30,7 @@ export async function getBehandlinger(
   isBatch: boolean | null,
   page: number,
   size: number,
-  sort: string | null,
+  sort?: string | null,
 ): Promise<BehandlingerPage> {
   let request = ''
   if (behandlingType) {

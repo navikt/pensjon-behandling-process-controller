@@ -18,25 +18,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const updates = Object.fromEntries(formData)
   const accessToken = await requireAccessToken(request)
 
-  let response
-
   if (updates.formType === 'startRegulering') {
-    response = await startRegulering(
+    await startRegulering(
       accessToken,
       updates.satsDato as string,
       updates.reguleringsDato as string,
       updates.sisteAktivitet as string,
       updates.maxFamiliebehandlinger as string,
     )
-    return redirect(`/behandling/${response.behandlingId}`)
+    return redirect(`/batch/regulering`)
 
   } else if (updates.formType === 'fortsettFamilie') {
-    response = await fortsettBehandling(
+    await fortsettBehandling(
       accessToken,
       updates.behandlingIdFamilie as string,
       updates.fortsettTilAktivitet as string,
     )
-    return redirect(`/behandling/${response.behandlingId}`)
+    return redirect(`/batch/regulering`)
 
   } else if (updates.formType === 'fortsettAvhengige') {
     await fortsettAvhengigeBehandling(
@@ -61,11 +59,11 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
   const behandlinger = await getBehandlinger(
     accessToken,
     "ReguleringUttrekk",
-    null,
+    searchParams.get('status'),
     null,
     true,
     page ? +page : 0,
-    size ? +size : 100,
+    size ? +size : 3,
     null
   )
   if (!behandlinger) {
@@ -86,7 +84,7 @@ export default function OpprettReguleringBatchRoute() {
         <FortsettAvhengigeReguleringBehandlinger />
       </div>
       <div id="behandlinger">
-        <BehandlingerTable visStatusSoek={true} behandlingerResponse={behandlinger as BehandlingerPage} />
+        <BehandlingerTable visStatusSoek={true} visBehandlingTypeSoek={false} behandlingerResponse={behandlinger as BehandlingerPage} />
       </div>
     </div>
 )

@@ -6,7 +6,8 @@ import { formatIsoTimestamp } from '~/common/date'
 import { decodeBehandling } from '~/common/decodeBehandling'
 
 interface Props {
-  visStatusSoek: boolean,
+  visStatusSoek?: boolean | true,
+  visBehandlingTypeSoek?: boolean | true,
   behandlingerResponse: BehandlingerPage,
 }
 
@@ -136,7 +137,7 @@ export default function BehandlingerTable(props: Props) {
               <Table.DataCell style={{ paddingTop: 0 }}>
               </Table.DataCell>
               <Table.DataCell style={{ paddingTop: 0 }}>
-                {behandlingtypeOptions()}
+                {props.visBehandlingTypeSoek ? behandlingtypeOptions() : <></>}
               </Table.DataCell>
               <Table.DataCell style={{ paddingTop: 0 }}>
               </Table.DataCell>
