@@ -11,7 +11,7 @@ interface Props {
   behandlingerResponse: BehandlingerPage,
 }
 
-export default function BehandlingerTable(props: Props) {
+export default function BehandlingerTable({visStatusSoek, visBehandlingTypeSoek = true, behandlingerResponse}: Props) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   let sortParam = searchParams.get("sort")?.split(",")
@@ -63,7 +63,7 @@ export default function BehandlingerTable(props: Props) {
   function behandlingtypeOptions() {
     let ekstraBehandlingType
     let currentBehandlingType = searchParams.get('behandlingType')
-    if (currentBehandlingType && !props.behandlingerResponse.behandlingTyper.includes(currentBehandlingType)) {
+    if (currentBehandlingType && !behandlingerResponse.behandlingTyper.includes(currentBehandlingType)) {
       ekstraBehandlingType = (<option value={currentBehandlingType}>{decodeBehandling(currentBehandlingType)}</option>)
     } else {
       ekstraBehandlingType = (<></>)
@@ -85,8 +85,8 @@ export default function BehandlingerTable(props: Props) {
         ekstraBehandlingType
       }
 
-      { props.behandlingerResponse.behandlingTyper ?
-        props.behandlingerResponse.behandlingTyper.sort((a,b) => a.localeCompare(b)).map((type) => {
+      { behandlingerResponse.behandlingTyper ?
+        behandlingerResponse.behandlingTyper.sort((a,b) => a.localeCompare(b)).map((type) => {
         return (<option key={type} value={type}>{decodeBehandling(type)}</option>)
       })
         : <></>
@@ -137,7 +137,7 @@ export default function BehandlingerTable(props: Props) {
               <Table.DataCell style={{ paddingTop: 0 }}>
               </Table.DataCell>
               <Table.DataCell style={{ paddingTop: 0 }}>
-                {props.visBehandlingTypeSoek ? behandlingtypeOptions() : <></>}
+                {visBehandlingTypeSoek ? behandlingtypeOptions() : <></>}
               </Table.DataCell>
               <Table.DataCell style={{ paddingTop: 0 }}>
               </Table.DataCell>
@@ -146,14 +146,14 @@ export default function BehandlingerTable(props: Props) {
               <Table.DataCell style={{ paddingTop: 0 }}>
               </Table.DataCell>
               <Table.DataCell style={{ paddingTop: 0 }}>
-                {props.visStatusSoek ?
+                {visStatusSoek ?
                   statusOptions()
                   : <></>}
               </Table.DataCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {props.behandlingerResponse.content?.map((it: BehandlingDto) => {
+            {behandlingerResponse.content?.map((it: BehandlingDto) => {
               return (
                 <Table.Row key={it.uuid}>
                   <Table.DataCell>
@@ -178,8 +178,8 @@ export default function BehandlingerTable(props: Props) {
           </Table.Body>
         </Table>
         <Pagination
-          page={props.behandlingerResponse.number + 1}
-          count={props.behandlingerResponse.totalPages}
+          page={behandlingerResponse.number + 1}
+          count={behandlingerResponse.totalPages}
           boundaryCount={1}
           siblingCount={1}
           prevNextTexts={true}
