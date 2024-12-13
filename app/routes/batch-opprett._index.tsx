@@ -64,25 +64,6 @@ export default function BatchOpprett_index() {
         </p>
       </Form>
 
-      <h1>Opprett BPEN006 batchkjøring</h1>
-      <Form action="bpen006" method="POST">
-        <p>
-          Behandlingsmåned
-          <input
-            defaultValue={denneBehandlingsmaneden}
-            aria-label="Behandlingsmåned"
-            name="behandlingsmaned"
-            type="number"
-            placeholder="Behandlingsmåned"
-          />
-        </p>
-        <p>
-          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
-            Opprett
-          </button>
-        </p>
-      </Form>
-
       <h1>Opprett BPEN007 batchkjøring</h1>
       <Form action="bpen007" method="POST">
         <p>
