@@ -2,13 +2,13 @@
 import React, { useState } from 'react'
 import { Form, useSubmit } from '@remix-run/react'
 
-export default function ReguleringBatch() {
+export default function ReguleringUttrekk() {
 
   const [isClicked, setIsClicked] = useState(false);
   const submit = useSubmit();
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
-  return <div><h1>Regulering</h1><Form method="POST">
+  return <div><h1>Start Regulering Uttrekk</h1><Form method="POST">
     <input type="hidden" name="formType" value="startRegulering" />
     <p>
       Satsdato
