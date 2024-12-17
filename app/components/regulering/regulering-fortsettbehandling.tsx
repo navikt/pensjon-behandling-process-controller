@@ -12,7 +12,7 @@ export default function FortsettFamilieReguleringBehandling() {
 
   return (
     <div>
-      <h1>Fortsett Familiebehandling</h1>
+      <h2>Fortsett én Familiebehandling</h2>
       <Form method="POST">
         <input type="hidden" name="formType" value="fortsettFamilie" />
         <p>
