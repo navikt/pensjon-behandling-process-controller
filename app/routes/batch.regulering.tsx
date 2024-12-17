@@ -1,25 +1,31 @@
 import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
 import { requireAccessToken } from '~/services/auth.server'
-import {
-  fortsettAvhengigeBehandling,
-  fortsettBehandling,
-  startRegulering,
-} from '~/services/batch.bpen068.server'
-import ReguleringBatch from '~/components/regulering/regulering-batch'
+import { fortsettAvhengigeBehandling, fortsettBehandling, startReguleringOrkestrering, startReguleringUttrekk, } from '~/services/batch.bpen068.server'
+import ReguleringUttrekk from '~/components/regulering/regulering-uttrekk'
 import FortsettFamilieReguleringBehandling from '~/components/regulering/regulering-fortsettbehandling'
 import FortsettAvhengigeReguleringBehandlinger from '~/components/regulering/regulering-fortsett-avhengige'
 import { useLoaderData } from '@remix-run/react'
 import { getBehandlinger } from '~/services/behandling.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
 import { BehandlingerPage } from '~/types'
+import ReguleringOrkestrering from '~/components/regulering/regulering-orkestrering'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const updates = Object.fromEntries(formData)
   const accessToken = await requireAccessToken(request)
 
-  if (updates.formType === 'startRegulering') {
-    await startRegulering(
+  if (updates.formType === 'startReguleringUttrekk') {
+    await startReguleringUttrekk(
+      accessToken,
+      updates.satsDato as string,
+      updates.reguleringsDato as string,
+      updates.sisteAktivitet as string,
+    )
+    return redirect(`/batch/regulering`)
+
+  } else if (updates.formType === 'startReguleringOrkestrering') {
+    await startReguleringOrkestrering(
       accessToken,
       updates.satsDato as string,
       updates.reguleringsDato as string,
@@ -28,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     )
     return redirect(`/batch/regulering`)
 
-  } else if (updates.formType === 'fortsettFamilie') {
+  }else if (updates.formType === 'fortsettFamilie') {
     await fortsettBehandling(
       accessToken,
       updates.behandlingIdFamilie as string,
@@ -56,7 +62,7 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
   const page = searchParams.get('page')
 
   const accessToken = await requireAccessToken(request)
-  const behandlinger = await getBehandlinger(
+  const behandlingerUttrekk = await getBehandlinger(
     accessToken,
     "ReguleringUttrekk",
     searchParams.get('status'),
@@ -66,26 +72,57 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
     size ? +size : 3,
     null
   )
-  if (!behandlinger) {
+  const behandlingerOrkestrering = await getBehandlinger(
+    accessToken,
+    "ReguleringOrkestrering",
+    searchParams.get('status'),
+    null,
+    true,
+    page ? +page : 0,
+    size ? +size : 3,
+    null
+  )
+  if (!behandlingerUttrekk) {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return json({ behandlinger })
+  return json({ behandlingerUttrekk, behandlingerOrkestrering })
 }
 
 export default function OpprettReguleringBatchRoute() {
-  const { behandlinger } = useLoaderData<typeof loader>()
+  const { behandlingerUttrekk, behandlingerOrkestrering } =
+    useLoaderData<typeof loader>()
 
   return (
     <div>
+      <h1>Regulering</h1>
       <div>
-        <ReguleringBatch />
-        <FortsettFamilieReguleringBehandling />
-        <FortsettAvhengigeReguleringBehandlinger />
+        <table width="100%">
+          <tr>
+            <td><ReguleringUttrekk /></td>
+            <td><ReguleringOrkestrering /></td>
+          </tr>
+          <tr>
+            <td><FortsettFamilieReguleringBehandling /></td>
+            <td><FortsettAvhengigeReguleringBehandlinger /></td>
+          </tr>
+        </table>
       </div>
+
       <div id="behandlinger">
-        <BehandlingerTable visStatusSoek={true} visBehandlingTypeSoek={false} behandlingerResponse={behandlinger as BehandlingerPage} />
+        <h2>Orkestrering</h2>
+        <BehandlingerTable
+          visStatusSoek={true}
+          visBehandlingTypeSoek={false}
+          behandlingerResponse={behandlingerOrkestrering as BehandlingerPage}
+        />
+        <h2>Uttrekk</h2>
+        <BehandlingerTable
+          visStatusSoek={true}
+          visBehandlingTypeSoek={false}
+          behandlingerResponse={behandlingerUttrekk as BehandlingerPage}
+        />
       </div>
     </div>
-)
+  )
 }

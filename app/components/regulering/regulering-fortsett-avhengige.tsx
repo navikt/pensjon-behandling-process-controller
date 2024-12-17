@@ -12,11 +12,11 @@ export default function FortsettAvhengigeReguleringBehandlinger() {
 
   return (
     <div>
-      <h1>Fortsett Avhengige behandlinger</h1>
+      <h2>Fortsett flere familiebehandlinger</h2>
       <Form method="POST">
         <input type="hidden" name="formType" value="fortsettAvhengige" />
         <p>
-          BehandlingId for Uttreksbehandling
+          BehandlingId for Orkestrering behandling
           <input
             defaultValue=""
             aria-label="BehandlingIdRegulering"
@@ -27,17 +27,13 @@ export default function FortsettAvhengigeReguleringBehandlinger() {
         </p>
         <p>
           Antall avhengige behandlinger
-          <select
+          <input
+            defaultValue="10"
             aria-label="AntallFamiliebehandlinger"
             name="antallFamiliebehandlinger"
-            defaultValue="0"
-          >
-            <option value="1">1</option>
-            <option value="10">10</option>
-            <option value="100">100</option>
-            <option value="500">500</option>
-            <option value="500">500</option>
-          </select>
+            type="text"
+            placeholder="Maks antall familiebehandlinger (-1 for alle)"
+          />
         </p>
         <p>
           Fortsett til prosesserings-aktivitet Axxx
@@ -50,11 +46,7 @@ export default function FortsettAvhengigeReguleringBehandlinger() {
           />
         </p>
         <p>
-          <button
-            type="submit"
-            disabled={isClicked}
-            onClick={handleSubmit}
-          >
+          <button type="submit" disabled={isClicked} onClick={handleSubmit}>
             Fortsett
           </button>
         </p>

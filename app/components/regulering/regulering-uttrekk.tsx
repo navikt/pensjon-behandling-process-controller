@@ -8,8 +8,8 @@ export default function ReguleringUttrekk() {
   const submit = useSubmit();
   const handleSubmit = (e:any)=> {submit(e.target.form); setIsClicked(true)}
 
-  return <div><h1>Start Regulering Uttrekk</h1><Form method="POST">
-    <input type="hidden" name="formType" value="startRegulering" />
+  return <div><h2>Start Uttrekk</h2><Form method="POST">
+    <input type="hidden" name="formType" value="startReguleringUttrekk" />
     <p>
       Satsdato
       <input
@@ -41,23 +41,8 @@ export default function ReguleringUttrekk() {
       />
     </p>
     <p>
-      Opprett max antall familiebehandlinger
-      <select
-        aria-label="MaxFamiliebehandlinger"
-        name="maxFamiliebehandlinger"
-        defaultValue="0"
-      >
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="10">10</option>
-        <option value="100">100</option>
-        <option value="500">500</option>
-        <option value="-1">Alle</option>
-      </select>
-    </p>
-    <p>
       <button type="submit" disabled={isClicked} onClick={handleSubmit}>
-        Opprett
+        Start
       </button>
     </p>
   </Form>
