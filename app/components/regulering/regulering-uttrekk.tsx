@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react'
 import { Form, useSubmit } from '@remix-run/react'
+import { Checkbox } from '@navikt/ds-react'
 
 export default function ReguleringUttrekk() {
 
@@ -39,6 +40,9 @@ export default function ReguleringUttrekk() {
         type="text"
         placeholder="SisteAktivitet"
       />
+    </p>
+    <p>
+      <Checkbox name="iDebug">Debug</Checkbox>
     </p>
     <p>
       <button type="submit" disabled={isClicked} onClick={handleSubmit}>

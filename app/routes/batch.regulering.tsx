@@ -1,4 +1,5 @@
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
+import type { ActionFunctionArgs} from '@remix-run/node';
+import { json, redirect } from '@remix-run/node'
 import { requireAccessToken } from '~/services/auth.server'
 import { fortsettAvhengigeBehandling, fortsettBehandling, startReguleringOrkestrering, startReguleringUttrekk, } from '~/services/batch.bpen068.server'
 import ReguleringUttrekk from '~/components/regulering/regulering-uttrekk'
@@ -7,7 +8,7 @@ import FortsettAvhengigeReguleringBehandlinger from '~/components/regulering/reg
 import { useLoaderData } from '@remix-run/react'
 import { getBehandlinger } from '~/services/behandling.server'
 import BehandlingerTable from '~/components/behandlinger-table/BehandlingerTable'
-import { BehandlingerPage } from '~/types'
+import type { BehandlingerPage } from '~/types'
 import ReguleringOrkestrering from '~/components/regulering/regulering-orkestrering'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -21,6 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       updates.satsDato as string,
       updates.reguleringsDato as string,
       updates.sisteAktivitet as string,
+      updates.iDebug === 'on',
     )
     return redirect(`/batch/regulering`)
 

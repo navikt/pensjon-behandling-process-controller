@@ -6,11 +6,13 @@ export async function startReguleringUttrekk(
   satsDato: string,
   reguleringsDato: string,
   sisteAktivitet: string,
+  iDebug: boolean,
 ): Promise<StartBatchResponse> {
 
   const body: any = {
       satsDato: satsDato,
       reguleringsDato: reguleringsDato,
+      iDebug: iDebug,
   }
 
   if(sisteAktivitet !== ''){
