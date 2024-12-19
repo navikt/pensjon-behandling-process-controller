@@ -124,12 +124,6 @@ export default function BatchOpprett_index() {
           <button type="submit">Opprett</button>
         </p>
       </Form>
-      <h1>Opprett Opphør av Forsørgertilegg</h1>
-      <Form action='opphoerforsorgertilegg' method='POST'>
-        <p>
-          <button type='submit'>Opprett</button>
-        </p>
-      </Form>
 
       <h1>Opprett RTV Brev Sammenligninger</h1>
 
